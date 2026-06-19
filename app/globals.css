@@ -361,6 +361,23 @@ button:focus-visible {
 .drift-a { animation: drift-a 18s ease-in-out infinite; }
 .drift-b { animation: drift-b 24s ease-in-out infinite; }
 
+/* Floating embers — warm specks drifting in the light */
+@keyframes ember {
+  0% { transform: translateY(12px); opacity: 0; }
+  15% { opacity: var(--p-op, 0.7); }
+  85% { opacity: var(--p-op, 0.7); }
+  100% { transform: translateY(-60px); opacity: 0; }
+}
+.ember {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--accent-soft);
+  box-shadow: 0 0 8px 1px rgba(224, 182, 103, 0.5);
+  animation: ember var(--p-dur, 9s) ease-in-out infinite;
+  animation-delay: var(--p-delay, 0s);
+  will-change: transform, opacity;
+}
+
 /* Faint vertical pinstripe texture (barber-cape nod) */
 .pinstripe {
   background-image: repeating-linear-gradient(
@@ -389,7 +406,9 @@ button:focus-visible {
   .marquee-track,
   .animate-float,
   .drift-a,
-  .drift-b {
+  .drift-b,
+  .ember {
     animation: none !important;
   }
+  .ember { opacity: 0 !important; }
 }

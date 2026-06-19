@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, ArrowDown } from "lucide-react";
 import Marquee from "./Marquee";
+import Embers from "./Embers";
 import { business } from "@/app/config";
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -23,27 +24,39 @@ export default function Hero() {
 
   return (
     <section className="sec-dark relative min-h-dvh flex flex-col overflow-hidden grain pt-[72px] md:pt-[84px]">
-      {/* Ambient drifting aurora lights (right-weighted) */}
+      {/* Ambient drifting light (right-weighted, brighter) */}
       <div
         className="glow drift-a"
         style={{
-          width: 620,
-          height: 620,
-          background: "radial-gradient(circle, rgba(191,139,60,0.20) 0%, transparent 70%)",
-          top: "6%",
-          right: "2%",
+          width: 640,
+          height: 640,
+          background: "radial-gradient(circle, rgba(191,139,60,0.30) 0%, transparent 70%)",
+          top: "2%",
+          right: "6%",
         }}
       />
       <div
         className="glow drift-b"
         style={{
-          width: 540,
-          height: 540,
-          background: "radial-gradient(circle, rgba(224,182,103,0.12) 0%, transparent 70%)",
-          bottom: "8%",
-          right: "20%",
+          width: 520,
+          height: 520,
+          background: "radial-gradient(circle, rgba(224,182,103,0.18) 0%, transparent 70%)",
+          bottom: "4%",
+          right: "26%",
         }}
       />
+
+      {/* Soft diagonal light beam */}
+      <div
+        className="absolute inset-y-0 right-0 w-[55%] pointer-events-none hidden md:block"
+        style={{
+          background:
+            "linear-gradient(115deg, transparent 0%, rgba(224,182,103,0.06) 45%, rgba(191,139,60,0.10) 60%, transparent 78%)",
+        }}
+      />
+
+      {/* Floating embers */}
+      <Embers />
 
       {/* Faint pinstripe texture */}
       <div className="pinstripe absolute inset-0 pointer-events-none" />
@@ -51,12 +64,12 @@ export default function Hero() {
       {/* Soft vignette for depth */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(120% 90% at 30% 40%, transparent 50%, rgba(0,0,0,0.5) 100%)" }}
+        style={{ background: "radial-gradient(130% 100% at 22% 45%, transparent 48%, rgba(0,0,0,0.55) 100%)" }}
       />
 
       {/* Center stage */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1600px] w-full mx-auto px-8 sm:px-16 lg:px-28 xl:px-36">
-        <h1 className="display lg:max-w-[58%]" style={{ fontSize: "clamp(4rem, 15vw, 13rem)", lineHeight: 0.82 }}>
+      <div className="relative z-10 flex-1 flex flex-col justify-center w-full max-w-[1600px] mx-auto pl-10 pr-6 sm:pl-20 sm:pr-10 md:pl-28 lg:pl-36 xl:pl-48">
+        <h1 className="display lg:max-w-[60%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
           <motion.span
             className="block"
             style={{ color: "var(--on-dark)" }}
