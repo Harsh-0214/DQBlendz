@@ -1,196 +1,155 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Scissors, Wand2, Star, Layers, Smile, Flame, Clock, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const services = [
   {
-    icon: Scissors,
     title: "Classic Haircut",
-    description:
-      "A timeless cut tailored to your face shape and personal style. Includes wash and style.",
-    price: "From $30",
+    description: "A timeless cut tailored to your face shape, finished with a wash and style.",
+    price: "$30",
     duration: "45 min",
     popular: false,
   },
   {
-    icon: Wand2,
     title: "Skin Fade",
-    description:
-      "Precision fade from skin to your desired length — crisp, clean, and flawlessly blended.",
-    price: "From $40",
+    description: "Precision fade from skin to your desired length — crisp, clean, flawlessly blended.",
+    price: "$40",
     duration: "50 min",
     popular: true,
   },
   {
-    icon: Star,
     title: "Beard Trim & Shape",
-    description:
-      "Expert shaping and trimming to keep your beard sharp, symmetrical, and defined.",
-    price: "From $20",
+    description: "Expert shaping to keep your beard sharp, symmetrical, and defined.",
+    price: "$20",
     duration: "25 min",
     popular: false,
   },
   {
-    icon: Layers,
     title: "Cut + Beard Combo",
-    description:
-      "Full haircut combined with beard grooming for a complete fresh look from head to chin.",
-    price: "From $55",
+    description: "A full haircut paired with beard grooming for a complete fresh look.",
+    price: "$55",
     duration: "70 min",
     popular: false,
   },
   {
-    icon: Smile,
     title: "Kid's Cut",
-    description:
-      "Patient, precise cuts for kids. We make sure every child leaves looking and feeling great.",
-    price: "From $22",
+    description: "Patient, precise cuts — every kid leaves looking and feeling great.",
+    price: "$22",
     duration: "35 min",
     popular: false,
   },
   {
-    icon: Flame,
     title: "Hot Towel Shave",
-    description:
-      "A luxurious straight-razor shave with hot towel treatment for the smoothest finish.",
-    price: "From $35",
+    description: "A luxurious straight-razor shave with a hot towel for the smoothest finish.",
+    price: "$35",
     duration: "40 min",
     popular: false,
   },
 ];
 
+const ease = [0.23, 1, 0.32, 1] as const;
+
 export default function Services() {
-  const { ref, visible } = useInView();
+  const { ref, visible } = useInView(0.12);
 
   return (
-    <section id="services" className="section-padding relative">
-      <div className="absolute inset-0" style={{ background: "var(--surface)" }} />
-      <div className="accent-divider absolute top-0 left-0 right-0" />
+    <section id="services" className="section relative" style={{ background: "var(--bg)" }}>
+      <div className="hairline absolute top-0 left-0" />
 
-      <div className="relative max-w-7xl mx-auto" ref={ref}>
+      <div className="relative max-w-6xl mx-auto" ref={ref}>
         <motion.div
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          transition={{ duration: 0.6, ease }}
         >
-          <p className="section-heading-label">What We Offer</p>
-          <h2
-            className="text-4xl sm:text-5xl font-bold"
-            style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
-          >
-            The <span className="gradient-text">Services</span>
+          <p className="eyebrow centered justify-center mb-4">The Menu</p>
+          <h2 className="font-display text-4xl sm:text-5xl" style={{ color: "var(--ivory)" }}>
+            Services &amp; <span className="gold-text">Pricing</span>
           </h2>
-          <p
-            className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed"
-            style={{ color: "var(--muted)" }}
-          >
-            Every service is delivered with care, attention to detail, and
-            expert technique. Final pricing is confirmed at booking on Booksy.
+          <p className="mt-5 max-w-md mx-auto text-sm sm:text-[0.95rem] leading-relaxed" style={{ color: "var(--muted)" }}>
+            Honest pricing, no surprises. Final rates are confirmed when you book
+            on Booksy.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <motion.a
-                key={s.title}
-                href={business.booksyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative glass rounded-2xl p-6 block"
-                style={{ border: "1px solid rgba(214,40,57,0.16)" }}
-                initial={{ opacity: 0, y: 28 }}
-                animate={visible ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  type: "spring",
-                  stiffness: 90,
-                  damping: 20,
-                  delay: i * 0.08,
-                }}
-                whileHover={{
-                  y: -5,
-                  borderColor: "rgba(214,40,57,0.5)",
-                  boxShadow: "0 20px 40px rgba(214,40,57,0.14)",
-                  transition: { type: "spring", stiffness: 400, damping: 25 },
-                }}
+        <div className="grid md:grid-cols-2 gap-x-16">
+          {services.map((s, i) => (
+            <motion.a
+              key={s.title}
+              href={business.booksyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-baseline gap-5 py-6"
+              style={{ borderBottom: "1px solid var(--border-soft)" }}
+              initial={{ opacity: 0, y: 18 }}
+              animate={visible ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+            >
+              <span
+                className="font-display text-sm pt-1 tabular-nums"
+                style={{ color: "var(--brass-deep)" }}
               >
-                {s.popular && (
-                  <motion.span
-                    className="absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full"
-                    style={{
-                      background: "rgba(214,40,57,0.2)",
-                      color: "var(--red-light)",
-                      border: "1px solid rgba(214,40,57,0.4)",
-                    }}
-                    animate={{ scale: [1, 1.04, 1] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <h3
+                    className="font-display text-xl sm:text-2xl transition-colors duration-200 group-hover:text-[var(--brass-light)]"
+                    style={{ color: "var(--ivory)" }}
                   >
-                    Most Popular
-                  </motion.span>
-                )}
-
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
-                  style={{
-                    background: "rgba(214,40,57,0.12)",
-                    border: "1px solid rgba(214,40,57,0.28)",
-                  }}
-                >
-                  <Icon size={20} style={{ color: "var(--red-light)" }} />
+                    {s.title}
+                  </h3>
+                  {s.popular && (
+                    <span
+                      className="text-[0.6rem] uppercase tracking-[0.18em] px-2 py-0.5 rounded-full"
+                      style={{
+                        color: "var(--brass-light)",
+                        border: "1px solid var(--border)",
+                      }}
+                    >
+                      Most Booked
+                    </span>
+                  )}
                 </div>
-
-                <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--foreground)" }}>
-                  {s.title}
-                </h3>
-                <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--muted)" }}>
+                <p className="mt-1.5 text-[0.85rem] leading-relaxed" style={{ color: "var(--muted)" }}>
                   {s.description}
                 </p>
+              </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold" style={{ color: "var(--cream)" }}>
-                    {s.price}
-                  </span>
-                  <span
-                    className="flex items-center gap-1 text-xs"
-                    style={{ color: "var(--muted)" }}
-                  >
-                    <Clock size={12} />
-                    {s.duration}
-                  </span>
+              <div className="text-right flex-shrink-0">
+                <div className="font-display text-xl" style={{ color: "var(--brass-light)" }}>
+                  {s.price}
                 </div>
-              </motion.a>
-            );
-          })}
+                <div className="text-[0.68rem] uppercase tracking-wider mt-1" style={{ color: "var(--muted-dark)" }}>
+                  {s.duration}
+                </div>
+              </div>
+            </motion.a>
+          ))}
         </div>
 
         <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 16 }}
+          className="text-center mt-14"
+          initial={{ opacity: 0, y: 14 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.55 }}
+          transition={{ duration: 0.6, ease, delay: 0.3 }}
         >
-          <motion.a
+          <a
             href={business.booksyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide text-white"
-            style={{ background: "var(--red)", boxShadow: "0 4px 20px rgba(214,40,57,0.32)" }}
-            whileHover={{ y: -2, boxShadow: "0 8px 30px rgba(214,40,57,0.5)" }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="btn btn-gold px-8 py-4 text-sm uppercase tracking-wider"
           >
             <Calendar size={16} />
-            Book Your Service on Booksy
-          </motion.a>
+            Book Your Service
+          </a>
         </motion.div>
       </div>
-
-      <div className="accent-divider absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

@@ -8,8 +8,8 @@ import { business } from "@/app/config";
 
 const links = [
   { label: "Services", href: "#services" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "About", href: "#about" },
+  { label: "Work", href: "#gallery" },
+  { label: "The Barber", href: "#about" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Visit", href: "#contact" },
 ];
@@ -31,7 +31,7 @@ export default function Navbar() {
     };
   }, [open]);
 
-  const handleLink = (href: string) => {
+  const go = (href: string) => {
     setOpen(false);
     setTimeout(() => {
       document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
@@ -43,15 +43,14 @@ export default function Navbar() {
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 nav-base ${scrolled ? "nav-scrolled" : ""}`}
         style={{ background: scrolled ? undefined : "transparent" }}
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.2 }}
+        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1], delay: 1.7 }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between h-[72px] md:h-20">
             <a
               href="#"
-              className="flex items-center"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -60,52 +59,33 @@ export default function Navbar() {
               <Logo size={34} />
             </a>
 
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+            <nav className="hidden md:flex items-center gap-8 lg:gap-10">
               {links.map((l) => (
                 <button
                   key={l.href}
-                  onClick={() => handleLink(l.href)}
-                  className="relative text-sm tracking-wide transition-colors duration-200"
-                  style={{ color: "var(--muted)" }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--red-light)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--muted)")
-                  }
+                  onClick={() => go(l.href)}
+                  className="nav-link text-[0.82rem] tracking-wide uppercase"
+                  style={{ letterSpacing: "0.12em" }}
                 >
                   {l.label}
                 </button>
               ))}
             </nav>
 
-            <div className="hidden md:block">
-              <motion.a
-                href={business.booksyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold tracking-wide text-white"
-                style={{
-                  background: "var(--red)",
-                  boxShadow: "0 2px 12px rgba(214,40,57,0.32)",
-                }}
-                whileHover={{ y: -2, boxShadow: "0 6px 24px rgba(214,40,57,0.5)" }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              >
-                <Calendar size={15} />
-                Book on Booksy
-              </motion.a>
-            </div>
+            <a
+              href={business.booksyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-flex btn btn-gold px-5 py-2.5 text-[0.8rem] uppercase tracking-wider"
+            >
+              <Calendar size={15} />
+              Book Now
+            </a>
 
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg"
-              style={{
-                background: "rgba(214,40,57,0.1)",
-                border: "1px solid rgba(214,40,57,0.25)",
-                color: "var(--foreground)",
-              }}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-sm"
+              style={{ border: "1px solid var(--border)", color: "var(--ivory)" }}
               aria-label={open ? "Close menu" : "Open menu"}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -131,64 +111,47 @@ export default function Navbar() {
             <motion.div
               key="backdrop"
               className="fixed inset-0 z-40 md:hidden"
-              style={{ background: "rgba(13,12,14,0.6)", backdropFilter: "blur(6px)" }}
+              style={{ background: "rgba(12,11,9,0.7)", backdropFilter: "blur(6px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
               onClick={() => setOpen(false)}
             />
-
             <motion.div
               key="drawer"
-              className="fixed right-0 top-0 h-full w-72 z-50 md:hidden flex flex-col pt-20 px-6 pb-8"
-              style={{
-                background: "var(--surface)",
-                borderLeft: "1px solid var(--border)",
-              }}
+              className="fixed right-0 top-0 h-full w-[78%] max-w-xs z-50 md:hidden flex flex-col pt-24 px-7 pb-9"
+              style={{ background: "var(--surface)", borderLeft: "1px solid var(--border)" }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             >
-              <nav className="flex flex-col gap-1 flex-1">
+              <nav className="flex flex-col flex-1">
                 {links.map((l, i) => (
                   <motion.button
                     key={l.href}
-                    onClick={() => handleLink(l.href)}
-                    className="text-left py-3 px-4 rounded-lg text-base font-medium transition-colors duration-200"
-                    style={{ color: "var(--muted)" }}
-                    initial={{ x: 20, opacity: 0 }}
+                    onClick={() => go(l.href)}
+                    className="text-left py-4 font-display text-2xl"
+                    style={{ color: "var(--foreground)", borderBottom: "1px solid var(--border-soft)" }}
+                    initial={{ x: 24, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.06, type: "spring", stiffness: 200, damping: 22 }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "var(--red-light)";
-                      e.currentTarget.style.background = "rgba(214,40,57,0.08)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "var(--muted)";
-                      e.currentTarget.style.background = "transparent";
-                    }}
+                    transition={{ delay: 0.08 + i * 0.05, duration: 0.35, ease: "easeOut" }}
                   >
                     {l.label}
                   </motion.button>
                 ))}
               </nav>
-              <motion.a
+              <a
                 href={business.booksyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="w-full py-3 rounded-lg font-semibold tracking-wide text-center text-white flex items-center justify-center gap-2"
-                style={{ background: "var(--red)" }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                whileTap={{ scale: 0.97 }}
+                className="btn btn-gold w-full py-3.5 uppercase tracking-wider text-sm"
               >
                 <Calendar size={16} />
                 Book on Booksy
-              </motion.a>
+              </a>
             </motion.div>
           </>
         )}

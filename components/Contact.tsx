@@ -1,15 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Phone, Clock, AtSign, Calendar, ArrowUpRight } from "lucide-react";
+import { MapPin, Phone, Clock, Calendar, ArrowUpRight } from "lucide-react";
+import { Instagram } from "./icons";
 import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
+
+const ease = [0.23, 1, 0.32, 1] as const;
 
 export default function Contact() {
   const { ref, visible } = useInView(0.1);
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  const contactCards = [
+  const cards = [
     {
       icon: MapPin,
       title: "Find the Shop",
@@ -17,17 +20,10 @@ export default function Contact() {
       href: business.address.mapsUrl,
     },
     ...(business.phone
-      ? [
-          {
-            icon: Phone,
-            title: "Call or Text",
-            content: [business.phone],
-            href: business.phoneHref,
-          },
-        ]
+      ? [{ icon: Phone, title: "Call or Text", content: [business.phone], href: business.phoneHref }]
       : []),
     {
-      icon: AtSign,
+      icon: Instagram,
       title: "Follow Along",
       content: [`${business.instagramHandle} on Instagram`],
       href: business.instagram,
@@ -35,105 +31,63 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0" style={{ background: "var(--surface)" }} />
-      <div className="accent-divider absolute top-0 left-0 right-0" />
-      <div
-        className="glow-orb absolute"
-        style={{
-          width: "600px",
-          height: "600px",
-          background: "radial-gradient(circle, rgba(214,40,57,0.1) 0%, transparent 70%)",
-          top: "0",
-          right: "-20%",
-          animationDelay: "0.5s",
-        }}
-      />
+    <section id="contact" className="section relative overflow-hidden" style={{ background: "var(--bg)" }}>
+      <div className="hairline absolute top-0 left-0" />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
         <motion.div
           className="text-center mb-14"
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          transition={{ duration: 0.6, ease }}
         >
-          <p className="section-heading-label">Book & Visit</p>
-          <h2
-            className="text-4xl sm:text-5xl font-bold"
-            style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
-          >
-            Reserve Your <span className="gradient-text">Chair</span>
+          <p className="eyebrow centered justify-center mb-4">Book &amp; Visit</p>
+          <h2 className="font-display text-4xl sm:text-5xl" style={{ color: "var(--ivory)" }}>
+            Reserve Your <span className="gold-text">Chair</span>
           </h2>
-          <p
-            className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed"
-            style={{ color: "var(--muted)" }}
-          >
-            Booking is fast and easy on Booksy — pick your service, choose a
-            time, and you&apos;re locked in. See you in the chair.
+          <p className="mt-5 max-w-md mx-auto text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+            Pick your service, choose a time, and you&apos;re locked in — booking
+            takes under a minute on Booksy.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
-          {/* Booksy booking panel */}
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-stretch">
+          {/* Booksy panel */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.1 }}
+            transition={{ duration: 0.6, ease, delay: 0.1 }}
           >
-            <div
-              className="relative glass rounded-2xl p-8 sm:p-10 h-full flex flex-col justify-center overflow-hidden"
-              style={{ border: "1px solid rgba(214,40,57,0.25)" }}
-            >
+            <div className="relative panel rounded-sm p-9 sm:p-11 h-full flex flex-col justify-center overflow-hidden">
               <div
-                className="absolute -top-10 -right-10 w-44 h-44 rounded-full"
+                className="glow"
                 style={{
-                  background:
-                    "radial-gradient(circle, rgba(214,40,57,0.22) 0%, transparent 70%)",
+                  width: 240,
+                  height: 240,
+                  background: "radial-gradient(circle, rgba(200,164,92,0.18) 0%, transparent 70%)",
+                  top: -60,
+                  right: -60,
                 }}
               />
               <div className="relative">
-                <div
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs tracking-widest uppercase mb-5"
-                  style={{
-                    background: "rgba(214,40,57,0.12)",
-                    border: "1px solid rgba(214,40,57,0.3)",
-                    color: "var(--red-light)",
-                  }}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full"
-                    style={{ background: "var(--red-light)" }}
-                  />
-                  Powered by Booksy
-                </div>
-
-                <h3
-                  className="text-2xl sm:text-3xl font-bold mb-3"
-                  style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
-                >
+                <p className="eyebrow mb-5">Powered by Booksy</p>
+                <h3 className="font-display text-2xl sm:text-3xl mb-3" style={{ color: "var(--ivory)" }}>
                   Book in under a minute
                 </h3>
                 <p className="text-sm leading-relaxed mb-8" style={{ color: "var(--muted)" }}>
-                  Real-time availability, instant confirmation, and easy
-                  reminders. Tap below to choose your cut and a time that works
-                  for you.
+                  Real-time availability, instant confirmation, and friendly
+                  reminders. Choose your cut and a time that works for you.
                 </p>
-
-                <motion.a
+                <a
                   href={business.booksyUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-4 rounded-xl font-semibold text-base tracking-wide text-white"
-                  style={{ background: "var(--red)", boxShadow: "0 6px 24px rgba(214,40,57,0.4)" }}
-                  whileHover={{ y: -2, boxShadow: "0 10px 32px rgba(214,40,57,0.55)" }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  className="btn btn-gold w-full py-4 text-sm uppercase tracking-wider"
                 >
-                  <Calendar size={18} />
+                  <Calendar size={17} />
                   Book on Booksy
-                  <ArrowUpRight size={18} />
-                </motion.a>
-
+                  <ArrowUpRight size={17} />
+                </a>
                 <p className="text-xs text-center mt-4" style={{ color: "var(--muted)" }}>
                   Got a question? DM{" "}
                   <a
@@ -141,49 +95,44 @@ export default function Contact() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium"
-                    style={{ color: "var(--red-light)" }}
+                    style={{ color: "var(--brass-light)" }}
                   >
                     {business.instagramHandle}
-                  </a>{" "}
-                  on Instagram
+                  </a>
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Location, contact, hours */}
+          {/* Info */}
           <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 24 }}
+            className="space-y-3.5"
+            initial={{ opacity: 0, y: 22 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.22 }}
+            transition={{ duration: 0.6, ease, delay: 0.2 }}
           >
-            {contactCards.map(({ icon: Icon, title, content, href }) => (
+            {cards.map(({ icon: Icon, title, content, href }) => (
               <a
                 key={title}
                 href={href}
                 target={href?.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="flex gap-4 items-start glass rounded-xl p-5 transition-colors duration-200 group"
-                style={{ border: "1px solid rgba(214,40,57,0.14)" }}
+                className="group flex gap-4 items-start panel rounded-sm p-5"
               >
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "rgba(214,40,57,0.12)",
-                    border: "1px solid rgba(214,40,57,0.28)",
-                  }}
+                  className="w-10 h-10 rounded-sm flex items-center justify-center flex-shrink-0"
+                  style={{ border: "1px solid var(--border)", background: "var(--surface-2)" }}
                 >
-                  <Icon size={18} style={{ color: "var(--red-light)" }} />
+                  <Icon size={17} style={{ color: "var(--brass)" }} />
                 </div>
                 <div>
-                  <div className="font-semibold text-sm mb-1" style={{ color: "var(--foreground)" }}>
+                  <div className="font-display text-base mb-0.5" style={{ color: "var(--ivory)" }}>
                     {title}
                   </div>
                   {content.map((c) => (
                     <div
                       key={c}
-                      className="text-sm transition-colors duration-200 group-hover:text-[var(--red-light)]"
+                      className="text-sm transition-colors duration-200 group-hover:text-[var(--brass-light)]"
                       style={{ color: "var(--muted)" }}
                     >
                       {c}
@@ -193,39 +142,36 @@ export default function Contact() {
               </a>
             ))}
 
-            <div
-              className="glass rounded-xl p-5"
-              style={{ border: "1px solid rgba(214,40,57,0.14)" }}
-            >
+            <div className="panel rounded-sm p-5">
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center"
-                  style={{
-                    background: "rgba(214,40,57,0.12)",
-                    border: "1px solid rgba(214,40,57,0.28)",
-                  }}
+                  className="w-10 h-10 rounded-sm flex items-center justify-center"
+                  style={{ border: "1px solid var(--border)", background: "var(--surface-2)" }}
                 >
-                  <Clock size={18} style={{ color: "var(--red-light)" }} />
+                  <Clock size={17} style={{ color: "var(--brass)" }} />
                 </div>
-                <div className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>
-                  Hours of Operation
+                <div className="font-display text-base" style={{ color: "var(--ivory)" }}>
+                  Hours
                 </div>
               </div>
-              <div className="space-y-2">
-                {business.hours.map((h) => (
-                  <div
-                    key={h.day}
-                    className="flex justify-between items-center text-xs rounded-md px-2 py-1 transition-colors duration-150"
-                    style={{
-                      color: h.day === today ? "var(--red-light)" : "var(--muted)",
-                      fontWeight: h.day === today ? "600" : "400",
-                      background: h.day === today ? "rgba(214,40,57,0.08)" : "transparent",
-                    }}
-                  >
-                    <span>{h.day}</span>
-                    <span>{h.time}</span>
-                  </div>
-                ))}
+              <div className="space-y-1.5">
+                {business.hours.map((h) => {
+                  const active = h.day === today;
+                  return (
+                    <div
+                      key={h.day}
+                      className="flex justify-between items-center text-xs rounded-sm px-2.5 py-1.5"
+                      style={{
+                        color: active ? "var(--brass-light)" : "var(--muted)",
+                        fontWeight: active ? 600 : 400,
+                        background: active ? "var(--surface-2)" : "transparent",
+                      }}
+                    >
+                      <span>{h.day}</span>
+                      <span>{h.time}</span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
