@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import BarberPole from "./BarberPole";
 
 export default function Loader() {
   const [progress, setProgress] = useState(0);
@@ -32,7 +33,7 @@ export default function Loader() {
 
   if (hidden) return null;
 
-  const letters = "DQBlendz".split("");
+  const letters = "DQ BLENDZ".split("");
 
   return (
     <AnimatePresence>
@@ -48,7 +49,7 @@ export default function Loader() {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(13,148,136,0.1) 0%, transparent 70%)",
+                "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(214,40,57,0.1) 0%, transparent 70%)",
             }}
           />
 
@@ -62,36 +63,18 @@ export default function Loader() {
               <div
                 className="w-20 h-20 rounded-2xl flex items-center justify-center"
                 style={{
-                  background: "rgba(13,148,136,0.08)",
-                  border: "1px solid rgba(13,148,136,0.3)",
+                  background: "rgba(214,40,57,0.08)",
+                  border: "1px solid rgba(214,40,57,0.3)",
                 }}
               >
-                <svg
-                  width="38"
-                  height="38"
-                  viewBox="0 0 36 36"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8 8C8 8 14 14 18 18M18 18C22 14 28 8 28 8M18 18L8 28M18 18L28 28"
-                    stroke="var(--teal-light)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="8" cy="8" r="3" stroke="var(--teal-light)" strokeWidth="1.5" />
-                  <circle cx="28" cy="8" r="3" stroke="var(--teal-light)" strokeWidth="1.5" />
-                  <circle cx="8" cy="28" r="3" stroke="var(--teal-light)" strokeWidth="1.5" />
-                  <circle cx="28" cy="28" r="3" stroke="var(--teal-light)" strokeWidth="1.5" />
-                </svg>
+                <BarberPole height={52} />
               </div>
               <motion.div
                 className="absolute inset-0 rounded-2xl"
                 style={{
                   border: "2px solid transparent",
-                  borderTopColor: "var(--teal-primary)",
-                  borderRightColor: "rgba(13,148,136,0.3)",
+                  borderTopColor: "var(--red)",
+                  borderRightColor: "rgba(214,40,57,0.3)",
                 }}
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, ease: "linear", repeat: Infinity }}
@@ -101,7 +84,7 @@ export default function Loader() {
             <div className="text-center">
               <div
                 className="flex items-center justify-center gap-0 overflow-hidden"
-                aria-label="DQBlendz"
+                aria-label="DQ Blendz"
               >
                 {letters.map((letter, i) => (
                   <motion.span
@@ -117,7 +100,7 @@ export default function Loader() {
                     className="text-3xl font-bold"
                     style={{
                       fontFamily: "var(--font-playfair)",
-                      color: "var(--teal-light)",
+                      color: "var(--red-light)",
                       letterSpacing: "0.18em",
                       display: "inline-block",
                     }}
@@ -133,7 +116,7 @@ export default function Loader() {
                 className="text-xs tracking-[0.4em] uppercase mt-1.5"
                 style={{ color: "var(--muted)" }}
               >
-                Premium Barber Studio
+                Master Barber Studio
               </motion.p>
             </div>
 
@@ -145,16 +128,16 @@ export default function Loader() {
             >
               <div
                 className="w-full h-[2px] rounded-full overflow-hidden"
-                style={{ background: "rgba(13,148,136,0.12)" }}
+                style={{ background: "rgba(214,40,57,0.12)" }}
               >
                 <div
                   className="h-full rounded-full"
                   style={{
                     width: `${progress}%`,
                     background:
-                      "linear-gradient(90deg, var(--teal-primary), var(--teal-light))",
+                      "linear-gradient(90deg, var(--red), var(--red-light))",
                     transition: "width 80ms linear",
-                    boxShadow: "0 0 12px rgba(45, 212, 191, 0.7)",
+                    boxShadow: "0 0 12px rgba(79, 111, 214, 0.7)",
                   }}
                 />
               </div>

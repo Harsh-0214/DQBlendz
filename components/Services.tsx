@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Scissors, Wand2, Star, Layers, Smile, Flame, Clock } from "lucide-react";
+import { Scissors, Wand2, Star, Layers, Smile, Flame, Clock, Calendar } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { business } from "@/app/config";
 
 const services = [
   {
@@ -67,7 +68,7 @@ export default function Services() {
   return (
     <section id="services" className="section-padding relative">
       <div className="absolute inset-0" style={{ background: "var(--surface)" }} />
-      <div className="teal-divider absolute top-0 left-0 right-0" />
+      <div className="accent-divider absolute top-0 left-0 right-0" />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
         <motion.div
@@ -81,14 +82,14 @@ export default function Services() {
             className="text-4xl sm:text-5xl font-bold"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
           >
-            Our <span className="gradient-text">Services</span>
+            The <span className="gradient-text">Services</span>
           </h2>
           <p
             className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed"
             style={{ color: "var(--muted)" }}
           >
             Every service is delivered with care, attention to detail, and
-            expert technique.
+            expert technique. Final pricing is confirmed at booking on Booksy.
           </p>
         </motion.div>
 
@@ -96,10 +97,13 @@ export default function Services() {
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
-              <motion.div
+              <motion.a
                 key={s.title}
-                className="relative glass rounded-2xl p-6 cursor-default"
-                style={{ border: "1px solid rgba(13,148,136,0.15)" }}
+                href={business.booksyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative glass rounded-2xl p-6 block"
+                style={{ border: "1px solid rgba(214,40,57,0.16)" }}
                 initial={{ opacity: 0, y: 28 }}
                 animate={visible ? { opacity: 1, y: 0 } : {}}
                 transition={{
@@ -110,8 +114,8 @@ export default function Services() {
                 }}
                 whileHover={{
                   y: -5,
-                  borderColor: "rgba(13,148,136,0.45)",
-                  boxShadow: "0 20px 40px rgba(13,148,136,0.12)",
+                  borderColor: "rgba(214,40,57,0.5)",
+                  boxShadow: "0 20px 40px rgba(214,40,57,0.14)",
                   transition: { type: "spring", stiffness: 400, damping: 25 },
                 }}
               >
@@ -119,9 +123,9 @@ export default function Services() {
                   <motion.span
                     className="absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full"
                     style={{
-                      background: "rgba(13,148,136,0.18)",
-                      color: "var(--teal-accent)",
-                      border: "1px solid rgba(13,148,136,0.35)",
+                      background: "rgba(214,40,57,0.2)",
+                      color: "var(--red-light)",
+                      border: "1px solid rgba(214,40,57,0.4)",
                     }}
                     animate={{ scale: [1, 1.04, 1] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
@@ -133,28 +137,22 @@ export default function Services() {
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
                   style={{
-                    background: "rgba(13,148,136,0.12)",
-                    border: "1px solid rgba(13,148,136,0.25)",
+                    background: "rgba(214,40,57,0.12)",
+                    border: "1px solid rgba(214,40,57,0.28)",
                   }}
                 >
-                  <Icon size={20} style={{ color: "var(--teal-light)" }} />
+                  <Icon size={20} style={{ color: "var(--red-light)" }} />
                 </div>
 
-                <h3
-                  className="text-lg font-semibold mb-2"
-                  style={{ color: "var(--foreground)" }}
-                >
+                <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--foreground)" }}>
                   {s.title}
                 </h3>
-                <p
-                  className="text-sm leading-relaxed mb-5"
-                  style={{ color: "var(--muted)" }}
-                >
+                <p className="text-sm leading-relaxed mb-5" style={{ color: "var(--muted)" }}>
                   {s.description}
                 </p>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold" style={{ color: "var(--teal-light)" }}>
+                  <span className="text-lg font-bold" style={{ color: "var(--cream)" }}>
                     {s.price}
                   </span>
                   <span
@@ -165,7 +163,7 @@ export default function Services() {
                     {s.duration}
                   </span>
                 </div>
-              </motion.div>
+              </motion.a>
             );
           })}
         </div>
@@ -176,23 +174,23 @@ export default function Services() {
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.55 }}
         >
-          <motion.button
-            onClick={() =>
-              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-            }
+          <motion.a
+            href={business.booksyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide text-white"
-            style={{ background: "var(--teal-primary)", boxShadow: "0 4px 20px rgba(13,148,136,0.3)" }}
-            whileHover={{ y: -2, boxShadow: "0 8px 30px rgba(13,148,136,0.45)" }}
+            style={{ background: "var(--red)", boxShadow: "0 4px 20px rgba(214,40,57,0.32)" }}
+            whileHover={{ y: -2, boxShadow: "0 8px 30px rgba(214,40,57,0.5)" }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
-            Book Your Service
-            <Scissors size={16} />
-          </motion.button>
+            <Calendar size={16} />
+            Book Your Service on Booksy
+          </motion.a>
         </motion.div>
       </div>
 
-      <div className="teal-divider absolute bottom-0 left-0 right-0" />
+      <div className="accent-divider absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

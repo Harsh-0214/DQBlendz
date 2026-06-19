@@ -30,14 +30,14 @@ const reviews = [
     name: "Chris M.",
     role: "Regular Client",
     stars: 5,
-    text: "Great atmosphere, great conversation, and even better cuts. DQBlendz is the only spot in the city where I trust someone with my hair.",
+    text: "Great atmosphere, great conversation, and even better cuts. DQ Blendz is the only spot in the city where I trust someone with my hair.",
     avatar: "CM",
   },
   {
     name: "Darnell P.",
     role: "VIP Client",
     stars: 5,
-    text: "I've been to barbershops all over and DQBlendz is on another level. Clean, precise, and consistent every single time. Highly recommend.",
+    text: "I've been to barbershops all over and DQ Blendz is on another level. Clean, precise, and consistent every single time. Highly recommend.",
     avatar: "DP",
   },
   {
@@ -56,7 +56,7 @@ function StarRow({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="var(--teal-light)">
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="var(--red-light)">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -68,10 +68,10 @@ function Card({ r }: { r: (typeof reviews)[0] }) {
   return (
     <div
       className="glass rounded-2xl p-5 flex-shrink-0 w-80"
-      style={{ border: "1px solid rgba(13,148,136,0.15)" }}
+      style={{ border: "1px solid rgba(214,40,57,0.15)" }}
     >
       <div className="mb-3">
-        <Quote size={20} style={{ color: "rgba(13,148,136,0.4)" }} />
+        <Quote size={20} style={{ color: "rgba(214,40,57,0.4)" }} />
       </div>
       <StarRow count={r.stars} />
       <p
@@ -80,13 +80,13 @@ function Card({ r }: { r: (typeof reviews)[0] }) {
       >
         &ldquo;{r.text}&rdquo;
       </p>
-      <div className="flex items-center gap-3 pt-3" style={{ borderTop: "1px solid rgba(13,148,136,0.1)" }}>
+      <div className="flex items-center gap-3 pt-3" style={{ borderTop: "1px solid rgba(214,40,57,0.1)" }}>
         <div
           className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
           style={{
-            background: "rgba(13,148,136,0.15)",
-            border: "1px solid rgba(13,148,136,0.3)",
-            color: "var(--teal-light)",
+            background: "rgba(214,40,57,0.15)",
+            border: "1px solid rgba(214,40,57,0.3)",
+            color: "var(--red-light)",
           }}
         >
           {r.avatar}
@@ -115,7 +115,7 @@ export default function Testimonials() {
         style={{
           width: "500px",
           height: "500px",
-          background: "radial-gradient(circle, rgba(13,148,136,0.07) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(214,40,57,0.07) 0%, transparent 70%)",
           bottom: "0",
           right: "-10%",
           animationDelay: "2s",
@@ -201,7 +201,7 @@ export default function Testimonials() {
               <div
                 className="text-2xl font-bold"
                 style={{
-                  color: "var(--teal-light)",
+                  color: "var(--red-light)",
                   fontFamily: "var(--font-playfair)",
                 }}
               >
@@ -216,7 +216,7 @@ export default function Testimonials() {
               <div
                 className="text-2xl font-bold"
                 style={{
-                  color: "var(--teal-light)",
+                  color: "var(--red-light)",
                   fontFamily: "var(--font-playfair)",
                 }}
               >
