@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, ArrowDown } from "lucide-react";
 import Marquee from "./Marquee";
-import Seal from "./Seal";
 import { business } from "@/app/config";
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -24,50 +23,39 @@ export default function Hero() {
 
   return (
     <section className="sec-dark relative min-h-dvh flex flex-col overflow-hidden grain pt-[72px] md:pt-[84px]">
+      {/* Ambient drifting aurora lights (right-weighted) */}
       <div
-        className="glow glow-pulse"
+        className="glow drift-a"
         style={{
-          width: 680,
-          height: 680,
-          background: "radial-gradient(circle, rgba(191,139,60,0.18) 0%, transparent 70%)",
-          top: "14%",
-          right: "4%",
+          width: 620,
+          height: 620,
+          background: "radial-gradient(circle, rgba(191,139,60,0.20) 0%, transparent 70%)",
+          top: "6%",
+          right: "2%",
+        }}
+      />
+      <div
+        className="glow drift-b"
+        style={{
+          width: 540,
+          height: 540,
+          background: "radial-gradient(circle, rgba(224,182,103,0.12) 0%, transparent 70%)",
+          bottom: "8%",
+          right: "20%",
         }}
       />
 
-      {/* Rotating brand seal — fills the right side */}
-      <motion.div
-        className="hidden lg:flex absolute z-10 items-center justify-center pointer-events-none"
-        style={{ right: "5%", top: "50%", translate: "0 -50%", width: "min(34vw, 480px)", aspectRatio: "1" }}
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={show ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 0.9, ease, delay: 0.5 }}
-      >
-        <Seal className="w-full h-full animate-float" />
-      </motion.div>
+      {/* Faint pinstripe texture */}
+      <div className="pinstripe absolute inset-0 pointer-events-none" />
 
-      {/* Vertical edge label */}
-      <motion.div
-        className="hidden lg:block absolute left-7 top-1/2 -translate-y-1/2 z-10"
-        initial={{ opacity: 0 }}
-        animate={show ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        <span
-          className="kicker"
-          style={{
-            color: "var(--on-dark-faint)",
-            writingMode: "vertical-rl",
-            transform: "rotate(180deg)",
-            letterSpacing: "0.4em",
-          }}
-        >
-          Vaughan&apos;s Underground Barber
-        </span>
-      </motion.div>
+      {/* Soft vignette for depth */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(120% 90% at 30% 40%, transparent 50%, rgba(0,0,0,0.5) 100%)" }}
+      />
 
       {/* Center stage */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1500px] w-full mx-auto px-8 sm:px-14 lg:px-24">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1600px] w-full mx-auto px-8 sm:px-16 lg:px-28 xl:px-36">
         <h1 className="display lg:max-w-[58%]" style={{ fontSize: "clamp(4rem, 15vw, 13rem)", lineHeight: 0.82 }}>
           <motion.span
             className="block"

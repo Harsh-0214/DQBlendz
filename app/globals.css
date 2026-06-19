@@ -349,23 +349,30 @@ button:focus-visible {
   animation: float 4s ease-in-out infinite;
 }
 
-/* Slow rotating brand seal */
-@keyframes spin-seal {
-  to { transform: rotate(360deg); }
+/* Ambient drifting "aurora" lights */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50px, 36px) scale(1.12); opacity: 0.95; }
 }
-.spin-seal {
-  animation: spin-seal 32s linear infinite;
-  transform-box: fill-box;
-  transform-origin: center;
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); opacity: 0.5; }
+  50% { transform: translate(60px, -40px) scale(0.92); opacity: 0.85; }
 }
+.drift-a { animation: drift-a 18s ease-in-out infinite; }
+.drift-b { animation: drift-b 24s ease-in-out infinite; }
 
-/* Drifting / breathing glow */
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.55; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.08); }
-}
-.glow-pulse {
-  animation: glow-pulse 9s ease-in-out infinite;
+/* Faint vertical pinstripe texture (barber-cape nod) */
+.pinstripe {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0,
+    var(--accent) 1px,
+    transparent 1px,
+    transparent 46px
+  );
+  opacity: 0.04;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 55%, #000 100%);
 }
 
 /* ───────────────────────────  Accessibility  ─────────────────────── */
@@ -381,8 +388,8 @@ button:focus-visible {
   }
   .marquee-track,
   .animate-float,
-  .spin-seal,
-  .glow-pulse {
+  .drift-a,
+  .drift-b {
     animation: none !important;
   }
 }
