@@ -349,6 +349,25 @@ button:focus-visible {
   animation: float 4s ease-in-out infinite;
 }
 
+/* Slow rotating brand seal */
+@keyframes spin-seal {
+  to { transform: rotate(360deg); }
+}
+.spin-seal {
+  animation: spin-seal 32s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Drifting / breathing glow */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+.glow-pulse {
+  animation: glow-pulse 9s ease-in-out infinite;
+}
+
 /* ───────────────────────────  Accessibility  ─────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -361,7 +380,9 @@ button:focus-visible {
     scroll-behavior: auto !important;
   }
   .marquee-track,
-  .animate-float {
+  .animate-float,
+  .spin-seal,
+  .glow-pulse {
     animation: none !important;
   }
 }

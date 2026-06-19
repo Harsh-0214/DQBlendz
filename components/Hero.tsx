@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, ArrowDown } from "lucide-react";
 import Marquee from "./Marquee";
+import Seal from "./Seal";
 import { business } from "@/app/config";
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -24,15 +25,26 @@ export default function Hero() {
   return (
     <section className="sec-dark relative min-h-dvh flex flex-col overflow-hidden grain pt-[72px] md:pt-[84px]">
       <div
-        className="glow"
+        className="glow glow-pulse"
         style={{
-          width: 620,
-          height: 620,
-          background: "radial-gradient(circle, rgba(191,139,60,0.16) 0%, transparent 70%)",
-          top: "8%",
-          right: "-12%",
+          width: 680,
+          height: 680,
+          background: "radial-gradient(circle, rgba(191,139,60,0.18) 0%, transparent 70%)",
+          top: "14%",
+          right: "4%",
         }}
       />
+
+      {/* Rotating brand seal — fills the right side */}
+      <motion.div
+        className="hidden lg:flex absolute z-10 items-center justify-center pointer-events-none"
+        style={{ right: "5%", top: "50%", translate: "0 -50%", width: "min(34vw, 480px)", aspectRatio: "1" }}
+        initial={{ opacity: 0, scale: 0.92 }}
+        animate={show ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 0.9, ease, delay: 0.5 }}
+      >
+        <Seal className="w-full h-full animate-float" />
+      </motion.div>
 
       {/* Vertical edge label */}
       <motion.div
@@ -55,8 +67,8 @@ export default function Hero() {
       </motion.div>
 
       {/* Center stage */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1400px] w-full mx-auto px-6 sm:px-10 lg:px-16">
-        <h1 className="display" style={{ fontSize: "clamp(4.5rem, 19vw, 17rem)", lineHeight: 0.82 }}>
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1500px] w-full mx-auto px-8 sm:px-14 lg:px-24">
+        <h1 className="display lg:max-w-[58%]" style={{ fontSize: "clamp(4rem, 15vw, 13rem)", lineHeight: 0.82 }}>
           <motion.span
             className="block"
             style={{ color: "var(--on-dark)" }}
@@ -77,7 +89,7 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end">
+        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end lg:max-w-[62%]">
           <motion.p
             className="max-w-md text-[0.95rem] sm:text-base leading-relaxed"
             style={{ color: "var(--on-dark-muted)" }}
