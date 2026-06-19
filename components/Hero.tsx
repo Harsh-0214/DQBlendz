@@ -57,18 +57,6 @@ export default function Hero() {
 
       {/* Center stage */}
       <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1400px] w-full mx-auto px-6 sm:px-10 lg:px-16">
-        <motion.div
-          className="flex items-center gap-3 mb-7"
-          initial={{ opacity: 0, y: 14 }}
-          animate={show ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
-        >
-          <span className="diamond" />
-          <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>
-            Est. Vaughan, ON · Master Barber
-          </span>
-        </motion.div>
-
         <h1 className="display" style={{ fontSize: "clamp(4.5rem, 19vw, 17rem)", lineHeight: 0.82 }}>
           <motion.span
             className="block"
