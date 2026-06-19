@@ -77,8 +77,8 @@ export default function Hero() {
         style={{ background: "radial-gradient(130% 100% at 22% 45%, transparent 48%, rgba(0,0,0,0.55) 100%)" }}
       />
 
-      {/* Center stage */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center w-full max-w-[1600px] mx-auto pl-10 pr-6 sm:pl-20 sm:pr-10 md:pl-28 lg:pl-36 xl:pl-48">
+      {/* Center stage — aligned to the navbar container so it sits under the logo */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center w-full max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-10">
         <h1 className="display lg:max-w-[60%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
           <motion.span
             className="block"
