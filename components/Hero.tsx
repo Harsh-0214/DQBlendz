@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Calendar } from "lucide-react";
+import BarberPole from "./BarberPole";
+import { business } from "@/app/config";
 
 function useCounter(target: number, duration: number, trigger: boolean) {
   const [count, setCount] = useState(0);
@@ -22,14 +24,22 @@ function useCounter(target: number, duration: number, trigger: boolean) {
 
 function MagneticButton({
   children,
-  onClick,
   className,
   style,
-  ...rest
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  href,
+  onClick,
+  target,
+  rel,
+}: {
   children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  href?: string;
+  onClick?: () => void;
+  target?: string;
+  rel?: string;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 200, damping: 18 });
@@ -48,21 +58,20 @@ function MagneticButton({
   };
 
   return (
-    <motion.button
+    <motion.a
       ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      onClick={onClick}
       style={{ x: springX, y: springY, ...style }}
       onMouseMove={handleMouseMove}
-      onMouseLeave={(e) => {
-        reset();
-        rest.onMouseLeave?.(e);
-      }}
-      onClick={onClick}
+      onMouseLeave={reset}
       className={className}
       whileTap={{ scale: 0.96 }}
-      {...(rest as Record<string, unknown>)}
     >
       {children}
-    </motion.button>
+    </motion.a>
   );
 }
 
@@ -76,9 +85,9 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  const clients = useCounter(500, 1800, visible);
-  const years = useCounter(8, 1200, visible);
-  const rating = useCounter(49, 1400, visible);
+  const reviews = useCounter(business.reviewCount, 1800, visible);
+  const years = useCounter(business.yearsExperience, 1200, visible);
+  const rating = useCounter(50, 1400, visible);
 
   const scrollDown = () => {
     document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
@@ -90,7 +99,7 @@ export default function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(160deg, #050d0b 0%, #071a14 40%, #030a09 100%)",
+            "linear-gradient(160deg, #0d0c0e 0%, #1a1116 45%, #0a0a12 100%)",
         }}
       />
 
@@ -100,7 +109,7 @@ export default function Hero() {
           width: "700px",
           height: "700px",
           background:
-            "radial-gradient(circle, rgba(13,148,136,0.13) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(214,40,57,0.14) 0%, transparent 70%)",
           top: "5%",
           left: "-15%",
         }}
@@ -108,10 +117,10 @@ export default function Hero() {
       <div
         className="glow-orb"
         style={{
-          width: "500px",
-          height: "500px",
+          width: "520px",
+          height: "520px",
           background:
-            "radial-gradient(circle, rgba(45,212,191,0.07) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(42,76,173,0.12) 0%, transparent 70%)",
           bottom: "5%",
           right: "-5%",
           animationDelay: "3s",
@@ -119,21 +128,33 @@ export default function Hero() {
       />
 
       <div
-        className="absolute inset-0 opacity-[0.025]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(var(--teal-light) 1px, transparent 1px), linear-gradient(90deg, var(--teal-light) 1px, transparent 1px)",
+            "linear-gradient(var(--cream) 1px, transparent 1px), linear-gradient(90deg, var(--cream) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
 
-      <div className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto">
+      {/* Floating barber pole — desktop only, the signature motif */}
+      <motion.div
+        className="hidden lg:block absolute right-[8%] top-1/2 -translate-y-1/2 z-10"
+        initial={{ opacity: 0, y: 40 }}
+        animate={visible ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: "spring", stiffness: 60, damping: 18, delay: 0.6 }}
+      >
+        <div className="animate-float">
+          <BarberPole height={320} />
+        </div>
+      </motion.div>
+
+      <div className="relative z-10 text-center lg:text-left px-4 sm:px-6 max-w-5xl mx-auto lg:mx-0 lg:ml-[8%] lg:max-w-2xl">
         <motion.div
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs tracking-[0.2em] uppercase mb-8"
           style={{
-            background: "rgba(13,148,136,0.1)",
-            border: "1px solid rgba(13,148,136,0.3)",
-            color: "var(--teal-accent)",
+            background: "rgba(214,40,57,0.1)",
+            border: "1px solid rgba(214,40,57,0.3)",
+            color: "var(--cream)",
           }}
           initial={{ opacity: 0, y: 12 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
@@ -141,9 +162,9 @@ export default function Hero() {
         >
           <span
             className="w-1.5 h-1.5 rounded-full"
-            style={{ background: "var(--teal-light)" }}
+            style={{ background: "var(--red-light)" }}
           />
-          Premium Barber Studio
+          DQ Blendz · Vaughan, ON
         </motion.div>
 
         <h1
@@ -170,105 +191,77 @@ export default function Hero() {
         </h1>
 
         <motion.p
-          className="text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed"
+          className="text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-10 leading-relaxed"
           style={{ color: "var(--muted)" }}
           initial={{ opacity: 0, y: 20 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.42 }}
         >
-          Where every cut tells a story. Experience the art of grooming at
-          DQBlendz — your destination for fresh fades, sharp lineups, and
-          flawless blends.
+          Vaughan&apos;s underground barber. Trusted by pro athletes for fresh
+          fades, sharp lineups, and flawless blends — book your chair in
+          seconds on Booksy.
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           initial={{ opacity: 0, y: 16 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.54 }}
         >
           <MagneticButton
-            onClick={() =>
-              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="px-8 py-4 rounded-xl font-semibold text-base tracking-wide text-white"
+            href={business.booksyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-base tracking-wide text-white"
             style={{
-              background: "var(--teal-primary)",
-              boxShadow: "0 4px 24px rgba(13,148,136,0.35)",
+              background: "var(--red)",
+              boxShadow: "0 4px 24px rgba(214,40,57,0.4)",
             }}
           >
-            Book an Appointment
+            <Calendar size={18} />
+            Book on Booksy
           </MagneticButton>
           <MagneticButton
             onClick={() =>
               document.querySelector("#gallery")?.scrollIntoView({ behavior: "smooth" })
             }
-            className="px-8 py-4 rounded-xl font-semibold text-base tracking-wide transition-colors duration-200"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-base tracking-wide transition-colors duration-200 cursor-pointer"
             style={{
               background: "transparent",
-              color: "var(--teal-light)",
-              border: "1px solid rgba(13,148,136,0.4)",
-            }}
-            onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => {
-              (e.currentTarget as HTMLButtonElement).style.background =
-                "rgba(13,148,136,0.08)";
-            }}
-            onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+              color: "var(--cream)",
+              border: "1px solid rgba(244,237,224,0.3)",
             }}
           >
-            View Our Work
+            View the Portfolio
           </MagneticButton>
         </motion.div>
 
         <motion.div
-          className="flex flex-wrap justify-center gap-8 sm:gap-14 mt-16"
+          className="flex flex-wrap justify-center lg:justify-start gap-8 sm:gap-14 mt-16"
           initial={{ opacity: 0, y: 16 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.66 }}
         >
-          <div className="text-center">
-            <div
-              className="text-3xl font-bold tabular-nums"
-              style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
-            >
-              {clients}+
+          {[
+            { value: `${reviews}`, label: "5-Star Reviews" },
+            { value: `${years}+`, label: "Years Experience" },
+            { value: `${(rating / 10).toFixed(1)}★`, label: "Avg Rating" },
+          ].map((stat) => (
+            <div className="text-center lg:text-left" key={stat.label}>
+              <div
+                className="text-3xl font-bold tabular-nums"
+                style={{ color: "var(--cream)", fontFamily: "var(--font-playfair)" }}
+              >
+                {stat.value}
+              </div>
+              <div
+                className="text-xs tracking-wider uppercase mt-1"
+                style={{ color: "var(--muted)" }}
+              >
+                {stat.label}
+              </div>
             </div>
-            <div
-              className="text-xs tracking-wider uppercase mt-1"
-              style={{ color: "var(--muted)" }}
-            >
-              Happy Clients
-            </div>
-          </div>
-          <div className="text-center">
-            <div
-              className="text-3xl font-bold tabular-nums"
-              style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
-            >
-              {years}+
-            </div>
-            <div
-              className="text-xs tracking-wider uppercase mt-1"
-              style={{ color: "var(--muted)" }}
-            >
-              Years Experience
-            </div>
-          </div>
-          <div className="text-center">
-            <div
-              className="text-3xl font-bold tabular-nums"
-              style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
-            >
-              {(rating / 10).toFixed(1)}★
-            </div>
-            <div
-              className="text-xs tracking-wider uppercase mt-1"
-              style={{ color: "var(--muted)" }}
-            >
-              Avg Rating
-            </div>
-          </div>
+          ))}
         </motion.div>
       </div>
 
@@ -281,17 +274,10 @@ export default function Hero() {
         animate={visible ? { opacity: 1 } : {}}
         transition={{ delay: 1, duration: 0.6 }}
       >
-        <span
-          className="text-xs tracking-widest uppercase"
-          style={{ fontSize: "10px" }}
-        >
+        <span className="text-xs tracking-widest uppercase" style={{ fontSize: "10px" }}>
           Scroll
         </span>
-        <ChevronDown
-          size={20}
-          className="animate-float"
-          style={{ color: "var(--teal-light)" }}
-        />
+        <ChevronDown size={20} className="animate-float" style={{ color: "var(--red-light)" }} />
       </motion.button>
     </section>
   );

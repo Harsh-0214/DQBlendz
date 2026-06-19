@@ -2,24 +2,24 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Award, Heart, Users } from "lucide-react";
+import { Trophy, Heart, Star } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
 const highlights = [
   {
-    icon: Award,
-    title: "Certified Master Barber",
-    desc: "Trained with industry-leading barbers and certified with top grooming credentials.",
+    icon: Trophy,
+    title: "Trusted by Pro Athletes",
+    desc: "DQ keeps players from Toronto FC and the Toronto Argonauts looking sharp on and off the field.",
+  },
+  {
+    icon: Star,
+    title: "62 Five-Star Reviews",
+    desc: "A flawless 5.0 rating on Booksy — every client leaves the chair fresh and confident.",
   },
   {
     icon: Heart,
     title: "Passion-Driven Craft",
-    desc: "Every client leaves the chair with more than a haircut — they leave with confidence.",
-  },
-  {
-    icon: Users,
-    title: "Community Focused",
-    desc: "DQBlendz is more than a barbershop — it's a place where the community connects.",
+    desc: "Six-plus years honing the craft, with old-school precision and a genuine eye for detail.",
   },
 ];
 
@@ -34,13 +34,13 @@ export default function About() {
         style={{
           width: "600px",
           height: "600px",
-          background: "radial-gradient(circle, rgba(13,148,136,0.09) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(214,40,57,0.1) 0%, transparent 70%)",
           top: "0",
           left: "-20%",
           animationDelay: "1.5s",
         }}
       />
-      <div className="teal-divider absolute top-0 left-0 right-0" />
+      <div className="accent-divider absolute top-0 left-0 right-0" />
 
       <div
         className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
@@ -54,11 +54,11 @@ export default function About() {
         >
           <div
             className="relative rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto lg:max-w-none"
-            style={{ border: "1px solid rgba(13,148,136,0.2)" }}
+            style={{ border: "1px solid rgba(214,40,57,0.22)" }}
           >
             <Image
               src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=700&q=85"
-              alt="DQBlendz barber at work"
+              alt="DQ Blendz barber at work"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               style={{ objectFit: "cover" }}
@@ -68,7 +68,7 @@ export default function About() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to top right, rgba(5,13,11,0.55) 0%, transparent 60%)",
+                  "linear-gradient(to top right, rgba(13,12,14,0.6) 0%, transparent 60%)",
               }}
             />
           </div>
@@ -82,9 +82,9 @@ export default function About() {
           >
             <div
               className="text-2xl font-bold"
-              style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
+              style={{ color: "var(--cream)", fontFamily: "var(--font-playfair)" }}
             >
-              8+ Years
+              6+ Years
             </div>
             <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
               Cutting & Crafting
@@ -110,15 +110,16 @@ export default function About() {
             style={{ color: "var(--muted)" }}
           >
             <p>
-              DQBlendz was born from a simple belief: every person deserves to
-              walk out of the chair feeling their absolute best. Founded by DQ,
-              a master barber with over 8 years of hands-on experience, our
-              studio blends old-school barbering tradition with modern technique.
+              Based in Vaughan, DQ Blendz is the underground barber the city
+              keeps quiet about. Founded by DQ — a barber with over 6 years of
+              hands-on experience — the shop blends old-school barbering
+              tradition with modern technique, one cut at a time.
             </p>
             <p>
-              From skin fades and classic taper cuts to beard sculpting and hot
-              towel shaves — we approach every client with precision, respect,
-              and genuine care. No rush, no shortcuts. Just great cuts.
+              From skin fades and classic taper cuts to beard sculpting and
+              sharp lineups, every client gets the same care that&apos;s earned
+              the trust of pro athletes from Toronto FC and the Toronto
+              Argonauts. No rush, no shortcuts. Just great cuts.
             </p>
           </div>
 
@@ -141,11 +142,11 @@ export default function About() {
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
                     style={{
-                      background: "rgba(13,148,136,0.12)",
-                      border: "1px solid rgba(13,148,136,0.25)",
+                      background: "rgba(214,40,57,0.12)",
+                      border: "1px solid rgba(214,40,57,0.28)",
                     }}
                   >
-                    <Icon size={18} style={{ color: "var(--teal-light)" }} />
+                    <Icon size={18} style={{ color: "var(--red-light)" }} />
                   </div>
                   <div>
                     <div
@@ -165,7 +166,7 @@ export default function About() {
         </motion.div>
       </div>
 
-      <div className="teal-divider absolute bottom-0 left-0 right-0" />
+      <div className="accent-divider absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

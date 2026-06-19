@@ -1,16 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050d0b;
-  --surface: #0a1a16;
-  --surface-2: #0f2420;
-  --teal-primary: #0d9488;
-  --teal-light: #2dd4bf;
-  --teal-accent: #5eead4;
-  --teal-glow: rgba(13, 148, 136, 0.15);
-  --foreground: #f0fdf4;
-  --muted: #94a3b8;
-  --border: rgba(13, 148, 136, 0.2);
+  /* Warm near-black studio base */
+  --background: #0d0c0e;
+  --surface: #171519;
+  --surface-2: #211d23;
+
+  /* Classic barber-pole palette */
+  --red: #d62839;
+  --red-light: #f2545b;
+  --red-deep: #9e1b29;
+  --blue: #2a4cad;
+  --blue-light: #4f6fd6;
+  --cream: #f4ede0;
+
+  /* Backwards-compatible accent aliases (red is the primary accent) */
+  --accent: var(--red);
+  --accent-light: var(--red-light);
+
+  --foreground: #f5f2ec;
+  --muted: #9c948e;
+  --border: rgba(214, 40, 57, 0.22);
+  --border-soft: rgba(244, 237, 224, 0.1);
+
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -39,8 +51,8 @@ body {
 }
 
 ::selection {
-  background: var(--teal-primary);
-  color: white;
+  background: var(--red);
+  color: var(--cream);
 }
 
 ::-webkit-scrollbar {
@@ -52,15 +64,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--teal-primary);
+  background: var(--red);
   border-radius: 3px;
 }
 
-@keyframes loader-fill {
-  0% { width: 0%; }
-  60% { width: 75%; }
-  100% { width: 100%; }
-}
+/* ─────────────────────────────  Keyframes  ───────────────────────────── */
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(16px); }
@@ -87,157 +95,10 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.animate-fade-up {
-  animation: fade-up 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-.animate-spin-slow {
-  animation: spin-slow 3s linear infinite;
-}
-
-.glass {
-  background: rgba(10, 26, 22, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--teal-light) 0%, var(--teal-accent) 50%, #a7f3d0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    var(--teal-light) 0%,
-    #a7f3d0 25%,
-    var(--teal-accent) 50%,
-    var(--teal-light) 75%,
-    #a7f3d0 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s linear infinite;
-}
-
-.section-padding {
-  padding: 5rem 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .section-padding {
-    padding: 7rem 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .section-padding {
-    padding: 8rem 4rem;
-  }
-}
-
-.btn-primary {
-  transition: transform 160ms ease-out, box-shadow 160ms ease-out, background-color 160ms ease;
-  touch-action: manipulation;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(13, 148, 136, 0.45);
-}
-
-.btn-primary:active {
-  transform: scale(0.97);
-}
-
-.card-hover {
-  transition: transform 250ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 250ms cubic-bezier(0.23, 1, 0.32, 1), border-color 250ms ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(13, 148, 136, 0.15);
-  border-color: rgba(13, 148, 136, 0.45);
-}
-
-.gallery-item {
-  overflow: hidden;
-  position: relative;
-}
-
-.gallery-item .gallery-img {
-  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-item:hover .gallery-img {
-  transform: scale(1.06);
-}
-
-.gallery-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(5, 13, 11, 0.9) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity 300ms ease-out;
-  display: flex;
-  align-items: flex-end;
-  padding: 1.25rem;
-}
-
-.gallery-item:hover .gallery-overlay {
-  opacity: 1;
-}
-
-.nav-base {
-  transition: background 300ms ease, border-color 300ms ease, backdrop-filter 300ms ease;
-}
-
-.nav-scrolled {
-  background: rgba(5, 13, 11, 0.92) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid var(--border) !important;
-}
-
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-  animation: glow-pulse 6s ease-in-out infinite;
-}
-
-.teal-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--teal-primary), transparent);
-  opacity: 0.4;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .gallery-item:hover .gallery-overlay {
-    opacity: 1;
-  }
-  .gallery-item:hover .gallery-img {
-    transform: scale(1.06);
-  }
-}
-
-@media not (hover: hover) {
-  .gallery-overlay {
-    opacity: 1;
-  }
+/* Barber pole: stripes appear to travel up the cylinder */
+@keyframes barber-spin {
+  from { background-position: 0 0; }
+  to { background-position: 0 -64px; }
 }
 
 @keyframes float {
@@ -250,14 +111,10 @@ body {
   to { transform: translateX(-50%); }
 }
 
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-float {
-  animation: float 2.5s ease-in-out infinite;
-}
+.animate-fade-in { animation: fade-in 0.6s var(--ease-out) forwards; }
+.animate-fade-up { animation: fade-up 0.7s var(--ease-out) forwards; }
+.animate-spin-slow { animation: spin-slow 3s linear infinite; }
+.animate-float { animation: float 2.5s ease-in-out infinite; }
 
 .animate-marquee-left {
   animation: marquee-left 45s linear infinite;
@@ -273,6 +130,140 @@ body {
   gap: 1rem;
   width: max-content;
   flex-shrink: 0;
+}
+
+/* ─────────────────────────────  Surfaces  ───────────────────────────── */
+
+.glass {
+  background: rgba(23, 21, 25, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* Barber-pole gradient text: red → cream → blue */
+.gradient-text {
+  background: linear-gradient(120deg, var(--red-light) 0%, var(--cream) 50%, var(--blue-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--red-light) 0%,
+    var(--cream) 25%,
+    var(--blue-light) 50%,
+    var(--cream) 75%,
+    var(--red-light) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+.section-padding {
+  padding: 5rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding { padding: 7rem 2rem; }
+}
+
+@media (min-width: 1024px) {
+  .section-padding { padding: 8rem 4rem; }
+}
+
+/* ─────────────────────────────  Buttons  ───────────────────────────── */
+
+.btn-primary {
+  transition: transform 160ms ease-out, box-shadow 160ms ease-out, background-color 160ms ease;
+  touch-action: manipulation;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(214, 40, 57, 0.45);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.card-hover {
+  transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out), border-color 250ms ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(214, 40, 57, 0.15);
+  border-color: rgba(214, 40, 57, 0.45);
+}
+
+/* ─────────────────────────────  Gallery  ───────────────────────────── */
+
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-item .gallery-img {
+  transition: transform 400ms var(--ease-out);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-item:hover .gallery-img {
+  transform: scale(1.06);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 12, 14, 0.92) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+/* ─────────────────────────────  Navigation  ───────────────────────────── */
+
+.nav-base {
+  transition: background 300ms ease, border-color 300ms ease, backdrop-filter 300ms ease;
+}
+
+.nav-scrolled {
+  background: rgba(13, 12, 14, 0.92) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* ─────────────────────────────  Decorative  ───────────────────────────── */
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+/* Red→blue accent divider echoing the pole */
+.accent-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), var(--blue), transparent);
+  opacity: 0.45;
 }
 
 .noise-overlay {
@@ -297,7 +288,7 @@ body {
   font-size: 0.7rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--teal-primary);
+  color: var(--red-light);
   margin-bottom: 0.75rem;
 }
 
@@ -307,8 +298,63 @@ body {
   display: block;
   width: 20px;
   height: 1px;
-  background: var(--teal-primary);
-  opacity: 0.6;
+  background: var(--red);
+  opacity: 0.7;
+}
+
+/* ─────────────────────────────  Barber pole  ───────────────────────────── */
+
+.barber-pole {
+  position: relative;
+  border-radius: 999px;
+  overflow: hidden;
+  background-color: var(--cream);
+  background-image: repeating-linear-gradient(
+    -60deg,
+    var(--red) 0,
+    var(--red) 9px,
+    var(--cream) 9px,
+    var(--cream) 18px,
+    var(--blue) 18px,
+    var(--blue) 27px,
+    var(--cream) 27px,
+    var(--cream) 36px
+  );
+  background-size: 100% 64px;
+  animation: barber-spin 2.2s linear infinite;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Glossy cylinder highlight so the pole reads as 3D */
+.barber-pole::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(255, 255, 255, 0.55) 38%,
+    rgba(255, 255, 255, 0.05) 58%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+.barber-cap {
+  background: linear-gradient(180deg, #e7e3da 0%, #b9b4aa 45%, #87837b 100%);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ─────────────────────────────  Media queries  ───────────────────────────── */
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-item:hover .gallery-img { transform: scale(1.06); }
+}
+
+@media not (hover: hover) {
+  .gallery-overlay { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -316,4 +362,5 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  .barber-pole { animation: none !important; }
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
@@ -15,14 +15,19 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "DQBlendz | Premium Barber Studio",
+  title: "DQ Blendz | Master Barber & Fresh Fades",
   description:
-    "DQBlendz — where precision meets style. Book your next haircut, fade, or beard trim with our master barbers.",
+    "DQ Blendz — where precision meets style. Browse the portfolio and book your next haircut, fade, or beard trim on Booksy.",
   openGraph: {
-    title: "DQBlendz | Premium Barber Studio",
-    description: "Precision cuts. Fresh fades. Book your appointment today.",
+    title: "DQ Blendz | Master Barber & Fresh Fades",
+    description:
+      "Precision cuts. Fresh fades. Sharp lineups. Book your appointment today.",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0d0c0e",
 };
 
 export default function RootLayout({

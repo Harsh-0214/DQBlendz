@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
+import { business } from "@/app/config";
 
 const photos = [
   {
@@ -54,7 +55,7 @@ export default function Gallery() {
         style={{
           width: "500px",
           height: "500px",
-          background: "radial-gradient(circle, rgba(13,148,136,0.07) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(42,76,173,0.1) 0%, transparent 70%)",
           top: "20%",
           right: "-15%",
         }}
@@ -67,7 +68,7 @@ export default function Gallery() {
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
-          <p className="section-heading-label">Our Portfolio</p>
+          <p className="section-heading-label">The Portfolio</p>
           <h2
             className="text-4xl sm:text-5xl font-bold"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
@@ -78,8 +79,8 @@ export default function Gallery() {
             className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed"
             style={{ color: "var(--muted)" }}
           >
-            Every cut is a canvas. Browse our latest work and see what precision
-            and passion look like.
+            Every cut is a canvas. Browse DQ&apos;s latest work and see what
+            precision and passion look like.
           </p>
         </motion.div>
 
@@ -88,7 +89,7 @@ export default function Gallery() {
             <motion.div
               key={photo.src}
               className={`gallery-item rounded-xl sm:rounded-2xl cursor-pointer ${photo.span}`}
-              style={{ border: "1px solid rgba(13,148,136,0.15)" }}
+              style={{ border: "1px solid rgba(214,40,57,0.16)" }}
               initial={{ opacity: 0, scale: 0.94 }}
               animate={visible ? { opacity: 1, scale: 1 } : {}}
               transition={{
@@ -110,12 +111,12 @@ export default function Gallery() {
                 <div>
                   <span
                     className="text-sm font-semibold tracking-wide block"
-                    style={{ color: "var(--teal-accent)" }}
+                    style={{ color: "var(--cream)" }}
                   >
                     {photo.label}
                   </span>
-                  <span className="text-xs" style={{ color: "rgba(240,253,244,0.5)" }}>
-                    DQBlendz Studio
+                  <span className="text-xs" style={{ color: "rgba(244,237,224,0.55)" }}>
+                    DQ Blendz Studio
                   </span>
                 </div>
               </div>
@@ -133,18 +134,18 @@ export default function Gallery() {
             Follow us on Instagram for daily inspiration
           </p>
           <motion.a
-            href="https://instagram.com/dqblendz"
+            href={business.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold tracking-wide"
             style={{
               background: "transparent",
-              color: "var(--teal-light)",
-              border: "1px solid rgba(13,148,136,0.35)",
+              color: "var(--cream)",
+              border: "1px solid rgba(214,40,57,0.4)",
             }}
             whileHover={{
-              background: "rgba(13,148,136,0.08)",
-              borderColor: "rgba(13,148,136,0.55)",
+              background: "rgba(214,40,57,0.08)",
+              borderColor: "rgba(214,40,57,0.6)",
               y: -2,
             }}
             whileTap={{ scale: 0.97 }}
@@ -164,7 +165,7 @@ export default function Gallery() {
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
             </svg>
-            @dqblendz
+            {business.instagramHandle}
           </motion.a>
         </motion.div>
       </div>
