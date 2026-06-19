@@ -38,11 +38,9 @@
   --color-foreground: var(--on-dark);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Note: Tailwind v4 preflight already resets box-sizing/margin/padding in
+   @layer base. Do NOT add an unlayered `* { padding: 0 }` reset here — it
+   would override every Tailwind padding/margin utility. */
 
 html {
   scroll-behavior: smooth;
@@ -376,6 +374,12 @@ button:focus-visible {
   animation: ember var(--p-dur, 9s) ease-in-out infinite;
   animation-delay: var(--p-delay, 0s);
   will-change: transform, opacity;
+}
+
+/* Brass dot-grid — soft halftone texture behind the hero text */
+.dot-grid {
+  background-image: radial-gradient(var(--accent) 1.1px, transparent 1.6px);
+  background-size: 26px 26px;
 }
 
 /* Faint vertical pinstripe texture (barber-cape nod) */

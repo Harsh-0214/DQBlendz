@@ -6,6 +6,16 @@
  * server and client render identically. Decorative only.
  */
 const embers = [
+  // left side — behind / around the wordmark
+  { left: 4, top: 24, size: 3, dur: 11, delay: 0.3, op: 0.55 },
+  { left: 9, top: 58, size: 2, dur: 9, delay: 2, op: 0.45 },
+  { left: 14, top: 16, size: 4, dur: 14, delay: 1, op: 0.6 },
+  { left: 20, top: 78, size: 2, dur: 10, delay: 0.6, op: 0.5 },
+  { left: 27, top: 40, size: 3, dur: 13, delay: 2.8, op: 0.5 },
+  { left: 33, top: 86, size: 2, dur: 9, delay: 1.4, op: 0.45 },
+  { left: 40, top: 28, size: 4, dur: 15, delay: 0.9, op: 0.6 },
+  { left: 46, top: 66, size: 2, dur: 11, delay: 3.2, op: 0.45 },
+  // right side
   { left: 56, top: 30, size: 3, dur: 9, delay: 0, op: 0.7 },
   { left: 64, top: 62, size: 2, dur: 11, delay: 1.5, op: 0.5 },
   { left: 70, top: 18, size: 4, dur: 13, delay: 0.8, op: 0.8 },
@@ -14,12 +24,9 @@ const embers = [
   { left: 84, top: 26, size: 2, dur: 10, delay: 3, op: 0.5 },
   { left: 88, top: 56, size: 5, dur: 15, delay: 1, op: 0.75 },
   { left: 92, top: 38, size: 2, dur: 9, delay: 2.6, op: 0.45 },
-  { left: 61, top: 80, size: 3, dur: 14, delay: 1.8, op: 0.6 },
   { left: 78, top: 88, size: 2, dur: 10, delay: 0.2, op: 0.5 },
   { left: 95, top: 70, size: 3, dur: 12, delay: 3.4, op: 0.6 },
-  { left: 68, top: 42, size: 2, dur: 11, delay: 4, op: 0.45 },
   { left: 86, top: 84, size: 4, dur: 16, delay: 2, op: 0.7 },
-  { left: 72, top: 64, size: 2, dur: 9, delay: 1.2, op: 0.5 },
 ];
 
 export default function Embers() {

@@ -55,6 +55,16 @@ export default function Hero() {
         }}
       />
 
+      {/* Dot-grid texture behind the text */}
+      <div
+        className="dot-grid absolute inset-y-0 left-0 w-[62%] pointer-events-none"
+        style={{
+          opacity: 0.14,
+          WebkitMaskImage: "radial-gradient(75% 80% at 28% 45%, #000 0%, transparent 78%)",
+          maskImage: "radial-gradient(75% 80% at 28% 45%, #000 0%, transparent 78%)",
+        }}
+      />
+
       {/* Floating embers */}
       <Embers />
 
