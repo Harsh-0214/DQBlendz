@@ -46,7 +46,36 @@ export default function Hero() {
         }}
       />
 
-      {/* Soft diagonal light beam */}
+      {/* Matching warm light on the left — behind the logo + wordmark */}
+      <div
+        className="glow drift-b"
+        style={{
+          width: 600,
+          height: 600,
+          background: "radial-gradient(circle, rgba(191,139,60,0.26) 0%, transparent 70%)",
+          top: "-6%",
+          left: "-8%",
+        }}
+      />
+      <div
+        className="glow drift-a"
+        style={{
+          width: 460,
+          height: 460,
+          background: "radial-gradient(circle, rgba(224,182,103,0.14) 0%, transparent 70%)",
+          bottom: "2%",
+          left: "2%",
+        }}
+      />
+
+      {/* Soft diagonal light beams (both sides) */}
+      <div
+        className="absolute inset-y-0 left-0 w-[48%] pointer-events-none hidden md:block"
+        style={{
+          background:
+            "linear-gradient(65deg, transparent 0%, rgba(224,182,103,0.05) 40%, rgba(191,139,60,0.09) 58%, transparent 80%)",
+        }}
+      />
       <div
         className="absolute inset-y-0 right-0 w-[55%] pointer-events-none hidden md:block"
         style={{
