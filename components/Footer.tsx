@@ -6,8 +6,8 @@ import { business } from "@/app/config";
 
 const links = [
   { label: "Barber", href: "#about" },
-  { label: "Cut List", href: "#services" },
-  { label: "Cuts", href: "#cuts" },
+  { label: "Services & Pricing", href: "#services" },
+  { label: "Gallery", href: "#cuts" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Visit", href: "#contact" },
 ];

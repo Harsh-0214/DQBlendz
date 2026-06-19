@@ -8,8 +8,8 @@ import { business } from "@/app/config";
 
 const links = [
   { label: "Barber", href: "#about" },
-  { label: "Cut List", href: "#services" },
-  { label: "Cuts", href: "#cuts" },
+  { label: "Services & Pricing", href: "#services" },
+  { label: "Gallery", href: "#cuts" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Visit", href: "#contact" },
 ];
@@ -56,10 +56,10 @@ export default function Navbar() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
-              <Logo size={32} tone="dark" />
+              <Logo size={44} tone="dark" />
             </a>
 
-            <nav className="hidden md:flex items-center gap-9 lg:gap-11">
+            <nav className="hidden md:flex items-center gap-7 lg:gap-9">
               {links.map((l) => (
                 <button key={l.href} onClick={() => go(l.href)} className="nav-link">
                   {l.label}
