@@ -159,6 +159,44 @@ export default function Hero() {
             </div>
           ))}
         </motion.div>
+
+        {/* Right-side brand statement */}
+        <div className="hidden lg:flex flex-col items-end text-right absolute right-0 top-1/2 -translate-y-1/2 max-w-[40%]">
+          <motion.span
+            className="kicker mb-5"
+            style={{ color: "var(--accent)" }}
+            initial={{ opacity: 0 }}
+            animate={show ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.55 }}
+          >
+            Sharp · Clean · Precise
+          </motion.span>
+
+          {["Sharp cuts.", "Clean fades.", "No compromise."].map((line, i) => (
+            <motion.span
+              key={line}
+              className={`display ${i === 2 ? "gold-shimmer" : ""}`}
+              style={{
+                fontSize: "clamp(2.1rem, 3.4vw, 3.5rem)",
+                lineHeight: 1.04,
+                color: i === 2 ? undefined : "var(--on-dark)",
+              }}
+              initial={{ opacity: 0, y: 22 }}
+              animate={show ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease, delay: 0.6 + i * 0.12 }}
+            >
+              {line}
+            </motion.span>
+          ))}
+
+          <motion.span
+            className="block mt-7 h-px"
+            style={{ background: "var(--accent)", transformOrigin: "right", width: 96 }}
+            initial={{ scaleX: 0 }}
+            animate={show ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.7, ease, delay: 1 }}
+          />
+        </div>
       </div>
 
       {/* Bottom marquee band */}
