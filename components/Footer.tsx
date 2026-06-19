@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Scissors } from "lucide-react";
 
 const links = [
@@ -15,14 +16,23 @@ export default function Footer() {
 
   return (
     <footer
-      className="relative py-12 px-4 sm:px-6 lg:px-8"
+      className="relative py-14 px-4 sm:px-6 lg:px-8"
       style={{
         background: "var(--surface-2)",
         borderTop: "1px solid var(--border)",
       }}
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+      <div
+        className="absolute inset-0 opacity-[0.015]"
+        style={{
+          backgroundImage:
+            "linear-gradient(var(--teal-light) 1px, transparent 1px), linear-gradient(90deg, var(--teal-light) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-10">
           <div className="text-center md:text-left">
             <div className="flex items-center gap-2.5 justify-center md:justify-start mb-3">
               <div
@@ -70,25 +80,24 @@ export default function Footer() {
           </nav>
 
           <div className="flex gap-3">
-            <a
-              href="https://instagram.com"
+            <motion.a
+              href="https://instagram.com/dqblendz"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{
                 background: "rgba(13,148,136,0.1)",
                 border: "1px solid rgba(13,148,136,0.2)",
                 color: "var(--muted)",
               }}
               aria-label="Instagram"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--teal-light)";
-                e.currentTarget.style.borderColor = "rgba(13,148,136,0.5)";
+              whileHover={{
+                color: "var(--teal-light)",
+                borderColor: "rgba(13,148,136,0.5)",
+                y: -2,
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--muted)";
-                e.currentTarget.style.borderColor = "rgba(13,148,136,0.2)";
-              }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <svg
                 width="16"
@@ -104,24 +113,23 @@ export default function Footer() {
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="tel:5551234567"
-              className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors duration-200"
+              className="w-9 h-9 rounded-lg flex items-center justify-center"
               style={{
                 background: "rgba(13,148,136,0.1)",
                 border: "1px solid rgba(13,148,136,0.2)",
                 color: "var(--muted)",
               }}
               aria-label="Phone"
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = "var(--teal-light)";
-                e.currentTarget.style.borderColor = "rgba(13,148,136,0.5)";
+              whileHover={{
+                color: "var(--teal-light)",
+                borderColor: "rgba(13,148,136,0.5)",
+                y: -2,
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "var(--muted)";
-                e.currentTarget.style.borderColor = "rgba(13,148,136,0.2)";
-              }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <svg
                 width="16"
@@ -135,7 +143,7 @@ export default function Footer() {
               >
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.06-.9a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
               </svg>
-            </a>
+            </motion.a>
           </div>
         </div>
 
@@ -147,7 +155,7 @@ export default function Footer() {
           }}
         >
           <span>© {year} DQBlendz. All rights reserved.</span>
-          <span style={{ opacity: 0.6 }}>Crafted with precision.</span>
+          <span style={{ opacity: 0.5 }}>Crafted with precision.</span>
         </div>
       </div>
     </footer>

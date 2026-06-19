@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { Award, Heart, Users } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const highlights = [
   {
@@ -22,39 +23,12 @@ const highlights = [
   },
 ];
 
-function useInView(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-
-  return { ref, visible };
-}
-
 export default function About() {
   const { ref, visible } = useInView();
 
   return (
     <section id="about" className="section-padding relative overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{ background: "var(--surface)" }}
-      />
-
+      <div className="absolute inset-0" style={{ background: "var(--surface)" }} />
       <div
         className="glow-orb absolute"
         style={{
@@ -66,22 +40,24 @@ export default function About() {
           animationDelay: "1.5s",
         }}
       />
-
       <div className="teal-divider absolute top-0 left-0 right-0" />
 
       <div
         className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
         ref={ref}
       >
-        <div
-          className={`relative transition-all duration-700 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, x: -24 }}
+          animate={visible ? { opacity: 1, x: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
           <div
             className="relative rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto lg:max-w-none"
             style={{ border: "1px solid rgba(13,148,136,0.2)" }}
           >
             <Image
-              src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=700&q=80"
+              src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=700&q=85"
               alt="DQBlendz barber at work"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -92,14 +68,17 @@ export default function About() {
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(to top right, rgba(5,13,11,0.6) 0%, transparent 60%)",
+                  "linear-gradient(to top right, rgba(5,13,11,0.55) 0%, transparent 60%)",
               }}
             />
           </div>
 
-          <div
+          <motion.div
             className="absolute bottom-6 left-6 glass rounded-xl px-5 py-4"
-            style={{ maxWidth: "180px" }}
+            style={{ maxWidth: "185px" }}
+            initial={{ opacity: 0, scale: 0.85, y: 12 }}
+            animate={visible ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.3 }}
           >
             <div
               className="text-2xl font-bold"
@@ -110,18 +89,15 @@ export default function About() {
             <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
               Cutting & Crafting
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div
-          className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          animate={visible ? { opacity: 1, x: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
         >
-          <p
-            className="text-xs tracking-[0.3em] uppercase mb-3"
-            style={{ color: "var(--teal-primary)" }}
-          >
-            Our Story
-          </p>
+          <p className="section-heading-label">Our Story</p>
           <h2
             className="text-4xl sm:text-5xl font-bold mb-6"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
@@ -129,7 +105,10 @@ export default function About() {
             More Than a <span className="gradient-text">Haircut</span>
           </h2>
 
-          <div className="space-y-4 text-sm sm:text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+          <div
+            className="space-y-4 text-sm sm:text-base leading-relaxed"
+            style={{ color: "var(--muted)" }}
+          >
             <p>
               DQBlendz was born from a simple belief: every person deserves to
               walk out of the chair feeling their absolute best. Founded by DQ,
@@ -147,10 +126,17 @@ export default function About() {
             {highlights.map((h, i) => {
               const Icon = h.icon;
               return (
-                <div
+                <motion.div
                   key={h.title}
-                  className={`flex gap-4 items-start transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-                  style={{ transitionDelay: `${300 + i * 100}ms` }}
+                  className="flex gap-4 items-start"
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={visible ? { opacity: 1, x: 0 } : {}}
+                  transition={{
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 20,
+                    delay: 0.3 + i * 0.1,
+                  }}
                 >
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -172,11 +158,11 @@ export default function About() {
                       {h.desc}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <div className="teal-divider absolute bottom-0 left-0 right-0" />

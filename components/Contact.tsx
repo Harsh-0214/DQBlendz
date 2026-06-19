@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Phone, Clock, Send, CheckCircle, AtSign } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const hours = [
   { day: "Monday", time: "9 AM – 7 PM" },
@@ -13,70 +15,100 @@ const hours = [
   { day: "Sunday", time: "10 AM – 4 PM" },
 ];
 
-type FormState = "idle" | "sending" | "sent" | "error";
+type FormState = "idle" | "sending" | "sent";
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+const inputBase: React.CSSProperties = {
+  background: "rgba(10,26,22,0.6)",
+  border: "1px solid rgba(13,148,136,0.22)",
+  color: "var(--foreground)",
+  borderRadius: "10px",
+  padding: "12px 14px",
+  width: "100%",
+  fontSize: "14px",
+  outline: "none",
+  transition: "border-color 200ms ease, box-shadow 200ms ease",
+};
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
+const focusStyle: React.CSSProperties = {
+  borderColor: "rgba(13,148,136,0.6)",
+  boxShadow: "0 0 0 3px rgba(13,148,136,0.08)",
+};
 
-  return { ref, visible };
+const blurStyle: React.CSSProperties = {
+  borderColor: "rgba(13,148,136,0.22)",
+  boxShadow: "none",
+};
+
+function InputField({
+  id,
+  name,
+  type = "text",
+  label,
+  placeholder,
+  required,
+  value,
+  onChange,
+  autoComplete,
+}: {
+  id: string;
+  name: string;
+  type?: string;
+  label: string;
+  placeholder: string;
+  required?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
+}) {
+  return (
+    <div>
+      <label
+        className="block text-xs font-medium mb-1.5 tracking-wide"
+        style={{ color: "var(--muted)" }}
+        htmlFor={id}
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        style={inputBase}
+        autoComplete={autoComplete}
+        onFocus={(e) => Object.assign(e.currentTarget.style, focusStyle)}
+        onBlur={(e) => Object.assign(e.currentTarget.style, blurStyle)}
+      />
+    </div>
+  );
 }
 
 export default function Contact() {
-  const { ref, visible } = useInView();
+  const { ref, visible } = useInView(0.1);
   const [formState, setFormState] = useState<FormState>("idle");
   const [form, setForm] = useState({ name: "", phone: "", service: "", message: "" });
 
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormState("sending");
-    setTimeout(() => {
-      setFormState("sent");
-    }, 1500);
-  };
-
-  const inputStyle = {
-    background: "rgba(10,26,22,0.6)",
-    border: "1px solid rgba(13,148,136,0.25)",
-    color: "var(--foreground)",
-    borderRadius: "10px",
-    padding: "12px 14px",
-    width: "100%",
-    fontSize: "14px",
-    outline: "none",
-    transition: "border-color 200ms ease",
+    setTimeout(() => setFormState("sent"), 1500);
   };
 
   return (
     <section id="contact" className="section-padding relative overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{ background: "var(--surface)" }}
-      />
+      <div className="absolute inset-0" style={{ background: "var(--surface)" }} />
       <div className="teal-divider absolute top-0 left-0 right-0" />
-
       <div
         className="glow-orb absolute"
         style={{
@@ -90,15 +122,13 @@ export default function Contact() {
       />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
-        <div
-          className={`text-center mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
-          <p
-            className="text-xs tracking-[0.3em] uppercase mb-3"
-            style={{ color: "var(--teal-primary)" }}
-          >
-            Get In Touch
-          </p>
+          <p className="section-heading-label">Get In Touch</p>
           <h2
             className="text-4xl sm:text-5xl font-bold"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
@@ -112,194 +142,182 @@ export default function Contact() {
             Ready for a fresh cut? Fill out the form below and we&apos;ll
             confirm your booking within a few hours.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-          <div
-            className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.1 }}
           >
-            <div className="glass rounded-2xl p-6 sm:p-8">
-              {formState === "sent" ? (
-                <div className="text-center py-12">
-                  <CheckCircle
-                    size={48}
-                    className="mx-auto mb-4"
-                    style={{ color: "var(--teal-light)" }}
-                  />
-                  <h3
-                    className="text-xl font-semibold mb-2"
-                    style={{ color: "var(--foreground)" }}
+            <div className="glass rounded-2xl p-6 sm:p-8" style={{ minHeight: "420px" }}>
+              <AnimatePresence mode="wait">
+                {formState === "sent" ? (
+                  <motion.div
+                    key="success"
+                    className="flex flex-col items-center justify-center text-center py-12"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 120, damping: 18 }}
                   >
-                    Request Received!
-                  </h3>
-                  <p className="text-sm" style={{ color: "var(--muted)" }}>
-                    We&apos;ll reach out to confirm your appointment soon.
-                  </p>
-                  <button
-                    className="mt-6 text-sm underline"
-                    style={{ color: "var(--teal-light)" }}
-                    onClick={() => {
-                      setFormState("idle");
-                      setForm({ name: "", phone: "", service: "", message: "" });
-                    }}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 16, delay: 0.1 }}
+                    >
+                      <CheckCircle size={52} style={{ color: "var(--teal-light)" }} />
+                    </motion.div>
+                    <h3
+                      className="text-xl font-semibold mt-5 mb-2"
+                      style={{ color: "var(--foreground)" }}
+                    >
+                      Request Received!
+                    </h3>
+                    <p className="text-sm" style={{ color: "var(--muted)" }}>
+                      We&apos;ll reach out to confirm your appointment soon.
+                    </p>
+                    <button
+                      className="mt-6 text-sm underline underline-offset-2 transition-opacity hover:opacity-70"
+                      style={{ color: "var(--teal-light)" }}
+                      onClick={() => {
+                        setFormState("idle");
+                        setForm({ name: "", phone: "", service: "", message: "" });
+                      }}
+                    >
+                      Submit another request
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
                   >
-                    Submit another request
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label
-                        className="block text-xs font-medium mb-1.5 tracking-wide"
-                        style={{ color: "var(--muted)" }}
-                        htmlFor="name"
-                      >
-                        Full Name *
-                      </label>
-                      <input
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <InputField
                         id="name"
                         name="name"
-                        type="text"
+                        label="Full Name *"
+                        placeholder="Your name"
                         required
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Your name"
-                        style={inputStyle}
-                        onFocus={(e) =>
-                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
-                        }
-                        onBlur={(e) =>
-                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
-                        }
+                      />
+                      <InputField
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        label="Phone Number *"
+                        placeholder="(555) 000-0000"
+                        required
+                        value={form.phone}
+                        onChange={handleChange}
+                        autoComplete="tel"
                       />
                     </div>
+
                     <div>
                       <label
                         className="block text-xs font-medium mb-1.5 tracking-wide"
                         style={{ color: "var(--muted)" }}
-                        htmlFor="phone"
+                        htmlFor="service"
                       >
-                        Phone Number *
+                        Service *
                       </label>
-                      <input
-                        id="phone"
-                        name="phone"
-                        type="tel"
+                      <select
+                        id="service"
+                        name="service"
                         required
-                        value={form.phone}
+                        value={form.service}
                         onChange={handleChange}
-                        placeholder="(555) 000-0000"
-                        style={inputStyle}
-                        autoComplete="tel"
-                        onFocus={(e) =>
-                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
-                        }
-                        onBlur={(e) =>
-                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
-                        }
+                        style={{ ...inputBase, cursor: "pointer" }}
+                        onFocus={(e) => Object.assign(e.currentTarget.style, focusStyle)}
+                        onBlur={(e) => Object.assign(e.currentTarget.style, blurStyle)}
+                      >
+                        <option value="" style={{ background: "var(--surface)" }}>
+                          Select a service
+                        </option>
+                        <option value="classic" style={{ background: "var(--surface)" }}>Classic Haircut</option>
+                        <option value="fade" style={{ background: "var(--surface)" }}>Skin Fade</option>
+                        <option value="beard" style={{ background: "var(--surface)" }}>Beard Trim &amp; Shape</option>
+                        <option value="combo" style={{ background: "var(--surface)" }}>Cut + Beard Combo</option>
+                        <option value="kids" style={{ background: "var(--surface)" }}>Kid&apos;s Cut</option>
+                        <option value="shave" style={{ background: "var(--surface)" }}>Hot Towel Shave</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label
+                        className="block text-xs font-medium mb-1.5 tracking-wide"
+                        style={{ color: "var(--muted)" }}
+                        htmlFor="message"
+                      >
+                        Message / Preferred Time
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={4}
+                        value={form.message}
+                        onChange={handleChange}
+                        placeholder="Any special requests or preferred appointment time..."
+                        style={{ ...inputBase, resize: "none" }}
+                        onFocus={(e) => Object.assign(e.currentTarget.style, focusStyle)}
+                        onBlur={(e) => Object.assign(e.currentTarget.style, blurStyle)}
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label
-                      className="block text-xs font-medium mb-1.5 tracking-wide"
-                      style={{ color: "var(--muted)" }}
-                      htmlFor="service"
+                    <motion.button
+                      type="submit"
+                      disabled={formState === "sending"}
+                      className="w-full py-3.5 rounded-xl font-semibold text-sm tracking-wide flex items-center justify-center gap-2 text-white"
+                      style={{
+                        background: "var(--teal-primary)",
+                        opacity: formState === "sending" ? 0.75 : 1,
+                        boxShadow: "0 4px 20px rgba(13,148,136,0.28)",
+                      }}
+                      whileHover={formState !== "sending" ? { y: -2, boxShadow: "0 8px 28px rgba(13,148,136,0.45)" } : {}}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     >
-                      Service *
-                    </label>
-                    <select
-                      id="service"
-                      name="service"
-                      required
-                      value={form.service}
-                      onChange={handleChange}
-                      style={{ ...inputStyle, cursor: "pointer" }}
-                      onFocus={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
-                      }
-                      onBlur={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
-                      }
-                    >
-                      <option value="" style={{ background: "var(--surface)" }}>
-                        Select a service
-                      </option>
-                      <option value="classic" style={{ background: "var(--surface)" }}>Classic Haircut</option>
-                      <option value="fade" style={{ background: "var(--surface)" }}>Skin Fade</option>
-                      <option value="beard" style={{ background: "var(--surface)" }}>Beard Trim &amp; Shape</option>
-                      <option value="combo" style={{ background: "var(--surface)" }}>Cut + Beard Combo</option>
-                      <option value="kids" style={{ background: "var(--surface)" }}>Kid&apos;s Cut</option>
-                      <option value="shave" style={{ background: "var(--surface)" }}>Hot Towel Shave</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      className="block text-xs font-medium mb-1.5 tracking-wide"
-                      style={{ color: "var(--muted)" }}
-                      htmlFor="message"
-                    >
-                      Message / Preferred Time
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="Any special requests or preferred appointment time..."
-                      style={{ ...inputStyle, resize: "none" }}
-                      onFocus={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
-                      }
-                      onBlur={(e) =>
-                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
-                      }
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={formState === "sending"}
-                    className="btn-primary w-full py-3.5 rounded-xl font-semibold text-sm tracking-wide flex items-center justify-center gap-2"
-                    style={{
-                      background: "var(--teal-primary)",
-                      color: "white",
-                      opacity: formState === "sending" ? 0.75 : 1,
-                    }}
-                  >
-                    {formState === "sending" ? (
-                      <>
-                        <svg
-                          className="animate-spin"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                        </svg>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={16} />
-                        Send Booking Request
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+                      {formState === "sending" ? (
+                        <>
+                          <motion.svg
+                            className="animate-spin"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                          </motion.svg>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} />
+                          Send Booking Request
+                        </>
+                      )}
+                    </motion.button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
 
-          <div
-            className={`space-y-6 transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 24 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.22 }}
           >
             {[
               {
@@ -311,14 +329,20 @@ export default function Contact() {
                 icon: Phone,
                 title: "Call or Text",
                 content: ["(555) 123-4567"],
+                href: "tel:5551234567",
               },
               {
                 icon: AtSign,
                 title: "Follow Us",
                 content: ["@dqblendz on Instagram"],
+                href: "https://instagram.com/dqblendz",
               },
-            ].map(({ icon: Icon, title, content }) => (
-              <div key={title} className="flex gap-4 items-start glass rounded-xl p-5">
+            ].map(({ icon: Icon, title, content, href }) => (
+              <div
+                key={title}
+                className="flex gap-4 items-start glass rounded-xl p-5 transition-colors duration-200"
+                style={{ border: "1px solid rgba(13,148,136,0.12)" }}
+              >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{
@@ -329,26 +353,37 @@ export default function Contact() {
                   <Icon size={18} style={{ color: "var(--teal-light)" }} />
                 </div>
                 <div>
-                  <div
-                    className="font-semibold text-sm mb-1"
-                    style={{ color: "var(--foreground)" }}
-                  >
+                  <div className="font-semibold text-sm mb-1" style={{ color: "var(--foreground)" }}>
                     {title}
                   </div>
-                  {content.map((c) => (
-                    <div
-                      key={c}
-                      className="text-sm"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      {c}
-                    </div>
-                  ))}
+                  {content.map((c) =>
+                    href ? (
+                      <a
+                        key={c}
+                        href={href}
+                        target={href.startsWith("http") ? "_blank" : undefined}
+                        rel="noopener noreferrer"
+                        className="text-sm transition-colors duration-200 hover:underline"
+                        style={{ color: "var(--muted)" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "var(--teal-light)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
+                      >
+                        {c}
+                      </a>
+                    ) : (
+                      <div key={c} className="text-sm" style={{ color: "var(--muted)" }}>
+                        {c}
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             ))}
 
-            <div className="glass rounded-xl p-5">
+            <div
+              className="glass rounded-xl p-5"
+              style={{ border: "1px solid rgba(13,148,136,0.12)" }}
+            >
               <div className="flex items-center gap-3 mb-4">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
@@ -359,10 +394,7 @@ export default function Contact() {
                 >
                   <Clock size={18} style={{ color: "var(--teal-light)" }} />
                 </div>
-                <div
-                  className="font-semibold text-sm"
-                  style={{ color: "var(--foreground)" }}
-                >
+                <div className="font-semibold text-sm" style={{ color: "var(--foreground)" }}>
                   Hours of Operation
                 </div>
               </div>
@@ -370,10 +402,11 @@ export default function Contact() {
                 {hours.map((h) => (
                   <div
                     key={h.day}
-                    className="flex justify-between items-center text-xs"
+                    className="flex justify-between items-center text-xs rounded-md px-2 py-1 transition-colors duration-150"
                     style={{
                       color: h.day === today ? "var(--teal-light)" : "var(--muted)",
                       fontWeight: h.day === today ? "600" : "400",
+                      background: h.day === today ? "rgba(13,148,136,0.08)" : "transparent",
                     }}
                   >
                     <span>{h.day}</span>
@@ -382,7 +415,7 @@ export default function Contact() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

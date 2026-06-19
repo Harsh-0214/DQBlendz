@@ -1,80 +1,54 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { useInView } from "@/hooks/useInView";
 
 const photos = [
   {
-    src: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=85",
     alt: "Skin fade haircut",
     label: "Skin Fade",
     span: "row-span-2",
   },
   {
-    src: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=700&q=85",
     alt: "Classic barbershop cut",
     label: "Classic Cut",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=85",
     alt: "Beard trim and shape",
     label: "Beard Shape",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=700&q=85",
     alt: "High fade with texture",
     label: "High Fade",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=700&q=85",
     alt: "Barber at work precision cut",
     label: "Precision Cut",
     span: "",
   },
   {
-    src: "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=600&q=80",
+    src: "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=700&q=85",
     alt: "Fresh line up and edge",
     label: "Line Up",
     span: "",
   },
 ];
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-
-  return { ref, visible };
-}
-
 export default function Gallery() {
-  const { ref, visible } = useInView();
+  const { ref, visible } = useInView(0.1);
 
   return (
     <section id="gallery" className="section-padding relative overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{ background: "var(--background)" }}
-      />
-
+      <div className="absolute inset-0" style={{ background: "var(--background)" }} />
       <div
         className="glow-orb absolute"
         style={{
@@ -87,15 +61,13 @@ export default function Gallery() {
       />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
-        <div
-          className={`text-center mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
-          <p
-            className="text-xs tracking-[0.3em] uppercase mb-3"
-            style={{ color: "var(--teal-primary)" }}
-          >
-            Our Portfolio
-          </p>
+          <p className="section-heading-label">Our Portfolio</p>
           <h2
             className="text-4xl sm:text-5xl font-bold"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
@@ -109,60 +81,74 @@ export default function Gallery() {
             Every cut is a canvas. Browse our latest work and see what precision
             and passion look like.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 auto-rows-[220px] sm:auto-rows-[260px]">
           {photos.map((photo, i) => (
-            <div
+            <motion.div
               key={photo.src}
-              className={`gallery-item rounded-xl sm:rounded-2xl cursor-pointer ${photo.span} transition-all duration-700 ${visible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
-              style={{
-                transitionDelay: `${i * 80}ms`,
-                border: "1px solid rgba(13,148,136,0.15)",
+              className={`gallery-item rounded-xl sm:rounded-2xl cursor-pointer ${photo.span}`}
+              style={{ border: "1px solid rgba(13,148,136,0.15)" }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={visible ? { opacity: 1, scale: 1 } : {}}
+              transition={{
+                type: "spring",
+                stiffness: 90,
+                damping: 20,
+                delay: i * 0.08,
               }}
             >
               <Image
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                sizes="(max-width: 1024px) 50vw, 33vw"
                 className="gallery-img"
                 style={{ objectFit: "cover" }}
               />
               <div className="gallery-overlay">
-                <span
-                  className="text-sm font-semibold tracking-wide"
-                  style={{ color: "var(--teal-accent)" }}
-                >
-                  {photo.label}
-                </span>
+                <div>
+                  <span
+                    className="text-sm font-semibold tracking-wide block"
+                    style={{ color: "var(--teal-accent)" }}
+                  >
+                    {photo.label}
+                  </span>
+                  <span className="text-xs" style={{ color: "rgba(240,253,244,0.5)" }}>
+                    DQBlendz Studio
+                  </span>
+                </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div
-          className={`text-center mt-12 transition-all duration-700 delay-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 16 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.5 }}
         >
           <p className="text-sm mb-4" style={{ color: "var(--muted)" }}>
             Follow us on Instagram for daily inspiration
           </p>
-          <a
-            href="https://instagram.com"
+          <motion.a
+            href="https://instagram.com/dqblendz"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold tracking-wide"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold tracking-wide"
             style={{
               background: "transparent",
               color: "var(--teal-light)",
               border: "1px solid rgba(13,148,136,0.35)",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = "rgba(13,148,136,0.08)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.background = "transparent")
-            }
+            whileHover={{
+              background: "rgba(13,148,136,0.08)",
+              borderColor: "rgba(13,148,136,0.55)",
+              y: -2,
+            }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
           >
             <svg
               width="16"
@@ -179,8 +165,8 @@ export default function Gallery() {
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
             </svg>
             @dqblendz
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
       </div>
     </section>
   );

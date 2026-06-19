@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const reviews = [
   {
@@ -48,17 +49,14 @@ const reviews = [
   },
 ];
 
-function StarRating({ count }: { count: number }) {
+const row1 = [...reviews, ...reviews];
+const row2 = [...[...reviews].reverse(), ...[...reviews].reverse()];
+
+function StarRow({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
-        <svg
-          key={i}
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="var(--teal-light)"
-        >
+        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="var(--teal-light)">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -66,39 +64,52 @@ function StarRating({ count }: { count: number }) {
   );
 }
 
-function useInView(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-
-  return { ref, visible };
+function Card({ r }: { r: (typeof reviews)[0] }) {
+  return (
+    <div
+      className="glass rounded-2xl p-5 flex-shrink-0 w-80"
+      style={{ border: "1px solid rgba(13,148,136,0.15)" }}
+    >
+      <div className="mb-3">
+        <Quote size={20} style={{ color: "rgba(13,148,136,0.4)" }} />
+      </div>
+      <StarRow count={r.stars} />
+      <p
+        className="text-sm leading-relaxed my-3 line-clamp-3"
+        style={{ color: "var(--muted)" }}
+      >
+        &ldquo;{r.text}&rdquo;
+      </p>
+      <div className="flex items-center gap-3 pt-3" style={{ borderTop: "1px solid rgba(13,148,136,0.1)" }}>
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+          style={{
+            background: "rgba(13,148,136,0.15)",
+            border: "1px solid rgba(13,148,136,0.3)",
+            color: "var(--teal-light)",
+          }}
+        >
+          {r.avatar}
+        </div>
+        <div>
+          <div className="text-sm font-semibold" style={{ color: "var(--foreground)" }}>
+            {r.name}
+          </div>
+          <div className="text-xs" style={{ color: "var(--muted)" }}>
+            {r.role}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function Testimonials() {
-  const { ref, visible } = useInView();
+  const { ref, visible } = useInView(0.1);
 
   return (
     <section id="testimonials" className="section-padding relative overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{ background: "var(--background)" }}
-      />
-
+      <div className="absolute inset-0" style={{ background: "var(--background)" }} />
       <div
         className="glow-orb absolute"
         style={{
@@ -112,95 +123,87 @@ export default function Testimonials() {
       />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
-        <div
-          className={`text-center mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
         >
-          <p
-            className="text-xs tracking-[0.3em] uppercase mb-3"
-            style={{ color: "var(--teal-primary)" }}
-          >
-            Client Love
-          </p>
+          <p className="section-heading-label">Client Love</p>
           <h2
             className="text-4xl sm:text-5xl font-bold"
             style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
           >
             What They&apos;re <span className="gradient-text">Saying</span>
           </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reviews.map((r, i) => (
-            <div
-              key={r.name}
-              className={`relative glass rounded-2xl p-6 card-hover transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              <div className="mb-4">
-                <Quote
-                  size={28}
-                  style={{ color: "rgba(13,148,136,0.35)" }}
-                />
-              </div>
-
-              <div className="mb-3">
-                <StarRating count={r.stars} />
-              </div>
-
-              <p
-                className="text-sm leading-relaxed mb-6"
-                style={{ color: "var(--muted)" }}
-              >
-                &ldquo;{r.text}&rdquo;
-              </p>
-
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                  style={{
-                    background: "rgba(13,148,136,0.15)",
-                    border: "1px solid rgba(13,148,136,0.3)",
-                    color: "var(--teal-light)",
-                  }}
-                >
-                  {r.avatar}
-                </div>
-                <div>
-                  <div
-                    className="font-semibold text-sm"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    {r.name}
-                  </div>
-                  <div className="text-xs" style={{ color: "var(--muted)" }}>
-                    {r.role}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          className={`mt-12 text-center transition-all duration-700 delay-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-        >
-          <div
-            className="inline-flex items-center gap-4 glass rounded-2xl px-8 py-5"
+          <p
+            className="mt-4 max-w-md mx-auto text-sm sm:text-base leading-relaxed"
+            style={{ color: "var(--muted)" }}
           >
-            <div className="flex flex-col items-center">
-              <StarRating count={5} />
-              <span className="text-xs mt-1" style={{ color: "var(--muted)" }}>
+            Don&apos;t take our word for it. Here&apos;s what our clients have to say.
+          </p>
+        </motion.div>
+      </div>
+
+      <motion.div
+        className="relative overflow-hidden"
+        style={{ marginLeft: "-1rem", marginRight: "-1rem" }}
+        initial={{ opacity: 0 }}
+        animate={visible ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div
+          className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-40 z-10"
+          style={{
+            background: "linear-gradient(90deg, var(--background), transparent)",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-40 z-10"
+          style={{
+            background: "linear-gradient(-90deg, var(--background), transparent)",
+          }}
+        />
+
+        <div className="mb-4 overflow-hidden">
+          <div className="animate-marquee-left px-4">
+            {row1.map((r, i) => (
+              <Card key={`r1-${i}`} r={r} />
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-hidden">
+          <div className="animate-marquee-right px-4">
+            {row2.map((r, i) => (
+              <Card key={`r2-${i}`} r={r} />
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="relative max-w-7xl mx-auto">
+        <motion.div
+          className="mt-14 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.45 }}
+        >
+          <div className="inline-flex items-center gap-5 glass rounded-2xl px-8 py-5">
+            <div className="flex flex-col items-center gap-1.5">
+              <StarRow count={5} />
+              <span className="text-xs" style={{ color: "var(--muted)" }}>
                 Google Reviews
               </span>
             </div>
-            <div
-              className="w-px h-10"
-              style={{ background: "var(--border)" }}
-            />
+            <div className="w-px h-10" style={{ background: "var(--border)" }} />
             <div>
               <div
                 className="text-2xl font-bold"
-                style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
+                style={{
+                  color: "var(--teal-light)",
+                  fontFamily: "var(--font-playfair)",
+                }}
               >
                 4.9 / 5
               </div>
@@ -208,8 +211,23 @@ export default function Testimonials() {
                 Based on 100+ reviews
               </div>
             </div>
+            <div className="w-px h-10" style={{ background: "var(--border)" }} />
+            <div>
+              <div
+                className="text-2xl font-bold"
+                style={{
+                  color: "var(--teal-light)",
+                  fontFamily: "var(--font-playfair)",
+                }}
+              >
+                500+
+              </div>
+              <div className="text-xs" style={{ color: "var(--muted)" }}>
+                Happy clients
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
