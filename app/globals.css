@@ -347,6 +347,28 @@ button:focus-visible {
   animation: float 4s ease-in-out infinite;
 }
 
+/* Gold sheen sweeping across a word (premium, subtle) */
+.gold-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--accent) 0%,
+    var(--accent) 40%,
+    #f6e2ad 50%,
+    var(--accent) 60%,
+    var(--accent) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+@keyframes shimmer {
+  from { background-position: 220% center; }
+  to { background-position: -220% center; }
+}
+
 /* Live "now booking" pulse */
 .pulse-dot {
   position: relative;
@@ -434,6 +456,7 @@ button:focus-visible {
   .drift-a,
   .drift-b,
   .ember,
+  .gold-shimmer,
   .pulse-dot::after {
     animation: none !important;
   }
