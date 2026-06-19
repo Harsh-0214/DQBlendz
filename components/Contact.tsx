@@ -1,133 +1,372 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { MapPin, Phone, Calendar, ArrowUpRight } from "lucide-react";
-import { Instagram } from "./icons";
+import { useState } from "react";
+import { MapPin, Phone, Clock, Send, CheckCircle, AtSign } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
-import { business } from "@/app/config";
 
-const ease = [0.23, 1, 0.32, 1] as const;
+const hours = [
+  { day: "Monday", time: "9 AM – 7 PM" },
+  { day: "Tuesday", time: "9 AM – 7 PM" },
+  { day: "Wednesday", time: "9 AM – 7 PM" },
+  { day: "Thursday", time: "9 AM – 8 PM" },
+  { day: "Friday", time: "9 AM – 8 PM" },
+  { day: "Saturday", time: "8 AM – 6 PM" },
+  { day: "Sunday", time: "10 AM – 4 PM" },
+];
+
+type FormState = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
-  const { ref, visible } = useInView(0.1);
+  const { ref, visible } = useInView();
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [form, setForm] = useState({ name: "", phone: "", service: "", message: "" });
+
   const today = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-  const rows = [
-    { icon: MapPin, label: "Location", value: `${business.address.line1}, ${business.address.line2}`, href: business.address.mapsUrl },
-    ...(business.phone ? [{ icon: Phone, label: "Call / Text", value: business.phone, href: business.phoneHref }] : []),
-    { icon: Instagram, label: "Instagram", value: business.instagramHandle, href: business.instagram },
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormState("sending");
+    setTimeout(() => {
+      setFormState("sent");
+    }, 1500);
+  };
+
+  const inputStyle = {
+    background: "rgba(10,26,22,0.6)",
+    border: "1px solid rgba(13,148,136,0.25)",
+    color: "var(--foreground)",
+    borderRadius: "10px",
+    padding: "12px 14px",
+    width: "100%",
+    fontSize: "14px",
+    outline: "none",
+    transition: "border-color 200ms ease",
+  };
 
   return (
-    <section id="contact" className="sec sec-light" ref={ref}>
-      <div className="max-w-[1400px] mx-auto">
-        <motion.div
-          className="sec-head mb-12"
-          initial={{ opacity: 0, y: 18 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
+    <section id="contact" className="section-padding relative overflow-hidden">
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--surface)" }}
+      />
+      <div className="teal-divider absolute top-0 left-0 right-0" />
+
+      {/* Glow */}
+      <div
+        className="glow-orb absolute"
+        style={{
+          width: "600px",
+          height: "600px",
+          background: "radial-gradient(circle, rgba(13,148,136,0.08) 0%, transparent 70%)",
+          top: "0",
+          right: "-20%",
+          animationDelay: "0.5s",
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto" ref={ref}>
+        {/* Heading */}
+        <div
+          className={`text-center mb-14 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         >
-          <span className="index" style={{ color: "var(--accent)" }}>05</span>
-          <span className="kicker" style={{ color: "var(--on-light-muted)" }}>Book the Chair</span>
-          <span className="rule" style={{ background: "var(--line-light)" }} />
-        </motion.div>
-
-        <motion.h2
-          className="display mb-12"
-          style={{ color: "var(--on-light)", fontSize: "clamp(3rem, 9vw, 8rem)", lineHeight: 0.86 }}
-          initial={{ opacity: 0, y: 24 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease, delay: 0.08 }}
-        >
-          Reserve your <span style={{ color: "var(--accent)" }}>chair</span>
-        </motion.h2>
-
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-          {/* Booksy panel (ink on cream) */}
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.16 }}
+          <p
+            className="text-xs tracking-[0.3em] uppercase mb-3"
+            style={{ color: "var(--teal-primary)" }}
           >
-            <div className="relative h-full grain p-9 sm:p-11 flex flex-col justify-center" style={{ background: "var(--ink)", borderRadius: "var(--radius)" }}>
-              <div
-                className="glow"
-                style={{ width: 260, height: 260, background: "radial-gradient(circle, rgba(191,139,60,0.22) 0%, transparent 70%)", top: -70, right: -70 }}
-              />
-              <div className="relative z-10">
-                <span className="kicker" style={{ color: "var(--accent)" }}>Powered by Booksy</span>
-                <h3 className="display mt-4 mb-3" style={{ color: "var(--on-dark)", fontSize: "clamp(1.9rem, 4vw, 2.8rem)" }}>
-                  Book in under a minute
-                </h3>
-                <p className="text-sm leading-relaxed mb-8 max-w-sm" style={{ color: "var(--on-dark-muted)" }}>
-                  Live availability, instant confirmation, friendly reminders.
-                  Pick your cut and a time that works — done.
-                </p>
-                <a href={business.booksyUrl} target="_blank" rel="noopener noreferrer" className="btn btn-accent w-full py-4">
-                  <Calendar size={16} />
-                  Book on Booksy
-                  <ArrowUpRight size={16} />
-                </a>
-                <p className="kicker text-center mt-5" style={{ color: "var(--on-dark-faint)", fontSize: "0.62rem" }}>
-                  Questions? DM{" "}
-                  <a href={business.instagram} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-soft)" }}>
-                    {business.instagramHandle}
-                  </a>
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Hours receipt + contact */}
-          <motion.div
-            className="flex flex-col gap-6"
-            initial={{ opacity: 0, y: 22 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.26 }}
+            Get In Touch
+          </p>
+          <h2
+            className="text-4xl sm:text-5xl font-bold"
+            style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
           >
-            <div className="p-7 sm:p-8" style={{ border: "1px solid var(--line-light)", borderRadius: "var(--radius)" }}>
-              <div className="flex items-center justify-between mb-5">
-                <span className="display" style={{ color: "var(--on-light)", fontSize: "1.6rem" }}>Hours</span>
-                <span className="kicker" style={{ color: "var(--on-light-muted)" }}>Walk-in / Booked</span>
-              </div>
-              <div className="space-y-0">
-                {business.hours.map((h) => {
-                  const active = h.day === today;
-                  return (
-                    <div
-                      key={h.day}
-                      className="flex items-center justify-between py-2 mono text-xs"
-                      style={{ borderBottom: "1px dashed var(--line-light)", color: active ? "var(--accent)" : "var(--on-light-muted)", fontWeight: active ? 700 : 400 }}
-                    >
-                      <span className="uppercase tracking-wider">{h.day}{active ? " · Today" : ""}</span>
-                      <span>{h.time}</span>
+            Book Your <span className="gradient-text">Appointment</span>
+          </h2>
+          <p
+            className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed"
+            style={{ color: "var(--muted)" }}
+          >
+            Ready for a fresh cut? Fill out the form below and we&apos;ll
+            confirm your booking within a few hours.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          {/* Form */}
+          <div
+            className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <div className="glass rounded-2xl p-6 sm:p-8">
+              {formState === "sent" ? (
+                <div className="text-center py-12">
+                  <CheckCircle
+                    size={48}
+                    className="mx-auto mb-4"
+                    style={{ color: "var(--teal-light)" }}
+                  />
+                  <h3
+                    className="text-xl font-semibold mb-2"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    Request Received!
+                  </h3>
+                  <p className="text-sm" style={{ color: "var(--muted)" }}>
+                    We&apos;ll reach out to confirm your appointment soon.
+                  </p>
+                  <button
+                    className="mt-6 text-sm underline"
+                    style={{ color: "var(--teal-light)" }}
+                    onClick={() => {
+                      setFormState("idle");
+                      setForm({ name: "", phone: "", service: "", message: "" });
+                    }}
+                  >
+                    Submit another request
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        className="block text-xs font-medium mb-1.5 tracking-wide"
+                        style={{ color: "var(--muted)" }}
+                        htmlFor="name"
+                      >
+                        Full Name *
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="Your name"
+                        style={inputStyle}
+                        onFocus={(e) =>
+                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
+                        }
+                        onBlur={(e) =>
+                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
+                        }
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="grid gap-3">
-              {rows.map(({ icon: Icon, label, value, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href?.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 p-5"
-                  style={{ border: "1px solid var(--line-light)", borderRadius: "var(--radius)" }}
-                >
-                  <Icon size={17} style={{ color: "var(--accent)" }} />
-                  <div className="min-w-0">
-                    <div className="kicker" style={{ color: "var(--on-light-muted)", fontSize: "0.6rem" }}>{label}</div>
-                    <div className="text-sm mt-0.5 transition-colors duration-200 group-hover:text-[var(--accent)] truncate" style={{ color: "var(--on-light)" }}>
-                      {value}
+                    <div>
+                      <label
+                        className="block text-xs font-medium mb-1.5 tracking-wide"
+                        style={{ color: "var(--muted)" }}
+                        htmlFor="phone"
+                      >
+                        Phone Number *
+                      </label>
+                      <input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        required
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="(555) 000-0000"
+                        style={inputStyle}
+                        autoComplete="tel"
+                        onFocus={(e) =>
+                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
+                        }
+                        onBlur={(e) =>
+                          (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
+                        }
+                      />
                     </div>
                   </div>
-                </a>
-              ))}
+
+                  <div>
+                    <label
+                      className="block text-xs font-medium mb-1.5 tracking-wide"
+                      style={{ color: "var(--muted)" }}
+                      htmlFor="service"
+                    >
+                      Service *
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      required
+                      value={form.service}
+                      onChange={handleChange}
+                      style={{ ...inputStyle, cursor: "pointer" }}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
+                      }
+                    >
+                      <option value="" style={{ background: "var(--surface)" }}>
+                        Select a service
+                      </option>
+                      <option value="classic" style={{ background: "var(--surface)" }}>Classic Haircut</option>
+                      <option value="fade" style={{ background: "var(--surface)" }}>Skin Fade</option>
+                      <option value="beard" style={{ background: "var(--surface)" }}>Beard Trim & Shape</option>
+                      <option value="combo" style={{ background: "var(--surface)" }}>Cut + Beard Combo</option>
+                      <option value="kids" style={{ background: "var(--surface)" }}>Kid&apos;s Cut</option>
+                      <option value="shave" style={{ background: "var(--surface)" }}>Hot Towel Shave</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      className="block text-xs font-medium mb-1.5 tracking-wide"
+                      style={{ color: "var(--muted)" }}
+                      htmlFor="message"
+                    >
+                      Message / Preferred Time
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={4}
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="Any special requests or preferred appointment time..."
+                      style={{ ...inputStyle, resize: "none" }}
+                      onFocus={(e) =>
+                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.6)")
+                      }
+                      onBlur={(e) =>
+                        (e.currentTarget.style.borderColor = "rgba(13,148,136,0.25)")
+                      }
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={formState === "sending"}
+                    className="btn-primary w-full py-3.5 rounded-xl font-semibold text-sm tracking-wide flex items-center justify-center gap-2"
+                    style={{
+                      background: "var(--teal-primary)",
+                      color: "white",
+                      opacity: formState === "sending" ? 0.75 : 1,
+                    }}
+                  >
+                    {formState === "sending" ? (
+                      <>
+                        <svg
+                          className="animate-spin"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        Send Booking Request
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
-          </motion.div>
+          </div>
+
+          {/* Info */}
+          <div
+            className={`space-y-6 transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            {/* Info cards */}
+            {[
+              {
+                icon: MapPin,
+                title: "Find Us",
+                content: ["123 Main Street", "Your City, Province A1B 2C3"],
+              },
+              {
+                icon: Phone,
+                title: "Call or Text",
+                content: ["(555) 123-4567"],
+              },
+              {
+                icon: AtSign,
+                title: "Follow Us",
+                content: ["@dqblendz on Instagram"],
+              },
+            ].map(({ icon: Icon, title, content }) => (
+              <div key={title} className="flex gap-4 items-start glass rounded-xl p-5">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: "rgba(13,148,136,0.12)",
+                    border: "1px solid rgba(13,148,136,0.25)",
+                  }}
+                >
+                  <Icon size={18} style={{ color: "var(--teal-light)" }} />
+                </div>
+                <div>
+                  <div
+                    className="font-semibold text-sm mb-1"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    {title}
+                  </div>
+                  {content.map((c) => (
+                    <div
+                      key={c}
+                      className="text-sm"
+                      style={{ color: "var(--muted)" }}
+                    >
+                      {c}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Hours */}
+            <div className="glass rounded-xl p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div
+                  className="w-10 h-10 rounded-lg flex items-center justify-center"
+                  style={{
+                    background: "rgba(13,148,136,0.12)",
+                    border: "1px solid rgba(13,148,136,0.25)",
+                  }}
+                >
+                  <Clock size={18} style={{ color: "var(--teal-light)" }} />
+                </div>
+                <div
+                  className="font-semibold text-sm"
+                  style={{ color: "var(--foreground)" }}
+                >
+                  Hours of Operation
+                </div>
+              </div>
+              <div className="space-y-2">
+                {hours.map((h) => (
+                  <div
+                    key={h.day}
+                    className="flex justify-between items-center text-xs"
+                    style={{
+                      color: h.day === today ? "var(--teal-light)" : "var(--muted)",
+                      fontWeight: h.day === today ? "600" : "400",
+                    }}
+                  >
+                    <span>{h.day}</span>
+                    <span>{h.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

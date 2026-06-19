@@ -1,126 +1,168 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { Award, Heart, Users } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
-import { business } from "@/app/config";
 
-const ease = [0.23, 1, 0.32, 1] as const;
+const highlights = [
+  {
+    icon: Award,
+    title: "Certified Master Barber",
+    desc: "Trained with industry-leading barbers and certified with top grooming credentials.",
+  },
+  {
+    icon: Heart,
+    title: "Passion-Driven Craft",
+    desc: "Every client leaves the chair with more than a haircut — they leave with confidence.",
+  },
+  {
+    icon: Users,
+    title: "Community Focused",
+    desc: "DQBlendz is more than a barbershop — it's a place where the community connects.",
+  },
+];
 
 export default function About() {
-  const { ref, visible } = useInView(0.12);
+  const { ref, visible } = useInView();
 
   return (
-    <section id="about" className="sec sec-light overflow-hidden" ref={ref}>
-      <div className="max-w-[1400px] mx-auto">
-        <motion.div
-          className="sec-head mb-12"
-          initial={{ opacity: 0, y: 18 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
+    <section id="about" className="section-padding relative overflow-hidden">
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--surface)" }}
+      />
+
+      {/* Glow */}
+      <div
+        className="glow-orb absolute"
+        style={{
+          width: "600px",
+          height: "600px",
+          background: "radial-gradient(circle, rgba(13,148,136,0.09) 0%, transparent 70%)",
+          top: "0",
+          left: "-20%",
+          animationDelay: "1.5s",
+        }}
+      />
+
+      <div className="teal-divider absolute top-0 left-0 right-0" />
+
+      <div
+        className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+        ref={ref}
+      >
+        {/* Image */}
+        <div
+          className={`relative transition-all duration-700 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}
         >
-          <span className="index" style={{ color: "var(--accent)" }}>01</span>
-          <span className="kicker" style={{ color: "var(--on-light-muted)" }}>The Barber</span>
-          <span className="rule" style={{ background: "var(--line-light)" }} />
-        </motion.div>
-
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Story */}
-          <div className="lg:col-span-7">
-            <motion.h2
-              className="display"
-              style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 5.5rem)" }}
-              initial={{ opacity: 0, y: 24 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.08 }}
-            >
-              The man behind
-              <br />
-              the <span style={{ color: "var(--accent)" }}>fade</span>
-            </motion.h2>
-
-            <motion.div
-              className="mt-7 space-y-4 max-w-xl text-[0.95rem] leading-relaxed"
-              style={{ color: "var(--on-light-muted)" }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.2 }}
-            >
-              <p>
-                DQ Blendz is the underground barber Vaughan keeps quiet about.
-                With over {business.yearsExperience} years behind the chair, DQ
-                blends old-school discipline with modern technique — skin fades,
-                classic tapers, beard sculpts, and lineups done with a steady
-                hand and zero shortcuts.
-              </p>
-              <p>
-                That same precision has earned the trust of pro athletes who
-                can&apos;t afford a bad cut on camera. No rush, no ego — just a
-                chair, a mirror, and a result you&apos;ll want to show off.
-              </p>
-            </motion.div>
-
-            {/* Credential badges */}
-            <motion.div
-              className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3"
-              initial={{ opacity: 0, y: 16 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease, delay: 0.32 }}
-            >
-              <span className="kicker" style={{ color: "var(--on-light-muted)" }}>Trusted by</span>
-              {["Toronto FC", "Toronto Argonauts"].map((t) => (
-                <span
-                  key={t}
-                  className="kicker px-3 py-2"
-                  style={{ color: "var(--on-light)", border: "1px solid var(--line-light)", borderRadius: "var(--radius)" }}
-                >
-                  {t}
-                </span>
-              ))}
-            </motion.div>
+          <div
+            className="relative rounded-2xl overflow-hidden aspect-[4/5] max-w-sm mx-auto lg:max-w-none"
+            style={{ border: "1px solid rgba(13,148,136,0.2)" }}
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=700&q=80"
+              alt="DQBlendz barber at work"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              style={{ objectFit: "cover" }}
+              priority
+            />
+            {/* Overlay gradient */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to top right, rgba(5,13,11,0.6) 0%, transparent 60%)",
+              }}
+            />
           </div>
 
-          {/* Crest (no photo) */}
-          <motion.div
-            className="lg:col-span-5"
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={visible ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.24 }}
+          {/* Floating badge */}
+          <div
+            className="absolute bottom-6 left-6 glass rounded-xl px-5 py-4"
+            style={{ maxWidth: "180px" }}
           >
             <div
-              className="relative aspect-square w-full max-w-sm mx-auto grain"
-              style={{ background: "var(--ink)", borderRadius: "var(--radius)" }}
+              className="text-2xl font-bold"
+              style={{ color: "var(--teal-light)", fontFamily: "var(--font-playfair)" }}
             >
-              <div className="absolute inset-4 sm:inset-5" style={{ border: "1px solid var(--accent)", opacity: 0.5 }} />
-              <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-                <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>Est. — Vaughan</span>
-                <span
-                  className="display my-3"
-                  style={{ color: "var(--accent)", fontSize: "clamp(5rem, 13vw, 8rem)", lineHeight: 0.8 }}
-                >
-                  DQ
-                </span>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <span className="diamond" />
-                  <span className="diamond" style={{ opacity: 0.6 }} />
-                  <span className="diamond" />
-                </div>
-                <span className="kicker" style={{ color: "var(--on-dark)" }}>Master Barber</span>
-              </div>
-
-              {/* big years stat tab */}
-              <div
-                className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-5 py-2.5 flex items-baseline gap-2"
-                style={{ background: "var(--accent)", borderRadius: "var(--radius)" }}
-              >
-                <span className="display" style={{ color: "#160f04", fontSize: "1.6rem" }}>
-                  {business.yearsExperience}+
-                </span>
-                <span className="kicker" style={{ color: "#2a1d07" }}>Years</span>
-              </div>
+              8+ Years
             </div>
-          </motion.div>
+            <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
+              Cutting & Crafting
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div
+          className={`transition-all duration-700 delay-200 ${visible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}`}
+        >
+          <p
+            className="text-xs tracking-[0.3em] uppercase mb-3"
+            style={{ color: "var(--teal-primary)" }}
+          >
+            Our Story
+          </p>
+          <h2
+            className="text-4xl sm:text-5xl font-bold mb-6"
+            style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
+          >
+            More Than a <span className="gradient-text">Haircut</span>
+          </h2>
+
+          <div className="space-y-4 text-sm sm:text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+            <p>
+              DQBlendz was born from a simple belief: every person deserves to
+              walk out of the chair feeling their absolute best. Founded by DQ,
+              a master barber with over 8 years of hands-on experience, our
+              studio blends old-school barbering tradition with modern technique.
+            </p>
+            <p>
+              From skin fades and classic taper cuts to beard sculpting and hot
+              towel shaves — we approach every client with precision, respect,
+              and genuine care. No rush, no shortcuts. Just great cuts.
+            </p>
+          </div>
+
+          {/* Highlights */}
+          <div className="mt-8 space-y-4">
+            {highlights.map((h, i) => {
+              const Icon = h.icon;
+              return (
+                <div
+                  key={h.title}
+                  className={`flex gap-4 items-start transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+                  style={{ transitionDelay: `${300 + i * 100}ms` }}
+                >
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                    style={{
+                      background: "rgba(13,148,136,0.12)",
+                      border: "1px solid rgba(13,148,136,0.25)",
+                    }}
+                  >
+                    <Icon size={18} style={{ color: "var(--teal-light)" }} />
+                  </div>
+                  <div>
+                    <div
+                      className="font-semibold text-sm mb-1"
+                      style={{ color: "var(--foreground)" }}
+                    >
+                      {h.title}
+                    </div>
+                    <div className="text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                      {h.desc}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
+
+      <div className="teal-divider absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

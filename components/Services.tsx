@@ -1,121 +1,179 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Calendar } from "lucide-react";
+import { Scissors, Zap, Star, Clock } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
-import { business } from "@/app/config";
 
 const services = [
-  { title: "Classic Haircut", desc: "Timeless cut tailored to your shape, washed and styled.", price: "$30", duration: "45m", tag: "" },
-  { title: "Skin Fade", desc: "Skin-to-length fade — crisp, clean, flawlessly blended.", price: "$40", duration: "50m", tag: "Most Booked" },
-  { title: "Beard Trim & Shape", desc: "Sharp, symmetrical shaping that frames the jaw.", price: "$20", duration: "25m", tag: "" },
-  { title: "Cut + Beard Combo", desc: "Full cut paired with beard grooming. Head to chin.", price: "$55", duration: "70m", tag: "" },
-  { title: "Kid's Cut", desc: "Patient, precise cuts — every kid leaves grinning.", price: "$22", duration: "35m", tag: "" },
-  { title: "Hot Towel Shave", desc: "Straight-razor shave with a hot towel finish.", price: "$35", duration: "40m", tag: "" },
+  {
+    icon: Scissors,
+    title: "Classic Haircut",
+    description:
+      "A timeless cut tailored to your face shape and personal style. Includes wash and style.",
+    price: "From $30",
+    duration: "45 min",
+    popular: false,
+  },
+  {
+    icon: Zap,
+    title: "Skin Fade",
+    description:
+      "Precision fade from skin to your desired length — crisp, clean, and flawlessly blended.",
+    price: "From $40",
+    duration: "50 min",
+    popular: true,
+  },
+  {
+    icon: Star,
+    title: "Beard Trim & Shape",
+    description:
+      "Expert shaping and trimming to keep your beard sharp, symmetrical, and defined.",
+    price: "From $20",
+    duration: "25 min",
+    popular: false,
+  },
+  {
+    icon: Scissors,
+    title: "Cut + Beard Combo",
+    description:
+      "Full haircut combined with beard grooming for a complete fresh look from head to chin.",
+    price: "From $55",
+    duration: "70 min",
+    popular: false,
+  },
+  {
+    icon: Zap,
+    title: "Kid's Cut",
+    description:
+      "Patient, precise cuts for kids. We make sure every child leaves looking and feeling great.",
+    price: "From $22",
+    duration: "35 min",
+    popular: false,
+  },
+  {
+    icon: Star,
+    title: "Hot Towel Shave",
+    description:
+      "A luxurious straight-razor shave with hot towel treatment for the smoothest finish.",
+    price: "From $35",
+    duration: "40 min",
+    popular: false,
+  },
 ];
 
-const ease = [0.23, 1, 0.32, 1] as const;
-
 export default function Services() {
-  const { ref, visible } = useInView(0.1);
+  const { ref, visible } = useInView();
 
   return (
-    <section id="services" className="sec sec-dark grain" ref={ref}>
-      <div className="relative z-10 max-w-[1400px] mx-auto">
-        <motion.div
-          className="sec-head mb-12"
-          initial={{ opacity: 0, y: 18 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
-        >
-          <span className="index" style={{ color: "var(--accent)" }}>02</span>
-          <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>The Cut List</span>
-          <span className="rule" style={{ background: "var(--line-dark)" }} />
-        </motion.div>
+    <section id="services" className="section-padding relative">
+      {/* Background */}
+      <div
+        className="absolute inset-0"
+        style={{ background: "var(--surface)" }}
+      />
+      <div className="teal-divider absolute top-0 left-0 right-0" />
 
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <motion.h2
-            className="display"
-            style={{ color: "var(--on-dark)", fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.08 }}
+      <div className="relative max-w-7xl mx-auto" ref={ref}>
+        {/* Heading */}
+        <div
+          className={`text-center mb-16 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        >
+          <p
+            className="text-xs tracking-[0.3em] uppercase mb-3"
+            style={{ color: "var(--teal-primary)" }}
           >
-            Services &amp; <span style={{ color: "var(--accent)" }}>Pricing</span>
-          </motion.h2>
-          <motion.p
-            className="max-w-xs text-sm leading-relaxed"
-            style={{ color: "var(--on-dark-muted)" }}
-            initial={{ opacity: 0, y: 16 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.18 }}
+            What We Offer
+          </p>
+          <h2
+            className="text-4xl sm:text-5xl font-bold"
+            style={{ fontFamily: "var(--font-playfair)", color: "var(--foreground)" }}
           >
-            Honest pricing, no surprises. Final rates confirmed when you book on
-            Booksy.
-          </motion.p>
+            Our <span className="gradient-text">Services</span>
+          </h2>
+          <p className="mt-4 max-w-lg mx-auto text-sm sm:text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+            Every service is delivered with care, attention to detail, and
+            expert technique.
+          </p>
         </div>
 
-        <div className="border-t" style={{ borderColor: "var(--line-dark)" }}>
-          {services.map((s, i) => (
-            <motion.a
-              key={s.title}
-              href={business.booksyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group grid grid-cols-[auto_1fr_auto] sm:grid-cols-[auto_1fr_auto_auto] items-center gap-4 sm:gap-8 py-6 sm:py-7 border-b"
-              style={{ borderColor: "var(--line-dark)" }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, ease, delay: 0.05 + i * 0.06 }}
-            >
-              <span className="index hidden sm:block" style={{ color: "var(--on-dark-faint)" }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-
-              <div className="min-w-0">
-                <div className="flex items-center gap-3 flex-wrap">
-                  <h3
-                    className="display transition-colors duration-200 group-hover:text-[var(--accent-soft)]"
-                    style={{ color: "var(--on-dark)", fontSize: "clamp(1.5rem, 3vw, 2.1rem)" }}
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={s.title}
+                className={`relative glass rounded-2xl p-6 card-hover flex flex-col transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                {s.popular && (
+                  <span
+                    className="absolute top-4 right-4 text-xs font-semibold px-2.5 py-1 rounded-full"
+                    style={{
+                      background: "rgba(13,148,136,0.2)",
+                      color: "var(--teal-accent)",
+                      border: "1px solid rgba(13,148,136,0.35)",
+                    }}
                   >
-                    {s.title}
-                  </h3>
-                  {s.tag && (
-                    <span
-                      className="kicker px-2 py-1"
-                      style={{ color: "var(--accent-soft)", border: "1px solid var(--line-dark)", borderRadius: "var(--radius)", fontSize: "0.6rem" }}
-                    >
-                      {s.tag}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-[0.82rem] leading-snug" style={{ color: "var(--on-dark-muted)" }}>
-                  {s.desc}
-                </p>
-              </div>
+                    Most Popular
+                  </span>
+                )}
 
-              <span className="mono hidden sm:block text-xs" style={{ color: "var(--on-dark-faint)" }}>
-                {s.duration}
-              </span>
-              <span className="display text-right" style={{ color: "var(--accent-soft)", fontSize: "1.6rem" }}>
-                {s.price}
-              </span>
-            </motion.a>
-          ))}
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+                  style={{
+                    background: "rgba(13,148,136,0.12)",
+                    border: "1px solid rgba(13,148,136,0.25)",
+                  }}
+                >
+                  <Icon size={20} style={{ color: "var(--teal-light)" }} />
+                </div>
+
+                <h3
+                  className="text-lg font-semibold mb-2"
+                  style={{ color: "var(--foreground)" }}
+                >
+                  {s.title}
+                </h3>
+                <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: "var(--muted)" }}>
+                  {s.description}
+                </p>
+
+                <div className="flex items-center justify-between">
+                  <span
+                    className="text-lg font-bold"
+                    style={{ color: "var(--teal-light)" }}
+                  >
+                    {s.price}
+                  </span>
+                  <span
+                    className="flex items-center gap-1 text-xs"
+                    style={{ color: "var(--muted)" }}
+                  >
+                    <Clock size={12} />
+                    {s.duration}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <motion.div
-          className="mt-12 flex justify-center"
-          initial={{ opacity: 0, y: 14 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease, delay: 0.3 }}
-        >
-          <a href={business.booksyUrl} target="_blank" rel="noopener noreferrer" className="btn btn-accent px-8 py-4">
-            <Calendar size={16} />
+        {/* CTA */}
+        <div className={`text-center mt-12 transition-all duration-700 delay-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <button
+            onClick={() =>
+              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm tracking-wide"
+            style={{ background: "var(--teal-primary)", color: "white" }}
+          >
             Book Your Service
-          </a>
-        </motion.div>
+            <Scissors size={16} />
+          </button>
+        </div>
       </div>
+
+      <div className="teal-divider absolute bottom-0 left-0 right-0" />
     </section>
   );
 }
