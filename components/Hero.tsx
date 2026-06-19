@@ -24,86 +24,54 @@ export default function Hero() {
 
   return (
     <section className="sec-dark relative min-h-dvh flex flex-col overflow-hidden grain pt-[72px] md:pt-[84px]">
-      {/* Ambient drifting light (right-weighted, brighter) */}
+      {/* Coherent warm wash — symmetric, no seams */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(125% 95% at 50% 28%, rgba(191,139,60,0.20) 0%, rgba(191,139,60,0.07) 38%, transparent 66%)",
+        }}
+      />
+
+      {/* Two large balanced drifting glows for subtle life */}
       <div
         className="glow drift-a"
         style={{
-          width: 640,
-          height: 640,
-          background: "radial-gradient(circle, rgba(191,139,60,0.30) 0%, transparent 70%)",
-          top: "2%",
-          right: "6%",
+          width: 780,
+          height: 780,
+          background: "radial-gradient(circle, rgba(224,182,103,0.13) 0%, transparent 70%)",
+          top: "-8%",
+          left: "8%",
         }}
       />
       <div
         className="glow drift-b"
         style={{
-          width: 520,
-          height: 520,
-          background: "radial-gradient(circle, rgba(224,182,103,0.18) 0%, transparent 70%)",
-          bottom: "4%",
-          right: "26%",
+          width: 780,
+          height: 780,
+          background: "radial-gradient(circle, rgba(191,139,60,0.15) 0%, transparent 70%)",
+          top: "0%",
+          right: "8%",
         }}
       />
 
-      {/* Matching warm light on the left — behind the logo + wordmark */}
+      {/* Full-width dot-grid, softly faded toward the edges (symmetric) */}
       <div
-        className="glow drift-b"
+        className="dot-grid absolute inset-0 pointer-events-none"
         style={{
-          width: 600,
-          height: 600,
-          background: "radial-gradient(circle, rgba(191,139,60,0.26) 0%, transparent 70%)",
-          top: "-6%",
-          left: "-8%",
-        }}
-      />
-      <div
-        className="glow drift-a"
-        style={{
-          width: 460,
-          height: 460,
-          background: "radial-gradient(circle, rgba(224,182,103,0.14) 0%, transparent 70%)",
-          bottom: "2%",
-          left: "2%",
-        }}
-      />
-
-      {/* Soft diagonal light beams (both sides) */}
-      <div
-        className="absolute inset-y-0 left-0 w-[48%] pointer-events-none hidden md:block"
-        style={{
-          background:
-            "linear-gradient(65deg, transparent 0%, rgba(224,182,103,0.05) 40%, rgba(191,139,60,0.09) 58%, transparent 80%)",
-        }}
-      />
-      <div
-        className="absolute inset-y-0 right-0 w-[55%] pointer-events-none hidden md:block"
-        style={{
-          background:
-            "linear-gradient(115deg, transparent 0%, rgba(224,182,103,0.06) 45%, rgba(191,139,60,0.10) 60%, transparent 78%)",
-        }}
-      />
-
-      {/* Dot-grid texture behind the text */}
-      <div
-        className="dot-grid absolute inset-y-0 left-0 w-[62%] pointer-events-none"
-        style={{
-          opacity: 0.14,
-          WebkitMaskImage: "radial-gradient(75% 80% at 28% 45%, #000 0%, transparent 78%)",
-          maskImage: "radial-gradient(75% 80% at 28% 45%, #000 0%, transparent 78%)",
+          opacity: 0.1,
+          WebkitMaskImage: "radial-gradient(110% 100% at 50% 40%, #000 0%, transparent 82%)",
+          maskImage: "radial-gradient(110% 100% at 50% 40%, #000 0%, transparent 82%)",
         }}
       />
 
       {/* Floating embers */}
       <Embers />
 
-      {/* Faint pinstripe texture */}
-      <div className="pinstripe absolute inset-0 pointer-events-none" />
-
-      {/* Soft vignette for depth */}
+      {/* Soft, symmetric vignette for depth */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(130% 100% at 22% 45%, transparent 48%, rgba(0,0,0,0.55) 100%)" }}
+        style={{ background: "radial-gradient(135% 115% at 50% 38%, transparent 56%, rgba(0,0,0,0.5) 100%)" }}
       />
 
       {/* Center stage — aligned to the navbar container so it sits under the logo */}
