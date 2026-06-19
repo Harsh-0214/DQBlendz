@@ -1,46 +1,38 @@
 /**
- * Brand mark for DQ Blendz — a brass "DQ" monogram inside a thin ring,
- * paired with an editorial wordmark. Stands in until DQ has a real logo.
+ * DQ Blendz brand mark — a framed "DQ" monogram + condensed wordmark.
+ * `tone` adapts colors for dark or light section backgrounds.
  */
 
-export function Monogram({ size = 38 }: { size?: number }) {
+export function Monogram({
+  size = 38,
+  tone = "dark",
+}: {
+  size?: number;
+  tone?: "dark" | "light";
+}) {
+  const border = tone === "dark" ? "var(--line-dark)" : "var(--line-light)";
   return (
     <span
       className="relative inline-flex items-center justify-center flex-shrink-0"
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        border: `1px solid ${border}`,
+        borderRadius: "var(--radius)",
+      }}
       aria-hidden="true"
     >
-      <svg width={size} height={size} viewBox="0 0 44 44" fill="none">
-        <circle
-          cx="22"
-          cy="22"
-          r="20.5"
-          stroke="var(--brass)"
-          strokeWidth="1"
-          opacity="0.55"
-        />
-        <circle
-          cx="22"
-          cy="22"
-          r="17"
-          stroke="var(--brass)"
-          strokeWidth="0.75"
-          opacity="0.3"
-        />
-        <text
-          x="22"
-          y="22"
-          textAnchor="middle"
-          dominantBaseline="central"
-          fontFamily="var(--font-playfair), Georgia, serif"
-          fontSize="15"
-          fontWeight="700"
-          letterSpacing="0.5"
-          fill="var(--brass-light)"
-        >
-          DQ
-        </text>
-      </svg>
+      <span
+        className="display"
+        style={{
+          color: "var(--accent)",
+          fontSize: size * 0.46,
+          lineHeight: 1,
+          marginTop: size * 0.04,
+        }}
+      >
+        DQ
+      </span>
     </span>
   );
 }
@@ -48,32 +40,27 @@ export function Monogram({ size = 38 }: { size?: number }) {
 export default function Logo({
   size = 38,
   showText = true,
+  tone = "dark",
 }: {
   size?: number;
   showText?: boolean;
+  tone?: "dark" | "light";
 }) {
+  const ink = tone === "dark" ? "var(--on-dark)" : "var(--on-light)";
   return (
     <span className="flex items-center gap-3">
-      <Monogram size={size} />
+      <Monogram size={size} tone={tone} />
       {showText && (
         <span className="flex flex-col leading-none">
           <span
-            className="font-display font-semibold uppercase"
-            style={{
-              color: "var(--ivory)",
-              fontSize: size * 0.46,
-              letterSpacing: "0.18em",
-            }}
+            className="display"
+            style={{ color: ink, fontSize: size * 0.58, letterSpacing: "0.06em" }}
           >
             DQ Blendz
           </span>
           <span
-            className="uppercase mt-[5px]"
-            style={{
-              color: "var(--brass)",
-              fontSize: size * 0.2,
-              letterSpacing: "0.42em",
-            }}
+            className="kicker mt-[3px]"
+            style={{ color: "var(--accent)", fontSize: size * 0.2, letterSpacing: "0.3em" }}
           >
             Barber Studio
           </span>

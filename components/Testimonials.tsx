@@ -1,29 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const reviews = [
-  { name: "Marcus T.", role: "Regular", text: "DQ is simply the best barber I've ever had. The attention to detail on my fade is unmatched. Three years deep and I won't go anywhere else.", avatar: "MT" },
-  { name: "Jordan K.", role: "New Client", text: "First time here and I was blown away. Clean shop, professional vibe, and DQ actually listened to exactly what I wanted. Came out fresh.", avatar: "JK" },
-  { name: "Andre S.", role: "Regular", text: "The beard trim and lineup combo is everything. Steadiest hand in the game — my lineup is always razor sharp. 10/10 every visit.", avatar: "AS" },
-  { name: "Chris M.", role: "Regular", text: "Great atmosphere, great conversation, and even better cuts. DQ Blendz is the only spot in the city I trust with my hair.", avatar: "CM" },
-  { name: "Darnell P.", role: "VIP", text: "Been to barbershops all over and DQ Blendz is on another level. Clean, precise, and consistent every single time.", avatar: "DP" },
-  { name: "Tyler B.", role: "New Client", text: "Brought my son here for his first real haircut. DQ was patient and made him comfortable. We're definitely coming back.", avatar: "TB" },
+  { name: "Marcus T.", role: "Regular", text: "Best barber I've ever had. The detail on my fade is unmatched — three years deep and I'm not going anywhere else." },
+  { name: "Jordan K.", role: "New Client", text: "Blown away first visit. Clean shop, real professional, and DQ nailed exactly what I asked for." },
+  { name: "Andre S.", role: "Regular", text: "Steadiest hand in the game. My lineup is always razor sharp. 10 out of 10 every single time." },
+  { name: "Chris M.", role: "Regular", text: "Great vibe, even better cuts. DQ Blendz is the only spot in the city I trust with my hair." },
+  { name: "Darnell P.", role: "VIP", text: "Been to shops all over and this is another level. Clean, precise, consistent. Every time." },
+  { name: "Tyler B.", role: "New Client", text: "Brought my son for his first real cut. Patient, kind, and sharp. We're regulars now." },
 ];
-
-const row1 = [...reviews, ...reviews];
-const row2 = [...[...reviews].reverse(), ...[...reviews].reverse()];
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
-function Stars() {
+function Stars({ light = false }: { light?: boolean }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width="13" height="13" viewBox="0 0 24 24" fill="var(--brass)">
+        <svg key={i} width="12" height="12" viewBox="0 0 24 24" fill={light ? "var(--accent-soft)" : "var(--accent)"}>
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
       ))}
@@ -33,27 +29,17 @@ function Stars() {
 
 function Card({ r }: { r: (typeof reviews)[number] }) {
   return (
-    <div className="panel rounded-sm p-6 flex-shrink-0 w-[320px]">
-      <Quote size={22} style={{ color: "var(--brass-deep)" }} />
-      <p className="text-sm leading-relaxed my-4" style={{ color: "var(--foreground)" }}>
+    <div
+      className="flex-shrink-0 w-[300px] p-6 mr-4"
+      style={{ border: "1px solid var(--line-dark)", borderRadius: "var(--radius)", background: "var(--ink-2)" }}
+    >
+      <Stars />
+      <p className="text-sm leading-relaxed my-4" style={{ color: "var(--on-dark)" }}>
         &ldquo;{r.text}&rdquo;
       </p>
-      <div className="flex items-center gap-3 pt-4" style={{ borderTop: "1px solid var(--border-soft)" }}>
-        <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0"
-          style={{ background: "var(--surface-3)", border: "1px solid var(--border)", color: "var(--brass-light)" }}
-        >
-          {r.avatar}
-        </div>
-        <div className="flex-1">
-          <div className="text-sm font-medium" style={{ color: "var(--ivory)" }}>
-            {r.name}
-          </div>
-          <div className="text-[0.7rem] uppercase tracking-wider" style={{ color: "var(--muted)" }}>
-            {r.role}
-          </div>
-        </div>
-        <Stars />
+      <div className="flex items-center justify-between pt-3" style={{ borderTop: "1px solid var(--line-dark)" }}>
+        <span className="kicker" style={{ color: "var(--on-dark)" }}>{r.name}</span>
+        <span className="kicker" style={{ color: "var(--on-dark-faint)", fontSize: "0.6rem" }}>{r.role}</span>
       </div>
     </div>
   );
@@ -61,91 +47,87 @@ function Card({ r }: { r: (typeof reviews)[number] }) {
 
 export default function Testimonials() {
   const { ref, visible } = useInView(0.08);
+  const featured = reviews[0];
+  const loop = [...reviews.slice(1), ...reviews.slice(1)];
 
   return (
-    <section id="testimonials" className="section relative overflow-hidden" style={{ background: "var(--surface)" }}>
-      <div className="hairline absolute top-0 left-0" />
-
-      <div className="relative max-w-7xl mx-auto" ref={ref}>
+    <section id="testimonials" className="sec sec-dark grain overflow-hidden" ref={ref}>
+      <div className="relative z-10 max-w-[1400px] mx-auto">
         <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 22 }}
+          className="sec-head mb-12"
+          initial={{ opacity: 0, y: 18 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="eyebrow centered justify-center mb-4">Word of Mouth</p>
-          <h2 className="font-display text-4xl sm:text-5xl" style={{ color: "var(--ivory)" }}>
-            What Clients <span className="gold-text">Say</span>
-          </h2>
+          <span className="index" style={{ color: "var(--accent)" }}>04</span>
+          <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>Word of Mouth</span>
+          <span className="rule" style={{ background: "var(--line-dark)" }} />
         </motion.div>
+
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-center mb-16">
+          {/* Featured pull quote */}
+          <motion.blockquote
+            initial={{ opacity: 0, y: 24 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.1 }}
+          >
+            <Stars light />
+            <p
+              className="display mt-5"
+              style={{ color: "var(--on-dark)", fontSize: "clamp(2rem, 4.5vw, 3.6rem)", lineHeight: 1 }}
+            >
+              &ldquo;{featured.text}&rdquo;
+            </p>
+            <footer className="kicker mt-6" style={{ color: "var(--accent-soft)" }}>
+              {featured.name} — {featured.role}
+            </footer>
+          </motion.blockquote>
+
+          {/* Rating ticket */}
+          <motion.div
+            className="flex lg:justify-end"
+            initial={{ opacity: 0, y: 20 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.22 }}
+          >
+            <div
+              className="w-full max-w-xs p-8 text-center"
+              style={{ border: "1px solid var(--line-dark)", borderRadius: "var(--radius)" }}
+            >
+              <span className="display block" style={{ color: "var(--accent)", fontSize: "clamp(4rem, 10vw, 6rem)", lineHeight: 0.9 }}>
+                {business.rating}
+              </span>
+              <div className="flex justify-center my-3">
+                <Stars light />
+              </div>
+              <span className="kicker block" style={{ color: "var(--on-dark-muted)" }}>
+                {business.reviewCount} Five-Star Reviews
+              </span>
+              <span className="kicker block mt-1" style={{ color: "var(--on-dark-faint)", fontSize: "0.6rem" }}>
+                on Booksy
+              </span>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
+      {/* Marquee of remaining reviews */}
       <motion.div
-        className="relative -mx-4"
+        className="relative"
         initial={{ opacity: 0 }}
         animate={visible ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.15 }}
+        transition={{ duration: 0.7, delay: 0.3 }}
       >
-        <div
-          className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 sm:w-40 z-10"
-          style={{ background: "linear-gradient(90deg, var(--surface), transparent)" }}
-        />
-        <div
-          className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 sm:w-40 z-10"
-          style={{ background: "linear-gradient(-90deg, var(--surface), transparent)" }}
-        />
-
-        <div className="overflow-hidden mb-4">
-          <div className="marquee px-4">
-            {row1.map((r, i) => (
-              <Card key={`r1-${i}`} r={r} />
-            ))}
-          </div>
-        </div>
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 z-10" style={{ background: "linear-gradient(90deg, var(--ink), transparent)" }} />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 z-10" style={{ background: "linear-gradient(-90deg, var(--ink), transparent)" }} />
         <div className="overflow-hidden">
-          <div className="marquee-rev px-4">
-            {row2.map((r, i) => (
-              <Card key={`r2-${i}`} r={r} />
+          <div className="marquee-track">
+            {loop.map((r, i) => (
+              <Card key={i} r={r} />
             ))}
           </div>
         </div>
       </motion.div>
-
-      <div className="relative max-w-7xl mx-auto">
-        <motion.div
-          className="mt-14 flex justify-center"
-          initial={{ opacity: 0, y: 16 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease, delay: 0.3 }}
-        >
-          <div className="inline-flex items-center gap-7 panel rounded-sm px-9 py-5">
-            <div className="flex flex-col items-center gap-2">
-              <Stars />
-              <span className="text-[0.65rem] uppercase tracking-[0.16em]" style={{ color: "var(--muted)" }}>
-                Booksy
-              </span>
-            </div>
-            <span className="h-10 w-px" style={{ background: "var(--border)" }} />
-            <div className="text-center">
-              <div className="font-display text-2xl" style={{ color: "var(--brass-light)" }}>
-                {business.rating}
-              </div>
-              <div className="text-[0.65rem] uppercase tracking-[0.16em]" style={{ color: "var(--muted)" }}>
-                Rating
-              </div>
-            </div>
-            <span className="h-10 w-px" style={{ background: "var(--border)" }} />
-            <div className="text-center">
-              <div className="font-display text-2xl" style={{ color: "var(--brass-light)" }}>
-                {business.reviewCount}
-              </div>
-              <div className="text-[0.65rem] uppercase tracking-[0.16em]" style={{ color: "var(--muted)" }}>
-                5★ Reviews
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
     </section>
   );
 }

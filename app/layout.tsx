@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Bebas_Neue, Space_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,26 +8,34 @@ const inter = Inter({
   display: "swap",
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const bebas = Bebas_Neue({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
+const mono = Space_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "DQ Blendz | Master Barber & Fresh Fades",
+  title: "DQ Blendz | Master Barber — Vaughan, ON",
   description:
-    "DQ Blendz — where precision meets style. Browse the portfolio and book your next haircut, fade, or beard trim on Booksy.",
+    "DQ Blendz — Vaughan's underground barber. Sharp fades, clean lineups, and blends trusted by pro athletes. Book your chair on Booksy.",
   openGraph: {
-    title: "DQ Blendz | Master Barber & Fresh Fades",
+    title: "DQ Blendz | Master Barber — Vaughan, ON",
     description:
-      "Precision cuts. Fresh fades. Sharp lineups. Book your appointment today.",
+      "Sharp fades. Clean lineups. Trusted by pros. Book your chair today.",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0b09",
+  themeColor: "#0e0d0b",
 };
 
 export default function RootLayout({
@@ -36,7 +44,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${bebas.variable} ${mono.variable} h-full`}
+    >
       <body className="min-h-full antialiased">{children}</body>
     </html>
   );

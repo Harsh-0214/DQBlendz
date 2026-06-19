@@ -2,191 +2,163 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { ChevronDown, Calendar, ArrowUpRight } from "lucide-react";
+import { Calendar, ArrowDown } from "lucide-react";
+import Marquee from "./Marquee";
 import { business } from "@/app/config";
-
-function useCounter(target: number, duration: number, trigger: boolean) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!trigger) return;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setCount(Math.round(eased * target));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [target, duration, trigger]);
-  return count;
-}
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
+const stats = [
+  { value: business.reviewCount, label: "5★ Reviews" },
+  { value: `${business.yearsExperience} Yrs`, label: "Behind the Chair" },
+  { value: "Pro", label: "Athlete Trusted" },
+];
+
 export default function Hero() {
-  const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 1500);
+    const t = setTimeout(() => setShow(true), 1450);
     return () => clearTimeout(t);
   }, []);
 
-  const reviews = useCounter(business.reviewCount, 1600, visible);
-  const years = useCounter(business.yearsExperience, 1200, visible);
-
-  const stats = [
-    { value: `${reviews}`, label: "5-Star Reviews" },
-    { value: `${years}+`, label: "Years Behind the Chair" },
-    { value: "Pro", label: "Athlete Trusted" },
-  ];
-
   return (
-    <section className="relative min-h-dvh flex items-end overflow-hidden grain">
-      {/* Full-bleed photography */}
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1600&q=85"
-          alt="DQ Blendz barber at work"
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center 30%" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(12,11,9,0.55) 0%, rgba(12,11,9,0.35) 35%, rgba(12,11,9,0.85) 78%, var(--bg) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(12,11,9,0.8) 0%, transparent 55%)",
-          }}
-        />
-      </div>
-
+    <section className="sec-dark relative min-h-dvh flex flex-col overflow-hidden grain pt-[72px] md:pt-[84px]">
       <div
         className="glow"
         style={{
-          width: 520,
-          height: 520,
-          background: "radial-gradient(circle, rgba(200,164,92,0.16) 0%, transparent 70%)",
-          bottom: "12%",
-          left: "-8%",
+          width: 620,
+          height: 620,
+          background: "radial-gradient(circle, rgba(191,139,60,0.16) 0%, transparent 70%)",
+          top: "8%",
+          right: "-12%",
         }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 pb-20 md:pb-28">
-        <motion.p
-          className="eyebrow mb-6"
-          initial={{ opacity: 0, y: 16 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
+      {/* Vertical edge label */}
+      <motion.div
+        className="hidden lg:block absolute left-7 top-1/2 -translate-y-1/2 z-10"
+        initial={{ opacity: 0 }}
+        animate={show ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.8 }}
+      >
+        <span
+          className="kicker"
+          style={{
+            color: "var(--on-dark-faint)",
+            writingMode: "vertical-rl",
+            transform: "rotate(180deg)",
+            letterSpacing: "0.4em",
+          }}
+        >
+          Vaughan&apos;s Underground Barber
+        </span>
+      </motion.div>
+
+      {/* Center stage */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-[1400px] w-full mx-auto px-6 sm:px-10 lg:px-16">
+        <motion.div
+          className="flex items-center gap-3 mb-7"
+          initial={{ opacity: 0, y: 14 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease }}
         >
-          Master Barber · Vaughan, ON
-        </motion.p>
-
-        <h1 className="font-display font-semibold leading-[0.95] tracking-tight text-[3.25rem] sm:text-7xl lg:text-[5.75rem] max-w-4xl">
-          {["The art of a", "perfect cut."].map((line, i) => (
-            <motion.span
-              key={line}
-              className="block"
-              style={{ color: i === 1 ? undefined : "var(--ivory)" }}
-              initial={{ opacity: 0, y: 28 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.12 + i * 0.12 }}
-            >
-              {i === 1 ? <span className="gold-text">perfect cut.</span> : line}
-            </motion.span>
-          ))}
-        </h1>
-
-        <motion.p
-          className="mt-7 max-w-xl text-base sm:text-lg leading-relaxed"
-          style={{ color: "var(--muted)" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease, delay: 0.4 }}
-        >
-          DQ Blendz is Vaughan&apos;s underground barber — trusted by pro
-          athletes for fresh fades, sharp lineups, and flawless blends. Quiet
-          craft, sharp results.
-        </motion.p>
-
-        <motion.div
-          className="mt-9 flex flex-col sm:flex-row gap-3.5"
-          initial={{ opacity: 0, y: 16 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease, delay: 0.52 }}
-        >
-          <a
-            href={business.booksyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-gold px-8 py-4 text-sm uppercase tracking-wider"
-          >
-            <Calendar size={17} />
-            Book on Booksy
-          </a>
-          <button
-            onClick={() =>
-              document.querySelector("#gallery")?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="btn btn-ghost px-8 py-4 text-sm uppercase tracking-wider"
-          >
-            View the Work
-            <ArrowUpRight size={17} />
-          </button>
+          <span className="diamond" />
+          <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>
+            Est. Vaughan, ON · Master Barber
+          </span>
         </motion.div>
 
-        {/* Stat row */}
+        <h1 className="display" style={{ fontSize: "clamp(4.5rem, 19vw, 17rem)", lineHeight: 0.82 }}>
+          <motion.span
+            className="block"
+            style={{ color: "var(--on-dark)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={show ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.75, ease, delay: 0.1 }}
+          >
+            DQ
+          </motion.span>
+          <motion.span
+            className="block"
+            style={{ color: "var(--accent)" }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={show ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.75, ease, delay: 0.22 }}
+          >
+            Blendz
+          </motion.span>
+        </h1>
+
+        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end">
+          <motion.p
+            className="max-w-md text-[0.95rem] sm:text-base leading-relaxed"
+            style={{ color: "var(--on-dark-muted)" }}
+            initial={{ opacity: 0, y: 18 }}
+            animate={show ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.4 }}
+          >
+            Sharp fades, clean lineups, and flawless blends — quiet craft trusted
+            by pro athletes. Book your chair and find out why the city keeps DQ a
+            secret.
+          </motion.p>
+
+          <motion.div
+            className="flex flex-col xs:flex-row sm:flex-col gap-3"
+            initial={{ opacity: 0, y: 18 }}
+            animate={show ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.5 }}
+          >
+            <a
+              href={business.booksyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent px-7 py-4"
+            >
+              <Calendar size={16} />
+              Book on Booksy
+            </a>
+            <button
+              onClick={() => document.querySelector("#cuts")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn btn-outline-dark px-7 py-4"
+            >
+              See the Cuts
+              <ArrowDown size={16} />
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Stat ticket */}
         <motion.div
-          className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-6"
-          initial={{ opacity: 0, y: 16 }}
-          animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease, delay: 0.64 }}
+          className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3"
+          initial={{ opacity: 0 }}
+          animate={show ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.62 }}
         >
           {stats.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-x-10">
-              {i > 0 && (
-                <span className="h-9 w-px" style={{ background: "var(--border)" }} />
-              )}
-              <div>
-                <div
-                  className="font-display text-3xl"
-                  style={{ color: "var(--brass-light)" }}
-                >
-                  {s.value}
-                </div>
-                <div
-                  className="text-[0.68rem] uppercase tracking-[0.18em] mt-1"
-                  style={{ color: "var(--muted)" }}
-                >
-                  {s.label}
-                </div>
-              </div>
+            <div key={s.label} className="flex items-center gap-x-7">
+              {i > 0 && <span className="diamond" style={{ opacity: 0.6 }} />}
+              <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>
+                <span style={{ color: "var(--accent-soft)" }}>{s.value}</span> — {s.label}
+              </span>
             </div>
           ))}
         </motion.div>
       </div>
 
-      <motion.button
-        onClick={() => document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" })}
-        className="absolute bottom-7 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-1.5 z-10"
-        style={{ color: "var(--muted)" }}
-        aria-label="Scroll down"
+      {/* Bottom marquee band */}
+      <motion.div
+        className="relative z-10 py-5"
+        style={{ borderTop: "1px solid var(--line-dark)", borderBottom: "1px solid var(--line-dark)" }}
         initial={{ opacity: 0 }}
-        animate={visible ? { opacity: 1 } : {}}
-        transition={{ delay: 1, duration: 0.6 }}
+        animate={show ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.7 }}
       >
-        <span className="text-[0.6rem] tracking-[0.3em] uppercase">Scroll</span>
-        <ChevronDown size={18} className="animate-float" style={{ color: "var(--brass)" }} />
-      </motion.button>
+        <Marquee
+          items={["Skin Fades", "Lineups", "Beard Sculpts", "Hot Towel Shaves", "Kids Cuts", "Blends"]}
+          style={{ color: "var(--on-dark)" }}
+        />
+      </motion.div>
     </section>
   );
 }

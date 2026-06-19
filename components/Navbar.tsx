@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Calendar } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { business } from "@/app/config";
 
 const links = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#gallery" },
-  { label: "The Barber", href: "#about" },
+  { label: "Barber", href: "#about" },
+  { label: "Cut List", href: "#services" },
+  { label: "Cuts", href: "#cuts" },
   { label: "Reviews", href: "#testimonials" },
   { label: "Visit", href: "#contact" },
 ];
@@ -45,10 +45,10 @@ export default function Navbar() {
         style={{ background: scrolled ? undefined : "transparent" }}
         initial={{ y: -70, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1], delay: 1.7 }}
+        transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1], delay: 1.6 }}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-10">
-          <div className="flex items-center justify-between h-[72px] md:h-20">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between h-[72px] md:h-[84px]">
             <a
               href="#"
               onClick={(e) => {
@@ -56,17 +56,12 @@ export default function Navbar() {
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
-              <Logo size={34} />
+              <Logo size={32} tone="dark" />
             </a>
 
-            <nav className="hidden md:flex items-center gap-8 lg:gap-10">
+            <nav className="hidden md:flex items-center gap-9 lg:gap-11">
               {links.map((l) => (
-                <button
-                  key={l.href}
-                  onClick={() => go(l.href)}
-                  className="nav-link text-[0.82rem] tracking-wide uppercase"
-                  style={{ letterSpacing: "0.12em" }}
-                >
+                <button key={l.href} onClick={() => go(l.href)} className="nav-link">
                   {l.label}
                 </button>
               ))}
@@ -76,16 +71,15 @@ export default function Navbar() {
               href={business.booksyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:inline-flex btn btn-gold px-5 py-2.5 text-[0.8rem] uppercase tracking-wider"
+              className="hidden md:inline-flex btn btn-accent px-5 py-3"
             >
-              <Calendar size={15} />
               Book Now
             </a>
 
             <button
               onClick={() => setOpen(!open)}
-              className="md:hidden w-10 h-10 flex items-center justify-center rounded-sm"
-              style={{ border: "1px solid var(--border)", color: "var(--ivory)" }}
+              className="md:hidden w-10 h-10 flex items-center justify-center"
+              style={{ border: "1px solid var(--line-dark)", color: "var(--on-dark)", borderRadius: "var(--radius)" }}
               aria-label={open ? "Close menu" : "Open menu"}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -111,7 +105,7 @@ export default function Navbar() {
             <motion.div
               key="backdrop"
               className="fixed inset-0 z-40 md:hidden"
-              style={{ background: "rgba(12,11,9,0.7)", backdropFilter: "blur(6px)" }}
+              style={{ background: "rgba(14,13,11,0.7)", backdropFilter: "blur(6px)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -120,8 +114,8 @@ export default function Navbar() {
             />
             <motion.div
               key="drawer"
-              className="fixed right-0 top-0 h-full w-[78%] max-w-xs z-50 md:hidden flex flex-col pt-24 px-7 pb-9"
-              style={{ background: "var(--surface)", borderLeft: "1px solid var(--border)" }}
+              className="fixed right-0 top-0 h-full w-[80%] max-w-xs z-50 md:hidden flex flex-col pt-24 px-7 pb-9"
+              style={{ background: "var(--ink-2)", borderLeft: "1px solid var(--line-dark)" }}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -132,12 +126,15 @@ export default function Navbar() {
                   <motion.button
                     key={l.href}
                     onClick={() => go(l.href)}
-                    className="text-left py-4 font-display text-2xl"
-                    style={{ color: "var(--foreground)", borderBottom: "1px solid var(--border-soft)" }}
+                    className="display text-left text-4xl py-3.5"
+                    style={{ color: "var(--on-dark)", borderBottom: "1px solid var(--line-dark)" }}
                     initial={{ x: 24, opacity: 0 }}
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: 0.08 + i * 0.05, duration: 0.35, ease: "easeOut" }}
                   >
+                    <span className="mono mr-3 align-middle" style={{ fontSize: "0.7rem", color: "var(--accent)" }}>
+                      0{i + 1}
+                    </span>
                     {l.label}
                   </motion.button>
                 ))}
@@ -147,9 +144,8 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="btn btn-gold w-full py-3.5 uppercase tracking-wider text-sm"
+                className="btn btn-accent w-full py-4"
               >
-                <Calendar size={16} />
                 Book on Booksy
               </a>
             </motion.div>

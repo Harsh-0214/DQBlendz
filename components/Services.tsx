@@ -6,145 +6,111 @@ import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const services = [
-  {
-    title: "Classic Haircut",
-    description: "A timeless cut tailored to your face shape, finished with a wash and style.",
-    price: "$30",
-    duration: "45 min",
-    popular: false,
-  },
-  {
-    title: "Skin Fade",
-    description: "Precision fade from skin to your desired length — crisp, clean, flawlessly blended.",
-    price: "$40",
-    duration: "50 min",
-    popular: true,
-  },
-  {
-    title: "Beard Trim & Shape",
-    description: "Expert shaping to keep your beard sharp, symmetrical, and defined.",
-    price: "$20",
-    duration: "25 min",
-    popular: false,
-  },
-  {
-    title: "Cut + Beard Combo",
-    description: "A full haircut paired with beard grooming for a complete fresh look.",
-    price: "$55",
-    duration: "70 min",
-    popular: false,
-  },
-  {
-    title: "Kid's Cut",
-    description: "Patient, precise cuts — every kid leaves looking and feeling great.",
-    price: "$22",
-    duration: "35 min",
-    popular: false,
-  },
-  {
-    title: "Hot Towel Shave",
-    description: "A luxurious straight-razor shave with a hot towel for the smoothest finish.",
-    price: "$35",
-    duration: "40 min",
-    popular: false,
-  },
+  { title: "Classic Haircut", desc: "Timeless cut tailored to your shape, washed and styled.", price: "$30", duration: "45m", tag: "" },
+  { title: "Skin Fade", desc: "Skin-to-length fade — crisp, clean, flawlessly blended.", price: "$40", duration: "50m", tag: "Most Booked" },
+  { title: "Beard Trim & Shape", desc: "Sharp, symmetrical shaping that frames the jaw.", price: "$20", duration: "25m", tag: "" },
+  { title: "Cut + Beard Combo", desc: "Full cut paired with beard grooming. Head to chin.", price: "$55", duration: "70m", tag: "" },
+  { title: "Kid's Cut", desc: "Patient, precise cuts — every kid leaves grinning.", price: "$22", duration: "35m", tag: "" },
+  { title: "Hot Towel Shave", desc: "Straight-razor shave with a hot towel finish.", price: "$35", duration: "40m", tag: "" },
 ];
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export default function Services() {
-  const { ref, visible } = useInView(0.12);
+  const { ref, visible } = useInView(0.1);
 
   return (
-    <section id="services" className="section relative" style={{ background: "var(--bg)" }}>
-      <div className="hairline absolute top-0 left-0" />
-
-      <div className="relative max-w-6xl mx-auto" ref={ref}>
+    <section id="services" className="sec sec-dark grain" ref={ref}>
+      <div className="relative z-10 max-w-[1400px] mx-auto">
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 22 }}
+          className="sec-head mb-12"
+          initial={{ opacity: 0, y: 18 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="eyebrow centered justify-center mb-4">The Menu</p>
-          <h2 className="font-display text-4xl sm:text-5xl" style={{ color: "var(--ivory)" }}>
-            Services &amp; <span className="gold-text">Pricing</span>
-          </h2>
-          <p className="mt-5 max-w-md mx-auto text-sm sm:text-[0.95rem] leading-relaxed" style={{ color: "var(--muted)" }}>
-            Honest pricing, no surprises. Final rates are confirmed when you book
-            on Booksy.
-          </p>
+          <span className="index" style={{ color: "var(--accent)" }}>02</span>
+          <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>The Cut List</span>
+          <span className="rule" style={{ background: "var(--line-dark)" }} />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-x-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+          <motion.h2
+            className="display"
+            style={{ color: "var(--on-dark)", fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.08 }}
+          >
+            Services &amp; <span style={{ color: "var(--accent)" }}>Pricing</span>
+          </motion.h2>
+          <motion.p
+            className="max-w-xs text-sm leading-relaxed"
+            style={{ color: "var(--on-dark-muted)" }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={visible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease, delay: 0.18 }}
+          >
+            Honest pricing, no surprises. Final rates confirmed when you book on
+            Booksy.
+          </motion.p>
+        </div>
+
+        <div className="border-t" style={{ borderColor: "var(--line-dark)" }}>
           {services.map((s, i) => (
             <motion.a
               key={s.title}
               href={business.booksyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-baseline gap-5 py-6"
-              style={{ borderBottom: "1px solid var(--border-soft)" }}
-              initial={{ opacity: 0, y: 18 }}
+              className="group grid grid-cols-[auto_1fr_auto] sm:grid-cols-[auto_1fr_auto_auto] items-center gap-4 sm:gap-8 py-6 sm:py-7 border-b"
+              style={{ borderColor: "var(--line-dark)" }}
+              initial={{ opacity: 0, y: 16 }}
               animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, ease, delay: i * 0.06 }}
+              transition={{ duration: 0.5, ease, delay: 0.05 + i * 0.06 }}
             >
-              <span
-                className="font-display text-sm pt-1 tabular-nums"
-                style={{ color: "var(--brass-deep)" }}
-              >
+              <span className="index hidden sm:block" style={{ color: "var(--on-dark-faint)" }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
 
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0">
                 <div className="flex items-center gap-3 flex-wrap">
                   <h3
-                    className="font-display text-xl sm:text-2xl transition-colors duration-200 group-hover:text-[var(--brass-light)]"
-                    style={{ color: "var(--ivory)" }}
+                    className="display transition-colors duration-200 group-hover:text-[var(--accent-soft)]"
+                    style={{ color: "var(--on-dark)", fontSize: "clamp(1.5rem, 3vw, 2.1rem)" }}
                   >
                     {s.title}
                   </h3>
-                  {s.popular && (
+                  {s.tag && (
                     <span
-                      className="text-[0.6rem] uppercase tracking-[0.18em] px-2 py-0.5 rounded-full"
-                      style={{
-                        color: "var(--brass-light)",
-                        border: "1px solid var(--border)",
-                      }}
+                      className="kicker px-2 py-1"
+                      style={{ color: "var(--accent-soft)", border: "1px solid var(--line-dark)", borderRadius: "var(--radius)", fontSize: "0.6rem" }}
                     >
-                      Most Booked
+                      {s.tag}
                     </span>
                   )}
                 </div>
-                <p className="mt-1.5 text-[0.85rem] leading-relaxed" style={{ color: "var(--muted)" }}>
-                  {s.description}
+                <p className="mt-1 text-[0.82rem] leading-snug" style={{ color: "var(--on-dark-muted)" }}>
+                  {s.desc}
                 </p>
               </div>
 
-              <div className="text-right flex-shrink-0">
-                <div className="font-display text-xl" style={{ color: "var(--brass-light)" }}>
-                  {s.price}
-                </div>
-                <div className="text-[0.68rem] uppercase tracking-wider mt-1" style={{ color: "var(--muted-dark)" }}>
-                  {s.duration}
-                </div>
-              </div>
+              <span className="mono hidden sm:block text-xs" style={{ color: "var(--on-dark-faint)" }}>
+                {s.duration}
+              </span>
+              <span className="display text-right" style={{ color: "var(--accent-soft)", fontSize: "1.6rem" }}>
+                {s.price}
+              </span>
             </motion.a>
           ))}
         </div>
 
         <motion.div
-          className="text-center mt-14"
+          className="mt-12 flex justify-center"
           initial={{ opacity: 0, y: 14 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease, delay: 0.3 }}
         >
-          <a
-            href={business.booksyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-gold px-8 py-4 text-sm uppercase tracking-wider"
-          >
+          <a href={business.booksyUrl} target="_blank" rel="noopener noreferrer" className="btn btn-accent px-8 py-4">
             <Calendar size={16} />
             Book Your Service
           </a>

@@ -1,36 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  /* Warm espresso base — a low-lit grooming lounge */
-  --bg: #0c0b09;
-  --surface: #141210;
-  --surface-2: #1c1915;
-  --surface-3: #242019;
+  /* Ink (dark sections) */
+  --ink: #0e0d0b;
+  --ink-2: #16140f;
+  --ink-3: #1f1c15;
 
-  /* Brass / gold accent */
-  --brass: #c8a45c;
-  --brass-light: #e3c489;
-  --brass-deep: #997733;
+  /* Bone (light sections) */
+  --bone: #efe9dc;
+  --bone-2: #e5ddcb;
 
-  --ivory: #f4efe4;
-  --foreground: #ece6d9;
-  --muted: #948b7c;
-  --muted-dark: #6b6457;
+  /* Single warm accent — brass/amber */
+  --accent: #bf8b3c;
+  --accent-soft: #e0b667;
 
-  --border: rgba(200, 164, 92, 0.16);
-  --border-soft: rgba(244, 239, 228, 0.08);
+  /* Text */
+  --on-dark: #ece6d9;
+  --on-dark-muted: #8a8273;
+  --on-dark-faint: #5b5648;
+  --on-light: #1a1611;
+  --on-light-muted: #6b6153;
 
-  /* Strong custom easings */
+  /* Hairlines */
+  --line-dark: rgba(236, 230, 217, 0.13);
+  --line-light: rgba(26, 22, 17, 0.16);
+
+  --radius: 2px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
-  --background: var(--bg);
+  --background: var(--ink);
 }
 
 @theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--foreground);
+  --color-background: var(--ink);
+  --color-foreground: var(--on-dark);
 }
 
 * {
@@ -44,8 +49,8 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--foreground);
+  background: var(--ink);
+  color: var(--on-dark);
   font-family: var(--font-inter, system-ui, sans-serif);
   overflow-x: hidden;
   min-height: 100dvh;
@@ -53,219 +58,246 @@ body {
 }
 
 ::selection {
-  background: var(--brass);
-  color: #1a1610;
+  background: var(--accent);
+  color: #160f04;
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: var(--ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--brass-deep);
-  border-radius: 4px;
+  background: var(--accent);
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--brass);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 4px;
 }
 
-/* ─────────────────────────  Typography helpers  ───────────────────────── */
+/* ───────────────────────────  Type system  ─────────────────────────── */
 
-.font-display {
-  font-family: var(--font-playfair), Georgia, serif;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.32em;
+.display {
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-weight: 400;
   text-transform: uppercase;
-  color: var(--brass);
-  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: 0.005em;
 }
 
-.eyebrow::before {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: var(--brass);
-  opacity: 0.7;
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-.eyebrow.centered::after {
-  content: "";
-  display: block;
-  width: 28px;
-  height: 1px;
-  background: var(--brass);
-  opacity: 0.7;
+/* Monospace ticket label */
+.kicker {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-.gold-text {
-  color: var(--brass-light);
-  font-style: italic;
+/* Big editorial section index, e.g. "01" */
+.index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
 }
 
-.section {
-  padding: 6rem 1.5rem;
+/* Outlined display text (watermark / footer) */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-dark);
+}
+.outline-accent {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+/* ───────────────────────────  Sections  ─────────────────────────── */
+
+.sec {
+  padding: 5.5rem 1.5rem;
+  position: relative;
 }
 @media (min-width: 768px) {
-  .section {
-    padding: 8rem 2rem;
+  .sec {
+    padding: 7.5rem 2.5rem;
   }
 }
 @media (min-width: 1024px) {
-  .section {
-    padding: 9rem 4rem;
+  .sec {
+    padding: 8.5rem 4rem;
   }
 }
 
-/* ─────────────────────────  Buttons  ───────────────────────── */
+.sec-dark {
+  background: var(--ink);
+  color: var(--on-dark);
+}
+.sec-light {
+  background: var(--bone);
+  color: var(--on-light);
+}
+
+/* Section header row: index + kicker with a rule */
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.sec-head .rule {
+  flex: 1;
+  height: 1px;
+}
+
+/* ───────────────────────────  Buttons  ─────────────────────────── */
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  border-radius: 2px;
-  transition: transform 160ms var(--ease-out), background-color 200ms ease,
-    border-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  border-radius: var(--radius);
+  transition: transform 150ms var(--ease-out), background-color 200ms ease,
+    color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
   touch-action: manipulation;
   cursor: pointer;
+  white-space: nowrap;
 }
 .btn:active {
   transform: scale(0.97);
 }
 
-.btn-gold {
-  background: var(--brass);
-  color: #17120a;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+.btn-accent {
+  background: var(--accent);
+  color: #160f04;
 }
-@media (hover: hover) and (pointer: fine) {
-  .btn-gold:hover {
-    background: var(--brass-light);
-    box-shadow: 0 10px 30px -8px rgba(200, 164, 92, 0.55);
-  }
-  .btn-ghost:hover {
-    border-color: var(--brass);
-    color: var(--ivory);
-  }
+.btn-ink {
+  background: var(--ink);
+  color: var(--bone);
 }
-
-.btn-ghost {
+.btn-outline-dark {
   background: transparent;
-  color: var(--foreground);
-  border: 1px solid var(--border-soft);
+  color: var(--on-dark);
+  border: 1px solid var(--line-dark);
+}
+.btn-outline-light {
+  background: transparent;
+  color: var(--on-light);
+  border: 1px solid var(--line-light);
 }
 
-/* ─────────────────────────  Surfaces  ───────────────────────── */
-
-.panel {
-  background: linear-gradient(180deg, var(--surface-2), var(--surface));
-  border: 1px solid var(--border);
+@media (hover: hover) and (pointer: fine) {
+  .btn-accent:hover {
+    background: var(--accent-soft);
+    box-shadow: 0 12px 30px -10px rgba(191, 139, 60, 0.6);
+  }
+  .btn-ink:hover {
+    background: #000;
+  }
+  .btn-outline-dark:hover {
+    border-color: var(--accent);
+    color: var(--accent-soft);
+  }
+  .btn-outline-light:hover {
+    background: var(--ink);
+    color: var(--bone);
+    border-color: var(--ink);
+  }
 }
 
-.hairline {
-  height: 1px;
-  width: 100%;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-}
-
-/* ─────────────────────────  Navigation  ───────────────────────── */
+/* ───────────────────────────  Navigation  ─────────────────────────── */
 
 .nav-base {
-  transition: background 350ms ease, border-color 350ms ease, backdrop-filter 350ms ease;
+  transition: background 350ms ease, border-color 350ms ease,
+    backdrop-filter 350ms ease;
 }
 .nav-scrolled {
-  background: rgba(12, 11, 9, 0.8) !important;
-  backdrop-filter: blur(18px) saturate(1.2) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(1.2) !important;
-  border-bottom: 1px solid var(--border) !important;
+  background: rgba(14, 13, 11, 0.82) !important;
+  backdrop-filter: blur(16px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(1.2) !important;
+  border-bottom: 1px solid var(--line-dark) !important;
 }
 
 .nav-link {
   position: relative;
-  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
   transition: color 200ms ease;
 }
 .nav-link::after {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -5px;
+  bottom: -6px;
   height: 1px;
   width: 100%;
-  background: var(--brass);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 280ms var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
   .nav-link:hover {
-    color: var(--ivory);
+    color: var(--on-dark);
   }
   .nav-link:hover::after {
     transform: scaleX(1);
   }
 }
 
-/* ─────────────────────────  Gallery  ───────────────────────── */
+/* ───────────────────────────  Cut cards (lookbook)  ─────────────────── */
 
-.shot {
+.cut-card {
   position: relative;
   overflow: hidden;
+  background: var(--bone);
+  border: 1px solid var(--line-light);
+  transition: background-color 320ms var(--ease-out), color 320ms var(--ease-out),
+    transform 320ms var(--ease-out);
 }
-.shot img {
-  transition: transform 700ms var(--ease-out), filter 700ms ease;
-  filter: grayscale(0.15) brightness(0.92);
-}
-.shot-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding: 1.4rem;
-  background: linear-gradient(to top, rgba(12, 11, 9, 0.85) 0%, transparent 55%);
-  opacity: 0;
-  transition: opacity 400ms ease;
+.cut-card .cut-name {
+  transition: color 320ms var(--ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-  .shot:hover img {
-    transform: scale(1.05);
-    filter: grayscale(0) brightness(1);
+  .cut-card:hover {
+    background: var(--ink);
+    color: var(--on-dark);
+    transform: translateY(-4px);
   }
-  .shot:hover .shot-overlay {
-    opacity: 1;
+  .cut-card:hover .cut-num {
+    color: var(--accent-soft);
   }
-}
-@media not (hover: hover) {
-  .shot-overlay {
-    opacity: 1;
+  .cut-card:hover .cut-name {
+    color: var(--bone);
   }
-  .shot img {
-    filter: grayscale(0) brightness(1);
+  .cut-card:hover .cut-desc {
+    color: var(--on-dark-muted);
   }
 }
 
-/* ─────────────────────────  Decorative  ───────────────────────── */
+/* ───────────────────────────  Decorative  ─────────────────────────── */
 
-.glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
+.diamond {
+  width: 5px;
+  height: 5px;
+  transform: rotate(45deg);
+  background: var(--accent);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .grain {
@@ -276,86 +308,48 @@ button:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Animated brass barber-stripe (subtle, monochrome — not the red/blue pole) */
-.gold-pole {
-  border-radius: 999px;
-  overflow: hidden;
-  background-color: var(--brass-deep);
-  background-image: repeating-linear-gradient(
-    -55deg,
-    var(--brass-light) 0,
-    var(--brass-light) 6px,
-    var(--brass-deep) 6px,
-    var(--brass-deep) 12px
-  );
-  background-size: 100% 40px;
-  animation: pole 2.4s linear infinite;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
 }
 
-/* ─────────────────────────  Keyframes  ───────────────────────── */
+/* ───────────────────────────  Marquee  ─────────────────────────── */
 
-@keyframes pole {
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee-track.rev {
+  animation-direction: reverse;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
   to {
-    background-position: 0 -40px;
+    transform: translateX(-50%);
   }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-7px); }
 }
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@keyframes shimmer {
-  from { background-position: -150% center; }
-  to { background-position: 150% center; }
-}
-
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
 
-.marquee {
-  animation: marquee 50s linear infinite;
-  display: flex;
-  gap: 1.25rem;
-  width: max-content;
-}
-.marquee-rev {
-  animation: marquee 44s linear infinite reverse;
-  display: flex;
-  gap: 1.25rem;
-  width: max-content;
-}
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--brass) 0%,
-    var(--brass-light) 45%,
-    var(--ivory) 50%,
-    var(--brass-light) 55%,
-    var(--brass) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 6s linear infinite;
-}
-
-/* ─────────────────────────  Accessibility  ───────────────────────── */
+/* ───────────────────────────  Accessibility  ─────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -366,10 +360,8 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .gold-pole,
-  .animate-float,
-  .marquee,
-  .marquee-rev {
+  .marquee-track,
+  .animate-float {
     animation: none !important;
   }
 }
