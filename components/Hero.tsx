@@ -76,7 +76,7 @@ export default function Hero() {
 
       {/* Center stage — aligned to the navbar container so it sits under the logo */}
       <div className="relative z-10 flex-1 flex flex-col justify-center w-full max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-10">
-        <h1 className="display lg:max-w-[60%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
+        <h1 className="display lg:max-w-[72%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
           <motion.span
             className="block"
             style={{ color: "var(--on-dark)" }}
@@ -96,106 +96,100 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end lg:max-w-[60%]">
-          <motion.p
-            className="max-w-md text-[0.95rem] sm:text-base leading-relaxed"
-            style={{ color: "var(--on-dark-muted)" }}
-            initial={{ opacity: 0, y: 18 }}
-            animate={show ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.4 }}
-          >
-            Precision fades, clean lineups, and seamless blends — crafted with
-            patience and a sharp eye for detail. Master barbering in Vaughan.
-          </motion.p>
-
-          <motion.div
-            className="flex flex-col xs:flex-row sm:flex-col gap-3"
-            initial={{ opacity: 0, y: 18 }}
-            animate={show ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.5 }}
-          >
-            <a
-              href={business.booksyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-accent px-7 py-4"
-            >
-              <Calendar size={16} />
-              Book on Booksy
-            </a>
-            <button
-              onClick={() => document.querySelector("#cuts")?.scrollIntoView({ behavior: "smooth" })}
-              className="btn btn-outline-dark px-7 py-4"
-            >
-              See the Cuts
-              <ArrowDown size={16} />
-            </button>
-          </motion.div>
-        </div>
-
-        {/* Stat block */}
-        <motion.div
-          className="mt-12 flex items-stretch gap-7 sm:gap-10"
-          initial={{ opacity: 0, y: 14 }}
-          animate={show ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease, delay: 0.62 }}
-        >
-          {stats.map((s, i) => (
-            <div key={s.label} className="flex items-stretch gap-7 sm:gap-10">
-              {i > 0 && <span className="w-px self-stretch" style={{ background: "var(--line-dark)" }} />}
-              <div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="display" style={{ color: "var(--accent-soft)", fontSize: "clamp(2.4rem, 5vw, 3.2rem)", lineHeight: 1 }}>
-                    {s.value}
-                  </span>
-                  <span className="display" style={{ color: "var(--on-dark)", fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)", lineHeight: 1 }}>
-                    {s.unit}
-                  </span>
-                </div>
-                <span className="kicker block mt-2" style={{ color: "var(--on-dark-muted)" }}>
-                  {s.label}
-                </span>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Right-side brand statement */}
-        <div className="hidden lg:flex flex-col items-end text-right absolute right-0 top-1/2 -translate-y-1/2 max-w-[40%]">
-          <motion.span
-            className="kicker mb-5"
-            style={{ color: "var(--accent)" }}
-            initial={{ opacity: 0 }}
-            animate={show ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.55 }}
-          >
-            Sharp · Clean · Precise
-          </motion.span>
-
-          {["Sharp cuts.", "Clean fades.", "No compromise."].map((line, i) => (
-            <motion.span
-              key={line}
-              className={`display ${i === 2 ? "gold-shimmer" : ""}`}
-              style={{
-                fontSize: "clamp(2.1rem, 3.4vw, 3.5rem)",
-                lineHeight: 1.04,
-                color: i === 2 ? undefined : "var(--on-dark)",
-              }}
-              initial={{ opacity: 0, y: 22 }}
+        <div className="mt-10 lg:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-16 items-end">
+          {/* Left: description + stats */}
+          <div>
+            <motion.p
+              className="max-w-md text-[0.95rem] sm:text-base leading-relaxed"
+              style={{ color: "var(--on-dark-muted)" }}
+              initial={{ opacity: 0, y: 18 }}
               animate={show ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.6 + i * 0.12 }}
+              transition={{ duration: 0.7, ease, delay: 0.4 }}
             >
-              {line}
-            </motion.span>
-          ))}
+              Precision fades, clean lineups, and seamless blends — crafted with
+              patience and a sharp eye for detail. Master barbering in Vaughan.
+            </motion.p>
 
-          <motion.span
-            className="block mt-7 h-px"
-            style={{ background: "var(--accent)", transformOrigin: "right", width: 96 }}
-            initial={{ scaleX: 0 }}
-            animate={show ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.7, ease, delay: 1 }}
-          />
+            <motion.div
+              className="mt-9 flex items-stretch gap-7 sm:gap-10"
+              initial={{ opacity: 0, y: 14 }}
+              animate={show ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease, delay: 0.5 }}
+            >
+              {stats.map((s, i) => (
+                <div key={s.label} className="flex items-stretch gap-7 sm:gap-10">
+                  {i > 0 && <span className="w-px self-stretch" style={{ background: "var(--line-dark)" }} />}
+                  <div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="display" style={{ color: "var(--accent-soft)", fontSize: "clamp(2.2rem, 4.5vw, 3rem)", lineHeight: 1 }}>
+                        {s.value}
+                      </span>
+                      <span className="display" style={{ color: "var(--on-dark)", fontSize: "clamp(1.05rem, 2vw, 1.4rem)", lineHeight: 1 }}>
+                        {s.unit}
+                      </span>
+                    </div>
+                    <span className="kicker block mt-2" style={{ color: "var(--on-dark-muted)" }}>
+                      {s.label}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right: statement + CTAs, grouped together */}
+          <div className="flex flex-col lg:items-end lg:text-right">
+            <motion.span
+              className="kicker mb-4"
+              style={{ color: "var(--accent)" }}
+              initial={{ opacity: 0 }}
+              animate={show ? { opacity: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              Sharp · Clean · Precise
+            </motion.span>
+
+            {["Sharp cuts.", "Clean fades.", "No compromise."].map((line, i) => (
+              <motion.span
+                key={line}
+                className={`display ${i === 2 ? "gold-shimmer" : ""}`}
+                style={{
+                  fontSize: "clamp(1.9rem, 3vw, 3rem)",
+                  lineHeight: 1.05,
+                  color: i === 2 ? undefined : "var(--on-dark)",
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={show ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, ease, delay: 0.55 + i * 0.1 }}
+              >
+                {line}
+              </motion.span>
+            ))}
+
+            <motion.div
+              className="mt-7 flex flex-col xs:flex-row lg:flex-row gap-3 w-full xs:w-auto lg:justify-end"
+              initial={{ opacity: 0, y: 18 }}
+              animate={show ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, ease, delay: 0.8 }}
+            >
+              <a
+                href={business.booksyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-accent px-7 py-4"
+              >
+                <Calendar size={16} />
+                Book on Booksy
+              </a>
+              <button
+                onClick={() => document.querySelector("#cuts")?.scrollIntoView({ behavior: "smooth" })}
+                className="btn btn-outline-dark px-7 py-4"
+              >
+                See the Cuts
+                <ArrowDown size={16} />
+              </button>
+            </motion.div>
+          </div>
         </div>
       </div>
 
