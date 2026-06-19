@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Calendar, ArrowDown } from "lucide-react";
 import Marquee from "./Marquee";
 import Embers from "./Embers";
+import ShopCard from "./ShopCard";
 import { business } from "@/app/config";
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -76,7 +77,7 @@ export default function Hero() {
 
       {/* Center stage — aligned to the navbar container so it sits under the logo */}
       <div className="relative z-10 flex-1 flex flex-col justify-center w-full max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-10">
-        <h1 className="display lg:max-w-[60%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
+        <h1 className="display lg:max-w-[56%]" style={{ fontSize: "clamp(3.25rem, 12vw, 11rem)", lineHeight: 0.84 }}>
           <motion.span
             className="block"
             style={{ color: "var(--on-dark)" }}
@@ -97,7 +98,7 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end lg:max-w-[62%]">
+        <div className="mt-9 grid sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-end lg:max-w-[54%]">
           <motion.p
             className="max-w-md text-[0.95rem] sm:text-base leading-relaxed"
             style={{ color: "var(--on-dark-muted)" }}
@@ -159,6 +160,16 @@ export default function Hero() {
               </div>
             </div>
           ))}
+        </motion.div>
+
+        {/* Right-side live shop card */}
+        <motion.div
+          className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2"
+          initial={{ opacity: 0 }}
+          animate={show ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.7 }}
+        >
+          <ShopCard />
         </motion.div>
       </div>
 

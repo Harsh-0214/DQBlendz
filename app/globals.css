@@ -347,6 +347,28 @@ button:focus-visible {
   animation: float 4s ease-in-out infinite;
 }
 
+/* Live "now booking" pulse */
+.pulse-dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--accent);
+  animation: ping 1.9s var(--ease-out) infinite;
+}
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
 /* Ambient drifting "aurora" lights */
 @keyframes drift-a {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
@@ -411,8 +433,10 @@ button:focus-visible {
   .animate-float,
   .drift-a,
   .drift-b,
-  .ember {
+  .ember,
+  .pulse-dot::after {
     animation: none !important;
   }
   .ember { opacity: 0 !important; }
+  .pulse-dot::after { display: none; }
 }
