@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
+import { business } from "@/app/config";
 
 const reviews = [
   {
@@ -193,7 +194,7 @@ export default function Testimonials() {
             <div className="flex flex-col items-center gap-1.5">
               <StarRow count={5} />
               <span className="text-xs" style={{ color: "var(--muted)" }}>
-                Google Reviews
+                Booksy Reviews
               </span>
             </div>
             <div className="w-px h-10" style={{ background: "var(--border)" }} />
@@ -205,10 +206,10 @@ export default function Testimonials() {
                   fontFamily: "var(--font-playfair)",
                 }}
               >
-                4.9 / 5
+                {business.rating} / 5
               </div>
               <div className="text-xs" style={{ color: "var(--muted)" }}>
-                Based on 100+ reviews
+                Perfect rating
               </div>
             </div>
             <div className="w-px h-10" style={{ background: "var(--border)" }} />
@@ -220,10 +221,10 @@ export default function Testimonials() {
                   fontFamily: "var(--font-playfair)",
                 }}
               >
-                500+
+                {business.reviewCount}
               </div>
               <div className="text-xs" style={{ color: "var(--muted)" }}>
-                Happy clients
+                5-star reviews
               </div>
             </div>
           </div>

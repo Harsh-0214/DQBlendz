@@ -2,24 +2,24 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Award, Heart, Users } from "lucide-react";
+import { Trophy, Heart, Star } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 
 const highlights = [
   {
-    icon: Award,
-    title: "Certified Master Barber",
-    desc: "Trained with industry-leading barbers and certified with top grooming credentials.",
+    icon: Trophy,
+    title: "Trusted by Pro Athletes",
+    desc: "DQ keeps players from Toronto FC and the Toronto Argonauts looking sharp on and off the field.",
+  },
+  {
+    icon: Star,
+    title: "62 Five-Star Reviews",
+    desc: "A flawless 5.0 rating on Booksy — every client leaves the chair fresh and confident.",
   },
   {
     icon: Heart,
     title: "Passion-Driven Craft",
-    desc: "Every client leaves the chair with more than a haircut — they leave with confidence.",
-  },
-  {
-    icon: Users,
-    title: "Community Focused",
-    desc: "DQ Blendz is more than a barbershop — it's a place where the community connects.",
+    desc: "Six-plus years honing the craft, with old-school precision and a genuine eye for detail.",
   },
 ];
 
@@ -84,7 +84,7 @@ export default function About() {
               className="text-2xl font-bold"
               style={{ color: "var(--cream)", fontFamily: "var(--font-playfair)" }}
             >
-              8+ Years
+              6+ Years
             </div>
             <div className="text-xs mt-0.5" style={{ color: "var(--muted)" }}>
               Cutting & Crafting
@@ -110,15 +110,16 @@ export default function About() {
             style={{ color: "var(--muted)" }}
           >
             <p>
-              DQ Blendz was born from a simple belief: every person deserves to
-              walk out of the chair feeling their absolute best. Founded by DQ,
-              a master barber with over 8 years of hands-on experience, our
-              studio blends old-school barbering tradition with modern technique.
+              Based in Vaughan, DQ Blendz is the underground barber the city
+              keeps quiet about. Founded by DQ — a barber with over 6 years of
+              hands-on experience — the shop blends old-school barbering
+              tradition with modern technique, one cut at a time.
             </p>
             <p>
-              From skin fades and classic taper cuts to beard sculpting and hot
-              towel shaves — we approach every client with precision, respect,
-              and genuine care. No rush, no shortcuts. Just great cuts.
+              From skin fades and classic taper cuts to beard sculpting and
+              sharp lineups, every client gets the same care that&apos;s earned
+              the trust of pro athletes from Toronto FC and the Toronto
+              Argonauts. No rush, no shortcuts. Just great cuts.
             </p>
           </div>
 

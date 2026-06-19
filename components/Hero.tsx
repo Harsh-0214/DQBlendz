@@ -85,9 +85,9 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  const clients = useCounter(500, 1800, visible);
-  const years = useCounter(8, 1200, visible);
-  const rating = useCounter(49, 1400, visible);
+  const reviews = useCounter(business.reviewCount, 1800, visible);
+  const years = useCounter(business.yearsExperience, 1200, visible);
+  const rating = useCounter(50, 1400, visible);
 
   const scrollDown = () => {
     document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" });
@@ -164,7 +164,7 @@ export default function Hero() {
             className="w-1.5 h-1.5 rounded-full"
             style={{ background: "var(--red-light)" }}
           />
-          DQ Blendz · Master Barber
+          DQ Blendz · Vaughan, ON
         </motion.div>
 
         <h1
@@ -197,9 +197,9 @@ export default function Hero() {
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.42 }}
         >
-          Where every cut tells a story. Step into DQ Blendz for fresh fades,
-          sharp lineups, and flawless blends — then book your chair in seconds
-          on Booksy.
+          Vaughan&apos;s underground barber. Trusted by pro athletes for fresh
+          fades, sharp lineups, and flawless blends — book your chair in
+          seconds on Booksy.
         </motion.p>
 
         <motion.div
@@ -243,7 +243,7 @@ export default function Hero() {
           transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.66 }}
         >
           {[
-            { value: `${clients}+`, label: "Happy Clients" },
+            { value: `${reviews}`, label: "5-Star Reviews" },
             { value: `${years}+`, label: "Years Experience" },
             { value: `${(rating / 10).toFixed(1)}★`, label: "Avg Rating" },
           ].map((stat) => (

@@ -16,12 +16,16 @@ export default function Contact() {
       content: [business.address.line1, business.address.line2],
       href: business.address.mapsUrl,
     },
-    {
-      icon: Phone,
-      title: "Call or Text",
-      content: [business.phone],
-      href: business.phoneHref,
-    },
+    ...(business.phone
+      ? [
+          {
+            icon: Phone,
+            title: "Call or Text",
+            content: [business.phone],
+            href: business.phoneHref,
+          },
+        ]
+      : []),
     {
       icon: AtSign,
       title: "Follow Along",
@@ -131,14 +135,17 @@ export default function Contact() {
                 </motion.a>
 
                 <p className="text-xs text-center mt-4" style={{ color: "var(--muted)" }}>
-                  Prefer to talk? Call or text{" "}
+                  Got a question? DM{" "}
                   <a
-                    href={business.phoneHref}
+                    href={business.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="font-medium"
                     style={{ color: "var(--red-light)" }}
                   >
-                    {business.phone}
-                  </a>
+                    {business.instagramHandle}
+                  </a>{" "}
+                  on Instagram
                 </p>
               </div>
             </div>
