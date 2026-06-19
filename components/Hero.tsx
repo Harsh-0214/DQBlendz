@@ -9,9 +9,8 @@ import { business } from "@/app/config";
 const ease = [0.23, 1, 0.32, 1] as const;
 
 const stats = [
-  { value: business.reviewCount, label: "5★ Reviews" },
-  { value: `${business.yearsExperience} Yrs`, label: "Behind the Chair" },
-  { value: "Pro", label: "Athlete Trusted" },
+  { value: `${business.yearsExperience}+`, unit: "Yrs", label: "Experience" },
+  { value: `${business.reviewCount}`, unit: "★", label: "5-Star Reviews" },
 ];
 
 export default function Hero() {
@@ -86,9 +85,8 @@ export default function Hero() {
             animate={show ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, ease, delay: 0.4 }}
           >
-            Sharp fades, clean lineups, and flawless blends — quiet craft trusted
-            by pro athletes. Book your chair and find out why the city keeps DQ a
-            secret.
+            Precision fades, clean lineups, and seamless blends — crafted with
+            patience and a sharp eye for detail. Master barbering in Vaughan.
           </motion.p>
 
           <motion.div
@@ -116,19 +114,29 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Stat ticket */}
+        {/* Stat block */}
         <motion.div
-          className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3"
-          initial={{ opacity: 0 }}
-          animate={show ? { opacity: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.62 }}
+          className="mt-12 flex items-stretch gap-7 sm:gap-10"
+          initial={{ opacity: 0, y: 14 }}
+          animate={show ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease, delay: 0.62 }}
         >
           {stats.map((s, i) => (
-            <div key={s.label} className="flex items-center gap-x-7">
-              {i > 0 && <span className="diamond" style={{ opacity: 0.6 }} />}
-              <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>
-                <span style={{ color: "var(--accent-soft)" }}>{s.value}</span> — {s.label}
-              </span>
+            <div key={s.label} className="flex items-stretch gap-7 sm:gap-10">
+              {i > 0 && <span className="w-px self-stretch" style={{ background: "var(--line-dark)" }} />}
+              <div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="display" style={{ color: "var(--accent-soft)", fontSize: "clamp(2.4rem, 5vw, 3.2rem)", lineHeight: 1 }}>
+                    {s.value}
+                  </span>
+                  <span className="display" style={{ color: "var(--on-dark)", fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)", lineHeight: 1 }}>
+                    {s.unit}
+                  </span>
+                </div>
+                <span className="kicker block mt-2" style={{ color: "var(--on-dark-muted)" }}>
+                  {s.label}
+                </span>
+              </div>
             </div>
           ))}
         </motion.div>
