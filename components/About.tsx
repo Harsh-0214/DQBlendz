@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const ease = [0.23, 1, 0.32, 1] as const;
+const wipe = [0.77, 0, 0.175, 1] as const;
 
 export default function About() {
   const { ref, visible } = useInView(0.12);
@@ -24,38 +26,80 @@ export default function About() {
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Portrait */}
+          <motion.div
+            className="lg:col-span-5 order-1 lg:order-none"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={visible ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.7, ease, delay: 0.2 }}
+          >
+            <div className="relative w-full max-w-sm mx-auto">
+              <div
+                className="absolute -inset-3 sm:-inset-4 pointer-events-none"
+                style={{ border: "1px solid var(--accent)", opacity: 0.45, transform: "translate(14px, 14px)" }}
+              />
+              <div className="relative overflow-hidden aspect-[4/5]" style={{ borderRadius: "var(--radius)" }}>
+                <Image
+                  src="/images/about/David.jpg"
+                  alt="DQ — master barber at DQ Blendz, Vaughan"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  style={{ objectFit: "cover", objectPosition: "center 25%" }}
+                />
+              </div>
+
+              {/* years stat tab */}
+              <div
+                className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-5 py-2.5 flex items-baseline gap-2"
+                style={{ background: "var(--accent)", borderRadius: "var(--radius)" }}
+              >
+                <span className="display" style={{ color: "#160f04", fontSize: "1.6rem" }}>
+                  {business.yearsExperience}+
+                </span>
+                <span className="kicker" style={{ color: "#2a1d07" }}>Years</span>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Story */}
           <div className="lg:col-span-7">
-            <motion.h2
-              className="display"
-              style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 5.5rem)" }}
-              initial={{ opacity: 0, y: 24 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.08 }}
-            >
-              The man behind
-              <br />
-              the <span style={{ color: "var(--accent)" }}>fade</span>
-            </motion.h2>
+            <h2 className="display" style={{ color: "var(--on-light)", fontSize: "clamp(2.5rem, 6.5vw, 5rem)", lineHeight: 0.95 }}>
+              <motion.span
+                className="block"
+                initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
+                transition={{ duration: 0.8, ease: wipe, delay: 0.15 }}
+              >
+                Precision cuts.
+              </motion.span>
+              <motion.span
+                className="block gold-shimmer"
+                initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+                animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
+                transition={{ duration: 0.8, ease: wipe, delay: 0.38 }}
+              >
+                Built on trust.
+              </motion.span>
+            </h2>
 
             <motion.div
               className="mt-7 space-y-4 max-w-xl text-[0.95rem] leading-relaxed"
               style={{ color: "var(--on-light-muted)" }}
               initial={{ opacity: 0, y: 20 }}
               animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, ease, delay: 0.2 }}
+              transition={{ duration: 0.7, ease, delay: 0.55 }}
             >
               <p>
-                DQ Blendz is the underground barber Vaughan keeps quiet about.
                 With over {business.yearsExperience} years behind the chair, DQ
-                blends old-school discipline with modern technique — skin fades,
-                classic tapers, beard sculpts, and lineups done with a steady
-                hand and zero shortcuts.
+                Blendz brings a combination of modern techniques and classic
+                barbering fundamentals to every appointment. From sharp fades and
+                clean tapers to detailed beard work and personalized styles,
+                every cut is crafted with precision and attention to detail.
               </p>
               <p>
-                That same precision has earned the trust of pro athletes who
-                can&apos;t afford a bad cut on camera. No rush, no ego — just a
-                chair, a mirror, and a result you&apos;ll want to show off.
+                Whether it&apos;s your first visit or your regular appointment, DQ
+                delivers a consistent experience where quality, comfort, and
+                confidence come first.
               </p>
             </motion.div>
 
@@ -64,7 +108,7 @@ export default function About() {
               className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3"
               initial={{ opacity: 0, y: 16 }}
               animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease, delay: 0.32 }}
+              transition={{ duration: 0.6, ease, delay: 0.7 }}
             >
               <span className="kicker" style={{ color: "var(--on-light-muted)" }}>Trusted by</span>
               {["Toronto FC", "Toronto Argonauts"].map((t) => (
@@ -78,47 +122,6 @@ export default function About() {
               ))}
             </motion.div>
           </div>
-
-          {/* Crest (no photo) */}
-          <motion.div
-            className="lg:col-span-5"
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={visible ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.24 }}
-          >
-            <div
-              className="relative aspect-square w-full max-w-sm mx-auto grain"
-              style={{ background: "var(--ink)", borderRadius: "var(--radius)" }}
-            >
-              <div className="absolute inset-4 sm:inset-5" style={{ border: "1px solid var(--accent)", opacity: 0.5 }} />
-              <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
-                <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>Est. — Vaughan</span>
-                <span
-                  className="display my-3"
-                  style={{ color: "var(--accent)", fontSize: "clamp(5rem, 13vw, 8rem)", lineHeight: 0.8 }}
-                >
-                  DQ
-                </span>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <span className="diamond" />
-                  <span className="diamond" style={{ opacity: 0.6 }} />
-                  <span className="diamond" />
-                </div>
-                <span className="kicker" style={{ color: "var(--on-dark)" }}>Master Barber</span>
-              </div>
-
-              {/* big years stat tab */}
-              <div
-                className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-5 py-2.5 flex items-baseline gap-2"
-                style={{ background: "var(--accent)", borderRadius: "var(--radius)" }}
-              >
-                <span className="display" style={{ color: "#160f04", fontSize: "1.6rem" }}>
-                  {business.yearsExperience}+
-                </span>
-                <span className="kicker" style={{ color: "#2a1d07" }}>Years</span>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>
