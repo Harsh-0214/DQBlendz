@@ -16,6 +16,7 @@ const galleryImages = [
 ];
 
 const ease = [0.23, 1, 0.32, 1] as const;
+const wipe = [0.77, 0, 0.175, 1] as const;
 
 export default function Cuts() {
   const { ref, visible } = useInView(0.08);
@@ -35,21 +36,34 @@ export default function Cuts() {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <motion.h2
-            className="display"
-            style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.08 }}
+          <h2
+            className="display overflow-hidden"
+            style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 6rem)", lineHeight: 0.95 }}
           >
-            What DQ <span style={{ color: "var(--accent)" }}>does best</span>
-          </motion.h2>
+            <motion.span
+              className="inline-block"
+              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+              animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
+              transition={{ duration: 0.8, ease: wipe, delay: 0.1 }}
+            >
+              What DQ&nbsp;
+            </motion.span>
+            <motion.span
+              className="inline-block gold-shimmer"
+              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+              animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1 } : {}}
+              transition={{ duration: 0.8, ease: wipe, delay: 0.34 }}
+            >
+              does best
+            </motion.span>
+          </h2>
+
           <motion.p
             className="max-w-xs text-sm leading-relaxed"
             style={{ color: "var(--on-light-muted)" }}
             initial={{ opacity: 0, y: 16 }}
             animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease, delay: 0.18 }}
+            transition={{ duration: 0.6, ease, delay: 0.5 }}
           >
             The house specialties. Not sure what you want? Walk in with a
             reference — DQ will tell you what works.
@@ -60,17 +74,13 @@ export default function Cuts() {
           {galleryImages.map((img, i) => (
             <motion.div
               key={img.src}
-              className="p-2 sm:p-2.5"
-              style={{
-                border: "1px solid rgba(191,139,60,0.55)",
-                borderRadius: "var(--radius)",
-              }}
-              initial={{ opacity: 0, y: 22 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, ease, delay: 0.05 + i * 0.07 }}
+              className="gallery-card p-2 sm:p-2.5"
+              initial={{ opacity: 0, y: 32, scale: 0.95 }}
+              animate={visible ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.65, ease, delay: 0.1 + i * 0.09 }}
             >
               <div
-                className="relative overflow-hidden aspect-[3/4]"
+                className="gallery-img-wrap relative overflow-hidden aspect-[3/4]"
                 style={{ borderRadius: "1px" }}
               >
                 <Image
@@ -79,7 +89,15 @@ export default function Cuts() {
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   style={{ objectFit: "cover", objectPosition: "center top" }}
+                  className="gallery-img"
                 />
+                {/* brass overlay on hover */}
+                <span className="gallery-overlay" aria-hidden />
+                {/* diagonal shine sweep */}
+                <span className="gallery-shine" aria-hidden />
+                {/* corner brackets */}
+                <span className="gallery-corner gallery-corner-tl" aria-hidden />
+                <span className="gallery-corner gallery-corner-br" aria-hidden />
               </div>
             </motion.div>
           ))}
@@ -89,7 +107,7 @@ export default function Cuts() {
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 text-center"
           initial={{ opacity: 0, y: 14 }}
           animate={visible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease, delay: 0.3 }}
+          transition={{ duration: 0.6, ease, delay: 0.7 }}
         >
           <span className="kicker" style={{ color: "var(--on-light-muted)" }}>
             See more on Instagram
