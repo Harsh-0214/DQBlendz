@@ -6,12 +6,27 @@ import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const services = [
-  { title: "Classic Haircut", desc: "Timeless cut tailored to your shape, washed and styled.", price: "$30", duration: "45m", tag: "" },
-  { title: "Skin Fade", desc: "Skin-to-length fade — crisp, clean, flawlessly blended.", price: "$40", duration: "50m", tag: "Most Booked" },
-  { title: "Beard Trim & Shape", desc: "Sharp, symmetrical shaping that frames the jaw.", price: "$20", duration: "25m", tag: "" },
-  { title: "Cut + Beard Combo", desc: "Full cut paired with beard grooming. Head to chin.", price: "$55", duration: "70m", tag: "" },
-  { title: "Kid's Cut", desc: "Patient, precise cuts — every kid leaves grinning.", price: "$22", duration: "35m", tag: "" },
-  { title: "Hot Towel Shave", desc: "Straight-razor shave with a hot towel finish.", price: "$35", duration: "40m", tag: "" },
+  {
+    title: "Men's Haircut",
+    desc: "Starts with a consultation on your hair and style preference to determine the most suitable cut. Includes fade or taper, trim, and style.",
+    price: "$45",
+    duration: "45 min",
+    tag: "",
+  },
+  {
+    title: "Men's Haircut + Beard",
+    desc: "A thorough client consultation followed by a full haircut and style, plus a beard grooming and styling service finished with a hot towel.",
+    price: "",
+    duration: "",
+    tag: "",
+  },
+  {
+    title: "Regal Premium Texturizing Powder",
+    desc: "A lightweight styling product that adds volume, texture, and a clean matte finish for a natural, effortless look.",
+    price: "$15",
+    duration: "",
+    tag: "Product",
+  },
 ];
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -89,7 +104,7 @@ export default function Services() {
                     </span>
                   )}
                 </div>
-                <p className="mt-1 text-[0.82rem] leading-snug" style={{ color: "var(--on-dark-muted)" }}>
+                <p className="mt-1.5 max-w-xl text-[0.82rem] leading-relaxed" style={{ color: "var(--on-dark-muted)" }}>
                   {s.desc}
                 </p>
               </div>
@@ -97,9 +112,15 @@ export default function Services() {
               <span className="mono hidden sm:block text-xs" style={{ color: "var(--on-dark-faint)" }}>
                 {s.duration}
               </span>
-              <span className="display text-right" style={{ color: "var(--accent-soft)", fontSize: "1.6rem" }}>
-                {s.price}
-              </span>
+              {s.price ? (
+                <span className="display text-right" style={{ color: "var(--accent-soft)", fontSize: "1.6rem" }}>
+                  {s.price}
+                </span>
+              ) : (
+                <span className="kicker text-right" style={{ color: "var(--on-dark-faint)", fontSize: "0.6rem" }}>
+                  On Booksy
+                </span>
+              )}
             </motion.a>
           ))}
         </div>
