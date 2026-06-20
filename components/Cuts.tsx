@@ -1,17 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import { Instagram } from "./icons";
 import { business } from "@/app/config";
 
-const cuts = [
-  { name: "Skin Fade", desc: "Bald-to-blend gradient, razor finish at the skin." },
-  { name: "Taper Fade", desc: "Subtle drop around the ears and neckline." },
-  { name: "Classic Cut", desc: "Scissor-led, timeless, built for any room." },
-  { name: "Beard Sculpt", desc: "Defined cheek lines and a clean, even shape." },
-  { name: "Line-Up / Edge", desc: "Crisp hairline and corners, sharp as it gets." },
-  { name: "The Blend", desc: "Seamless transitions — the house signature." },
+const galleryImages = [
+  { src: "/images/gallery/1.JPG", alt: "DQ Blendz signature cut" },
+  { src: "/images/gallery/2.jpg", alt: "DQ Blendz signature cut" },
+  { src: "/images/gallery/3.jpg", alt: "DQ Blendz signature cut" },
+  { src: "/images/gallery/4.jpg", alt: "DQ Blendz signature cut" },
+  { src: "/images/gallery/5.jpg", alt: "DQ Blendz signature cut" },
+  { src: "/images/gallery/6.jpg", alt: "DQ Blendz signature cut" },
 ];
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -55,32 +56,35 @@ export default function Cuts() {
           </motion.p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {cuts.map((c, i) => (
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {galleryImages.map((img, i) => (
             <motion.div
-              key={c.name}
-              className="cut-card p-7 sm:p-8 flex flex-col min-h-[200px] sm:min-h-[230px]"
+              key={img.src}
+              className="p-2 sm:p-2.5"
+              style={{
+                border: "1px solid rgba(191,139,60,0.55)",
+                borderRadius: "var(--radius)",
+              }}
               initial={{ opacity: 0, y: 22 }}
               animate={visible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.55, ease, delay: 0.05 + i * 0.07 }}
             >
-              <span className="cut-num index" style={{ color: "var(--accent)" }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3
-                className="cut-name display mt-auto"
-                style={{ color: "var(--on-light)", fontSize: "clamp(1.8rem, 4vw, 2.6rem)" }}
+              <div
+                className="relative overflow-hidden aspect-[3/4]"
+                style={{ borderRadius: "1px" }}
               >
-                {c.name}
-              </h3>
-              <p className="cut-desc mt-2 text-[0.85rem] leading-relaxed" style={{ color: "var(--on-light-muted)" }}>
-                {c.desc}
-              </p>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  style={{ objectFit: "cover", objectPosition: "center top" }}
+                />
+              </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Photo lookbook teaser (images intentionally not added yet) */}
         <motion.div
           className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 text-center"
           initial={{ opacity: 0, y: 14 }}
@@ -88,7 +92,7 @@ export default function Cuts() {
           transition={{ duration: 0.6, ease, delay: 0.3 }}
         >
           <span className="kicker" style={{ color: "var(--on-light-muted)" }}>
-            Full photo lookbook dropping soon
+            See more on Instagram
           </span>
           <a href={business.instagram} target="_blank" rel="noopener noreferrer" className="btn btn-outline-light px-6 py-3">
             <Instagram size={15} />
