@@ -96,7 +96,7 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        <div className="mt-10 lg:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-16 items-end">
+        <div className="mt-6 lg:mt-7 grid lg:grid-cols-2 gap-10 lg:gap-16 items-end">
           {/* Left: description + stats */}
           <div>
             <motion.p
