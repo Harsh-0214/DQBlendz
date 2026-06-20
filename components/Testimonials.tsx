@@ -101,7 +101,7 @@ export default function Testimonials() {
                 <Stars light />
               </div>
               <span className="kicker block" style={{ color: "var(--on-dark-muted)" }}>
-                {business.reviewCount} Five-Star Reviews
+                {business.reviewsDisplay} Five-Star Reviews
               </span>
               <span className="kicker block mt-1" style={{ color: "var(--on-dark-faint)", fontSize: "0.6rem" }}>
                 on Booksy

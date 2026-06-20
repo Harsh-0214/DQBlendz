@@ -29,6 +29,7 @@ export const business = {
 
   // Social proof
   reviewCount: 62,
+  reviewsDisplay: "60+",
   rating: "5.0",
   yearsExperience: 6,
 

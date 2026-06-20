@@ -11,7 +11,7 @@ const ease = [0.23, 1, 0.32, 1] as const;
 
 const stats = [
   { value: `${business.yearsExperience}+`, unit: "Yrs", label: "Experience" },
-  { value: `${business.reviewCount}`, unit: "★", label: "5-Star Reviews" },
+  { value: business.reviewsDisplay, unit: "★", label: "5-Star Reviews" },
 ];
 
 export default function Hero() {
@@ -96,7 +96,7 @@ export default function Hero() {
           </motion.span>
         </h1>
 
-        <div className="mt-6 lg:mt-7 grid lg:grid-cols-2 gap-10 lg:gap-16 items-end">
+        <div className="mt-6 lg:mt-7 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left: description + stats */}
           <div>
             <motion.p
@@ -106,8 +106,9 @@ export default function Hero() {
               animate={show ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, ease, delay: 0.4 }}
             >
-              Precision fades, clean lineups, and seamless blends — crafted with
-              patience and a sharp eye for detail. Master barbering in Vaughan.
+              Sharp fades. Clean cuts. Professional service. Every appointment
+              is focused on precision, consistency, and helping you leave looking
+              your absolute best.
             </motion.p>
 
             <motion.div
@@ -149,20 +150,24 @@ export default function Hero() {
               Sharp · Clean · Precise
             </motion.span>
 
-            {["Sharp cuts.", "Clean fades.", "No compromise."].map((line, i) => (
+            {[
+              { pre: "Built on ", key: "consistency." },
+              { pre: "Known for ", key: "quality." },
+            ].map((line, i) => (
               <motion.span
-                key={line}
-                className={`display ${i === 2 ? "gold-shimmer" : ""}`}
+                key={line.key}
+                className="display"
                 style={{
                   fontSize: "clamp(1.9rem, 3vw, 3rem)",
                   lineHeight: 1.05,
-                  color: i === 2 ? undefined : "var(--on-dark)",
+                  color: "var(--on-dark)",
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={show ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, ease, delay: 0.55 + i * 0.1 }}
+                transition={{ duration: 0.7, ease, delay: 0.55 + i * 0.12 }}
               >
-                {line}
+                {line.pre}
+                <span className="gold-shimmer">{line.key}</span>
               </motion.span>
             ))}
 
