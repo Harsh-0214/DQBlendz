@@ -17,7 +17,7 @@ const services = [
     title: "Men's Haircut + Beard",
     desc: "A thorough client consultation followed by a full haircut and style, plus a beard grooming and styling service finished with a hot towel.",
     price: "$55",
-    duration: "1 hr",
+    duration: "60 min",
     tag: "",
   },
   {
