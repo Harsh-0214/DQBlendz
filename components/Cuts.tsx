@@ -15,6 +15,7 @@ const cuts = [
 ];
 
 const ease = [0.23, 1, 0.32, 1] as const;
+const wipe = [0.77, 0, 0.175, 1] as const;
 
 export default function Cuts() {
   const { ref, visible } = useInView(0.08);
@@ -34,15 +35,27 @@ export default function Cuts() {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
-          <motion.h2
-            className="display"
-            style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={visible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, ease, delay: 0.08 }}
+          <h2
+            className="display overflow-hidden"
+            style={{ color: "var(--on-light)", fontSize: "clamp(2.75rem, 7vw, 6rem)", lineHeight: 0.95 }}
           >
-            What DQ <span style={{ color: "var(--accent)" }}>does best</span>
-          </motion.h2>
+            <motion.span
+              className="inline-block"
+              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0, y: "0.12em" }}
+              animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, ease: wipe, delay: 0.12 }}
+            >
+              What DQ&nbsp;
+            </motion.span>
+            <motion.span
+              className="inline-block gold-shimmer"
+              initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0, y: "0.12em" }}
+              animate={visible ? { clipPath: "inset(0 0% 0 0)", opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, ease: wipe, delay: 0.34 }}
+            >
+              does best
+            </motion.span>
+          </h2>
           <motion.p
             className="max-w-xs text-sm leading-relaxed"
             style={{ color: "var(--on-light-muted)" }}
@@ -60,20 +73,27 @@ export default function Cuts() {
             <motion.div
               key={c.name}
               className="cut-card p-7 sm:p-8 flex flex-col min-h-[200px] sm:min-h-[230px]"
-              initial={{ opacity: 0, y: 22 }}
-              animate={visible ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.55, ease, delay: 0.05 + i * 0.07 }}
+              initial={{ opacity: 0, y: 28, scale: 0.96 }}
+              animate={visible ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.6, ease, delay: 0.05 + i * 0.08 }}
+              whileHover={{ y: -6 }}
             >
-              <span className="cut-num index" style={{ color: "var(--accent)" }}>
+              {/* sweeping gold shine on hover */}
+              <span className="cut-shine" aria-hidden />
+              {/* animated corner brackets */}
+              <span className="cut-corner cut-corner-tl" aria-hidden />
+              <span className="cut-corner cut-corner-br" aria-hidden />
+
+              <span className="cut-num index relative z-10" style={{ color: "var(--accent)" }}>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3
-                className="cut-name display mt-auto"
+                className="cut-name display mt-auto relative z-10"
                 style={{ color: "var(--on-light)", fontSize: "clamp(1.8rem, 4vw, 2.6rem)" }}
               >
                 {c.name}
               </h3>
-              <p className="cut-desc mt-2 text-[0.85rem] leading-relaxed" style={{ color: "var(--on-light-muted)" }}>
+              <p className="cut-desc mt-2 text-[0.85rem] leading-relaxed relative z-10" style={{ color: "var(--on-light-muted)" }}>
                 {c.desc}
               </p>
             </motion.div>
