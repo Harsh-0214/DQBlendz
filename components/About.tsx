@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useInView } from "@/hooks/useInView";
@@ -8,8 +9,24 @@ import { business } from "@/app/config";
 const ease = [0.23, 1, 0.32, 1] as const;
 const wipe = [0.77, 0, 0.175, 1] as const;
 
+function useCount(target: number, duration: number, run: boolean) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!run) return;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min((t - start) / duration, 1);
+      setN(Math.round((1 - Math.pow(1 - p, 3)) * target));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [target, duration, run]);
+  return n;
+}
+
 export default function About() {
   const { ref, visible } = useInView(0.12);
+  const years = useCount(business.yearsExperience, 1000, visible);
 
   return (
     <section id="about" className="sec sec-light overflow-hidden" ref={ref}>
@@ -38,26 +55,29 @@ export default function About() {
                 className="absolute -inset-3 sm:-inset-4 pointer-events-none"
                 style={{ border: "1px solid var(--accent)", opacity: 0.45, transform: "translate(14px, 14px)" }}
               />
-              <div className="relative overflow-hidden aspect-[4/5]" style={{ borderRadius: "var(--radius)" }}>
+              <div className="relative overflow-hidden aspect-[960/1119]" style={{ borderRadius: "var(--radius)" }}>
                 <Image
                   src="/images/about/David.jpg"
                   alt="DQ — master barber at DQ Blendz, Vaughan"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
-                  style={{ objectFit: "cover", objectPosition: "center 25%" }}
+                  style={{ objectFit: "cover", objectPosition: "center" }}
                 />
               </div>
 
               {/* years stat tab */}
-              <div
-                className="absolute -bottom-5 left-1/2 -translate-x-1/2 px-5 py-2.5 flex items-baseline gap-2"
-                style={{ background: "var(--accent)", borderRadius: "var(--radius)" }}
+              <motion.div
+                className="absolute -bottom-5 left-1/2 px-5 py-2.5 flex items-baseline gap-2"
+                style={{ background: "var(--accent)", borderRadius: "var(--radius)", x: "-50%", boxShadow: "0 14px 30px -12px rgba(191,139,60,0.7)" }}
+                initial={{ opacity: 0, y: 16, scale: 0.9 }}
+                animate={visible ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ type: "spring", stiffness: 220, damping: 18, delay: 0.55 }}
               >
-                <span className="display" style={{ color: "#160f04", fontSize: "1.6rem" }}>
-                  {business.yearsExperience}+
+                <span className="display tabular-nums" style={{ color: "#160f04", fontSize: "1.6rem" }}>
+                  {years}+
                 </span>
                 <span className="kicker" style={{ color: "#2a1d07" }}>Years</span>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
