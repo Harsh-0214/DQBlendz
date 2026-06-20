@@ -51,18 +51,20 @@ export default function About() {
             transition={{ duration: 0.7, ease, delay: 0.2 }}
           >
             <div className="relative w-full max-w-sm mx-auto">
+              {/* clean matte frame hugging the photo */}
               <div
-                className="absolute -inset-3 sm:-inset-4 pointer-events-none"
-                style={{ border: "1px solid var(--accent)", opacity: 0.45, transform: "translate(14px, 14px)" }}
-              />
-              <div className="relative overflow-hidden aspect-[960/1119]" style={{ borderRadius: "var(--radius)" }}>
-                <Image
-                  src="/images/about/David.jpg"
-                  alt="DQ — master barber at DQ Blendz, Vaughan"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  style={{ objectFit: "cover", objectPosition: "center" }}
-                />
+                className="p-2.5 sm:p-3"
+                style={{ border: "1px solid rgba(191,139,60,0.55)", borderRadius: "var(--radius)" }}
+              >
+                <div className="relative overflow-hidden aspect-[960/1119]" style={{ borderRadius: "1px" }}>
+                  <Image
+                    src="/images/about/David.jpg"
+                    alt="DQ — master barber at DQ Blendz, Vaughan"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    style={{ objectFit: "cover", objectPosition: "center" }}
+                  />
+                </div>
               </div>
 
               {/* years stat tab */}
