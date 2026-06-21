@@ -5,7 +5,7 @@ import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
 const reviews = [
-  { name: "Marcus T.", role: "Regular", text: "Best barber I've ever had. The detail on my fade is unmatched — three years deep and I'm not going anywhere else." },
+  { name: "Rahul M.", role: "", text: "Best barber I've ever had. The detail on my fade is unmatched — three years deep and I'm not going anywhere else." },
   { name: "Jordan K.", role: "New Client", text: "Blown away first visit. Clean shop, real professional, and DQ nailed exactly what I asked for." },
   { name: "Andre S.", role: "Regular", text: "Steadiest hand in the game. My lineup is always razor sharp. 10 out of 10 every single time." },
   { name: "Chris M.", role: "Regular", text: "Great vibe, even better cuts. DQ Blendz is the only spot in the city I trust with my hair." },
@@ -79,7 +79,7 @@ export default function Testimonials() {
               &ldquo;{featured.text}&rdquo;
             </p>
             <footer className="kicker mt-6" style={{ color: "var(--accent-soft)" }}>
-              {featured.name} — {featured.role}
+              {featured.role ? `${featured.name} — ${featured.role}` : featured.name}
             </footer>
           </motion.blockquote>
 
