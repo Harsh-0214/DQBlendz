@@ -33,6 +33,22 @@ export const business = {
   rating: "5.0",
   yearsExperience: 6,
 
+  // ── Live reviews widget ───────────────────────────────────────
+  // Booksy has no official reviews widget, so the live reviews are
+  // served through Elfsight (free tier), which syncs the real Booksy
+  // reviews automatically.
+  //
+  // To turn it on:
+  //   1. Go to https://elfsight.com/all-in-one-reviews-widget/
+  //      and create a free widget. Choose "Booksy" as the source and
+  //      paste DQ's Booksy page URL.
+  //   2. Elfsight gives you an embed code that looks like:
+  //        <div class="elfsight-app-XXXXXXXX-..."></div>
+  //      Copy ONLY the id part (e.g. "elfsight-app-XXXXXXXX-...").
+  //   3. Paste that id between the quotes below and save.
+  // The fake reviews disappear and the real Booksy reviews show up.
+  elfsightWidgetId: "",
+
   // 👇 Confirm DQ's real hours (Booksy shows them at booking).
   hours: [
     { day: "Monday", time: "9 AM – 7 PM" },
