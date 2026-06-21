@@ -1,17 +1,14 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "@/hooks/useInView";
 import { business } from "@/app/config";
 
-const reviews = [
-  { name: "Marcus T.", role: "Regular", text: "Best barber I've ever had. The detail on my fade is unmatched — three years deep and I'm not going anywhere else." },
-  { name: "Jordan K.", role: "New Client", text: "Blown away first visit. Clean shop, real professional, and DQ nailed exactly what I asked for." },
-  { name: "Andre S.", role: "Regular", text: "Steadiest hand in the game. My lineup is always razor sharp. 10 out of 10 every single time." },
-  { name: "Chris M.", role: "Regular", text: "Great vibe, even better cuts. DQ Blendz is the only spot in the city I trust with my hair." },
-  { name: "Darnell P.", role: "VIP", text: "Been to shops all over and this is another level. Clean, precise, consistent. Every time." },
-  { name: "Tyler B.", role: "New Client", text: "Brought my son for his first real cut. Patient, kind, and sharp. We're regulars now." },
-];
+const featured = {
+  name: "Rahul M.",
+  text: "Best barber I've ever had. The detail on my fade is unmatched — three years deep and I'm not going anywhere else.",
+};
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
@@ -27,28 +24,24 @@ function Stars({ light = false }: { light?: boolean }) {
   );
 }
 
-function Card({ r }: { r: (typeof reviews)[number] }) {
-  return (
-    <div
-      className="flex-shrink-0 w-[300px] p-6 mr-4"
-      style={{ border: "1px solid var(--line-dark)", borderRadius: "var(--radius)", background: "var(--ink-2)" }}
-    >
-      <Stars />
-      <p className="text-sm leading-relaxed my-4" style={{ color: "var(--on-dark)" }}>
-        &ldquo;{r.text}&rdquo;
-      </p>
-      <div className="flex items-center justify-between pt-3" style={{ borderTop: "1px solid var(--line-dark)" }}>
-        <span className="kicker" style={{ color: "var(--on-dark)" }}>{r.name}</span>
-        <span className="kicker" style={{ color: "var(--on-dark-faint)", fontSize: "0.6rem" }}>{r.role}</span>
-      </div>
-    </div>
-  );
+/** Loads the Elfsight platform script once, when a widget id is configured. */
+function useElfsight(enabled: boolean) {
+  useEffect(() => {
+    if (!enabled) return;
+    const src = "https://static.elfsight.com/platform/platform.js";
+    if (document.querySelector(`script[src="${src}"]`)) return;
+    const s = document.createElement("script");
+    s.src = src;
+    s.async = true;
+    document.body.appendChild(s);
+  }, [enabled]);
 }
 
 export default function Testimonials() {
   const { ref, visible } = useInView(0.08);
-  const featured = reviews[0];
-  const loop = [...reviews.slice(1), ...reviews.slice(1)];
+  const widgetId = business.elfsightWidgetId;
+  const hasWidget = widgetId.length > 0;
+  useElfsight(hasWidget);
 
   return (
     <section id="testimonials" className="sec sec-dark grain overflow-hidden" ref={ref}>
@@ -79,7 +72,7 @@ export default function Testimonials() {
               &ldquo;{featured.text}&rdquo;
             </p>
             <footer className="kicker mt-6" style={{ color: "var(--accent-soft)" }}>
-              {featured.name} — {featured.role}
+              {featured.name}
             </footer>
           </motion.blockquote>
 
@@ -111,22 +104,38 @@ export default function Testimonials() {
         </div>
       </div>
 
-      {/* Marquee of remaining reviews */}
+      {/* Live reviews: real Booksy reviews via Elfsight when configured,
+          otherwise a clean call-to-action to read them on Booksy. */}
       <motion.div
-        className="relative"
-        initial={{ opacity: 0 }}
-        animate={visible ? { opacity: 1 } : {}}
-        transition={{ duration: 0.7, delay: 0.3 }}
+        className="relative z-10 max-w-[1400px] mx-auto"
+        initial={{ opacity: 0, y: 16 }}
+        animate={visible ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease, delay: 0.32 }}
       >
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 z-10" style={{ background: "linear-gradient(90deg, var(--ink), transparent)" }} />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 z-10" style={{ background: "linear-gradient(-90deg, var(--ink), transparent)" }} />
-        <div className="overflow-hidden">
-          <div className="marquee-track">
-            {loop.map((r, i) => (
-              <Card key={i} r={r} />
-            ))}
+        {hasWidget ? (
+          <div className={widgetId} data-elfsight-app-lazy />
+        ) : (
+          <div
+            className="flex flex-col items-center gap-5 text-center px-6 py-12"
+            style={{ border: "1px solid var(--line-dark)", borderRadius: "var(--radius)" }}
+          >
+            <span className="kicker" style={{ color: "var(--on-dark-muted)" }}>
+              Read every verified review
+            </span>
+            <p className="max-w-md text-sm leading-relaxed" style={{ color: "var(--on-dark-muted)" }}>
+              All {business.reviewsDisplay} five-star reviews are on DQ&apos;s
+              Booksy profile, straight from real clients.
+            </p>
+            <a
+              href={business.booksyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent px-7 py-4"
+            >
+              See Reviews on Booksy
+            </a>
           </div>
-        </div>
+        )}
       </motion.div>
     </section>
   );
